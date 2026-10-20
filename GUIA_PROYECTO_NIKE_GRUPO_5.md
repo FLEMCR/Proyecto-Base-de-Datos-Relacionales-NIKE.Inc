@@ -154,7 +154,7 @@ Uno de los puntos más importantes de nuestro diseño está en las dos tablas de
   * Su clave primaria está formada por **3 columnas juntas**:
     * `P  * fecha_suministro`
     * `PF * LOCAL_id_local`
-    * `PF * ALMACEN_id_almacen`
+   trab * `PF * ALMACEN_id_almacen`
   * Esto permite registrar que un mismo almacén abastezca a una misma tienda física en muchas fechas distintas.
 
 ---
