@@ -1,0 +1,19 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="CONTIENE_PEDIDO" directorySegmentName="seg_0" id="03E31E4F-3BC1-597B-89E6-87A1D19F7D94">
+<createdBy>Luis Coloma Rojas</createdBy>
+<createdTime>2026-10-06 18:15:22 UTC</createdTime>
+<generatorID>6E10C7F8-6B76-5092-A175-BF2241EF0CA3</generatorID>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<engineerTo>
+<item key="FC11CAE1-9B8C-5BFD-AB94-412BD9FA0486" value="true"/>
+</engineerTo>
+<sourcePk>85D74972-C25A-549D-AD9D-FEC7BD7F4CB7</sourcePk>
+<identifying>false</identifying>
+<optionalSource>false</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>070BF146-99D0-5683-8975-75A284223AB1</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>6FB7CBA6-90BC-5A5C-AC3B-1189EED58E15</targetEntity>
+<transferable>true</transferable>
+</Relation>

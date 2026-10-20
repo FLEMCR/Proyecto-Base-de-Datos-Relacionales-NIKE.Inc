@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="EE748AAC-D5A9-4399-FA55-32C64245F3EF" containerWithKeyObject="A2DEE5AE-D2CD-1BD0-CBE7-AB2400B2FF11" localFKIndex="072CE9AC-199A-9B5C-8875-979EE4EF332A" name="STOCK_ALMACEN_PRODUCTO_FK">
+<createdBy>luisW</createdBy>
+<createdTime>2026-10-15 14:51:19 UTC</createdTime>
+<generatorID>48D8D20C-77CD-5605-B129-190FC2147340</generatorID>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<referredTableLongName>PRODUCTO</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>2D829183-5F53-DA5A-64EA-82541375B11D</referredTableID>
+<keyObject>28AEA37E-79E1-095F-9787-600DF407D192</keyObject>
+<referredKeyID>28AEA37E-79E1-095F-9787-600DF407D192</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>id_producto</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

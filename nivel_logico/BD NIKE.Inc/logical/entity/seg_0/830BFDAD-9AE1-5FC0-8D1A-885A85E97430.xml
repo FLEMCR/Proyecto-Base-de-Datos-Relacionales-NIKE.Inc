@@ -1,0 +1,76 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="830BFDAD-9AE1-5FC0-8D1A-885A85E97430" name="LOCAL">
+<createdBy>Luis Coloma Rojas</createdBy>
+<createdTime>2026-10-06 18:15:22 UTC</createdTime>
+<generatorID>CD59DDDE-3981-5AAC-BA80-2D380C04D0D2</generatorID>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<engineerTo>
+<item key="FC11CAE1-9B8C-5BFD-AB94-412BD9FA0486" value="true"/>
+</engineerTo>
+<adequatelyNormalized>YES</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="id_local" id="1CAF4114-A449-5413-9EAB-AEC79B8BF5A4">
+<createdBy>Luis Coloma Rojas</createdBy>
+<createdTime>2026-10-06 18:15:22 UTC</createdTime>
+<generatorID>772A4CED-3F89-5D54-9F26-758856005E19</generatorID>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<engineerTo>
+<item key="FC11CAE1-9B8C-5BFD-AB94-412BD9FA0486" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="nombre_local" id="00FB6720-8025-5B83-9ABA-1799891DCD84">
+<createdBy>Luis Coloma Rojas</createdBy>
+<createdTime>2026-10-06 18:15:22 UTC</createdTime>
+<generatorID>060161EC-EFB9-5F1F-AD4C-3D21026A9DA8</generatorID>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<engineerTo>
+<item key="FC11CAE1-9B8C-5BFD-AB94-412BD9FA0486" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>50,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="direccion_local" id="CBD2FF4D-3608-59E4-BAA9-732BEE066622">
+<createdBy>Luis Coloma Rojas</createdBy>
+<createdTime>2026-10-06 18:15:22 UTC</createdTime>
+<generatorID>CA587360-E33B-55A7-9664-D557A72682E1</generatorID>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<engineerTo>
+<item key="FC11CAE1-9B8C-5BFD-AB94-412BD9FA0486" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>150</dataTypeSize>
+<ownDataTypeParameters>150,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="FD0D0E39-6F71-5267-ABF8-5DC43F8E3D86" name="PK_LOCAL">
+<createdBy>Luis Coloma Rojas</createdBy>
+<createdTime>2026-10-06 18:15:22 UTC</createdTime>
+<generatorID>F7BC44AC-C862-5604-BE18-C683FD48F1EE</generatorID>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<engineerTo>
+<item key="FC11CAE1-9B8C-5BFD-AB94-412BD9FA0486" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>1CAF4114-A449-5413-9EAB-AEC79B8BF5A4</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

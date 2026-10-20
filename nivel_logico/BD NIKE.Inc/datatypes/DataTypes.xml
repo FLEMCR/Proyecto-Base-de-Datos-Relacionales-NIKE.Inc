@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<DataTypesDesign class="oracle.dbtools.crest.model.design.datatypes.DataTypesDesign" name="DataTypes" id="3F5839A4-4F2F-5BCD-8DBC-C881EB0DDB20" mainViewID="08604420-8DF1-5B36-909B-D05FA5F37FF8">
+  <createdBy>Luis Coloma Rojas</createdBy>
+  <createdTime>2026-10-06 18:15:22 UTC</createdTime>
+  <ownerDesignName>BD NIKE.Inc</ownerDesignName>
+  <shouldBeOpen>false</shouldBeOpen>
+</DataTypesDesign>

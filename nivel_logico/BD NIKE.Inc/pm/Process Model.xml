@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ProcessModel class="oracle.dbtools.crest.model.design.process.ProcessModel" name="Process Model" id="2B26EF94-3DC6-5064-968F-8C9C1167A6BA">
+  <createdBy>Luis Coloma Rojas</createdBy>
+  <createdTime>2026-10-06 18:15:22 UTC</createdTime>
+  <ownerDesignName>BD NIKE.Inc</ownerDesignName>
+  <shouldBeOpen>false</shouldBeOpen>
+</ProcessModel>
