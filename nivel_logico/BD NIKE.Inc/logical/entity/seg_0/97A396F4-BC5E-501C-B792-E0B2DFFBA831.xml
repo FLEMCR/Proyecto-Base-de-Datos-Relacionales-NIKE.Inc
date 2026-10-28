@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="97A396F4-BC5E-501C-B792-E0B2DFFBA831" name="ALMACEN">
+  <createdBy>Luis Coloma Rojas</createdBy>
+  <createdTime>2026-10-06 18:15:22 UTC</createdTime>
+  <ownerDesignName>BD NIKE.Inc</ownerDesignName>
+  <engineerTo>
+    <item key="98750A44-4FCF592D9619" value="true" />
+  </engineerTo>
+  <adequatelyNormalized>YES</adequatelyNormalized>
+  <expectedVolumes>0</expectedVolumes>
+  <fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+  <growthPercent>0</growthPercent>
+  <growthType>Year</growthType>
+  <maxVolumes>9999999</maxVolumes>
+  <minVolumes>0</minVolumes>
+  <normalForm>Third</normalForm>
+  <attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+    <Attribute name="id_almacen" id="C1B2C683-235B-5C9E-8F64-D5FBA6206126">
+  <createdBy>Luis Coloma Rojas</createdBy>
+  <createdTime>2026-10-06 18:15:22 UTC</createdTime>
+  <ownerDesignName>BD NIKE.Inc</ownerDesignName>
+      <useDomainConstraints>false</useDomainConstraints>
+      <use>1</use>
+      <logicalDatatype>LOGDT011</logicalDatatype>
+      <ownDataTypeParameters>,,</ownDataTypeParameters>
+    </Attribute>
+    <Attribute name="nombre_almacen" id="2BA84357-641B-5CEB-BF39-652AADA103B1">
+  <createdBy>Luis Coloma Rojas</createdBy>
+  <createdTime>2026-10-06 18:15:22 UTC</createdTime>
+  <ownerDesignName>BD NIKE.Inc</ownerDesignName>
+      <useDomainConstraints>false</useDomainConstraints>
+      <use>1</use>
+      <logicalDatatype>LOGDT024</logicalDatatype>
+      <ownDataTypeParameters>50,,</ownDataTypeParameters>
+    <dataTypeSize>50</dataTypeSize>
+    </Attribute>
+    <Attribute name="ubicacion" id="E6EC79A1-6DB0-5035-BD19-E06C92FFDE06">
+  <createdBy>Luis Coloma Rojas</createdBy>
+  <createdTime>2026-10-06 18:15:22 UTC</createdTime>
+  <ownerDesignName>BD NIKE.Inc</ownerDesignName>
+      <useDomainConstraints>false</useDomainConstraints>
+      <use>1</use>
+      <logicalDatatype>LOGDT024</logicalDatatype>
+      <ownDataTypeParameters>100,,</ownDataTypeParameters>
+    <dataTypeSize>100</dataTypeSize>
+    </Attribute>
+  </attributes>
+  <identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+    <identifier id="431E9B4D-5921-54F8-A5A6-4F622EF7C942" name="ALMACEN_PK">
+  <createdBy>Luis Coloma Rojas</createdBy>
+  <createdTime>2026-10-06 18:15:22 UTC</createdTime>
+  <ownerDesignName>BD NIKE.Inc</ownerDesignName>
+      <pk>true</pk>
+      <usedAttributes>
+        <attributeRef>C1B2C683-235B-5C9E-8F64-D5FBA6206126</attributeRef>
+      </usedAttributes>
+    </identifier>
+  </identifiers>
+</Entity>

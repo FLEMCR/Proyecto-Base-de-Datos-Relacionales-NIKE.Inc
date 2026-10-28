@@ -1,0 +1,62 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="EBD0ED59-6A39-6FC3-C7C6-64214E196AF1" name="ALMACEN">
+<createdBy>luisW</createdBy>
+<createdTime>2026-10-28 03:21:13 UTC</createdTime>
+<generatorID>97A396F4-BC5E-501C-B792-E0B2DFFBA831</generatorID>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<adequatelyNormalized>YES</adequatelyNormalized>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id_almacen" id="D79FDA03-F7CA-03E0-99B2-1FC84E997362">
+<createdBy>luisW</createdBy>
+<createdTime>2026-10-28 03:21:13 UTC</createdTime>
+<generatorID>C1B2C683-235B-5C9E-8F64-D5FBA6206126</generatorID>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="nombre_almacen" id="0D35A4C6-9C6C-B550-6B0E-1F2DD7D53768">
+<createdBy>luisW</createdBy>
+<createdTime>2026-10-28 03:21:13 UTC</createdTime>
+<generatorID>2BA84357-641B-5CEB-BF39-652AADA103B1</generatorID>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>50,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ubicacion" id="686E1AAB-4919-2370-21B5-D703DA44ACAB">
+<createdBy>luisW</createdBy>
+<createdTime>2026-10-28 03:21:13 UTC</createdTime>
+<generatorID>E6EC79A1-6DB0-5035-BD19-E06C92FFDE06</generatorID>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100</dataTypeSize>
+<ownDataTypeParameters>100,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="CDE595ED-E6E9-9C7D-1189-69058608086D" name="ALMACEN_PK">
+<createdBy>luisW</createdBy>
+<createdTime>2026-10-28 03:21:13 UTC</createdTime>
+<generatorID>431E9B4D-5921-54F8-A5A6-4F622EF7C942</generatorID>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="D79FDA03-F7CA-03E0-99B2-1FC84E997362"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

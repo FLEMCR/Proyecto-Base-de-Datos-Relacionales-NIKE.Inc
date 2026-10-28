@@ -1,0 +1,98 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="8E3942F5-DF2A-57C7-859B-61CCE777267A" name="SUMINISTRO">
+<createdBy>Luis Coloma Rojas</createdBy>
+<createdTime>2026-10-06 18:15:22 UTC</createdTime>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<engineerTo>
+<item key="FBA0C056-A919-665A-7428-005AAA097968" value="true"/>
+</engineerTo>
+<adequatelyNormalized>YES</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="id_suministro" id="E952D3C8-B1E3-560D-A821-23D9F3C8253A">
+<createdBy>Luis Coloma Rojas</createdBy>
+<createdTime>2026-10-06 18:15:22 UTC</createdTime>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<engineerTo>
+<item key="FBA0C056-A919-665A-7428-005AAA097968" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="fecha_suministro" id="2C2DABC6-66AB-560F-B9C0-F8D27C6EE5E9">
+<createdBy>Luis Coloma Rojas</createdBy>
+<createdTime>2026-10-06 18:15:22 UTC</createdTime>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<engineerTo>
+<item key="FBA0C056-A919-665A-7428-005AAA097968" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="estado_despacho" id="C93692E6-449F-5D94-A349-D598BE824CD9">
+<createdBy>Luis Coloma Rojas</createdBy>
+<createdTime>2026-10-06 18:15:22 UTC</createdTime>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<engineerTo>
+<item key="FBA0C056-A919-665A-7428-005AAA097968" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20</dataTypeSize>
+<ownDataTypeParameters>20,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id_almacen" id="0F8223D2-50F0-3724-C924-A34398AA3EFA">
+<createdBy>luisW</createdBy>
+<createdTime>2026-10-28 02:45:05 UTC</createdTime>
+<generatorID>44187986-40F8-52A2-B150-AA6410AE50B9</generatorID>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<engineerTo>
+<item key="FBA0C056-A919-665A-7428-005AAA097968" value="true"/>
+</engineerTo>
+<referedAttribute>C1B2C683-235B-5C9E-8F64-D5FBA6206126</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id_local" id="3BF59700-4E05-E896-3AE5-632EDABBE51B">
+<createdBy>luisW</createdBy>
+<createdTime>2026-10-28 02:45:05 UTC</createdTime>
+<generatorID>973C1E59-DA6E-5B74-9AFB-DD97BADDE0D2</generatorID>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<engineerTo>
+<item key="FBA0C056-A919-665A-7428-005AAA097968" value="true"/>
+</engineerTo>
+<referedAttribute>C5CF8484-12D3-5452-BC58-8B895085AFD9</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="C8303A6B-35E0-5F82-A3F3-B28128B5FC05" name="SUMINISTRO_PK">
+<createdBy>Luis Coloma Rojas</createdBy>
+<createdTime>2026-10-06 18:15:22 UTC</createdTime>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<engineerTo>
+<item key="FBA0C056-A919-665A-7428-005AAA097968" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>E952D3C8-B1E3-560D-A821-23D9F3C8253A</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

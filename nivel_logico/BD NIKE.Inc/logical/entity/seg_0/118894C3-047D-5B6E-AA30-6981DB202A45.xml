@@ -1,0 +1,114 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="118894C3-047D-5B6E-AA30-6981DB202A45" name="STOCK_ALMACEN">
+<createdBy>Luis Coloma Rojas</createdBy>
+<createdTime>2026-10-06 18:15:22 UTC</createdTime>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<engineerTo>
+<item key="FBA0C056-A919-665A-7428-005AAA097968" value="true"/>
+</engineerTo>
+<adequatelyNormalized>YES</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="talla" id="F3B9BE5B-FE52-586A-9382-01B6160F43EE">
+<createdBy>Luis Coloma Rojas</createdBy>
+<createdTime>2026-10-06 18:15:22 UTC</createdTime>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<engineerTo>
+<item key="FBA0C056-A919-665A-7428-005AAA097968" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>10</dataTypeSize>
+<ownDataTypeParameters>10,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="color" id="EE2E31CD-2987-531B-9B11-CFE0EAFB9EA3">
+<createdBy>Luis Coloma Rojas</createdBy>
+<createdTime>2026-10-06 18:15:22 UTC</createdTime>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<engineerTo>
+<item key="FBA0C056-A919-665A-7428-005AAA097968" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>30</dataTypeSize>
+<ownDataTypeParameters>30,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="stock_actual" id="01704040-A422-503A-BA02-F8C5A78682DB">
+<createdBy>Luis Coloma Rojas</createdBy>
+<createdTime>2026-10-06 18:15:22 UTC</createdTime>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<engineerTo>
+<item key="FBA0C056-A919-665A-7428-005AAA097968" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="stock_minimo" id="3C5E4213-434F-56DF-B536-41F9B3FE1AB5">
+<createdBy>Luis Coloma Rojas</createdBy>
+<createdTime>2026-10-06 18:15:22 UTC</createdTime>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<engineerTo>
+<item key="FBA0C056-A919-665A-7428-005AAA097968" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id_producto" id="D6E3C2C2-DA4D-9CF3-5210-46CDEF388DE5">
+<createdBy>luisW</createdBy>
+<createdTime>2026-10-28 02:45:05 UTC</createdTime>
+<generatorID>2CB03B13-8FAF-53A9-86BC-2C829013DB90</generatorID>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<engineerTo>
+<item key="FBA0C056-A919-665A-7428-005AAA097968" value="true"/>
+</engineerTo>
+<referedAttribute>85A2BDF8-2A78-5707-9B3F-37BDE64864A4</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id_almacen" id="5E263790-BA32-8EA7-56F2-114D33945B46">
+<createdBy>luisW</createdBy>
+<createdTime>2026-10-28 02:45:05 UTC</createdTime>
+<generatorID>DCBDB69E-CAB5-519A-8787-0AA05379D1DA</generatorID>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<engineerTo>
+<item key="FBA0C056-A919-665A-7428-005AAA097968" value="true"/>
+</engineerTo>
+<referedAttribute>C1B2C683-235B-5C9E-8F64-D5FBA6206126</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="B49693B4-2A3B-5BCE-A9C1-C10B4A849C05" name="STOCK_ALMACEN_PK">
+<createdBy>Luis Coloma Rojas</createdBy>
+<createdTime>2026-10-06 18:15:22 UTC</createdTime>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<engineerTo>
+<item key="FBA0C056-A919-665A-7428-005AAA097968" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>F3B9BE5B-FE52-586A-9382-01B6160F43EE</attributeRef>
+<attributeRef>EE2E31CD-2987-531B-9B11-CFE0EAFB9EA3</attributeRef>
+<attributeRef>D6E3C2C2-DA4D-9CF3-5210-46CDEF388DE5</attributeRef>
+<attributeRef>5E263790-BA32-8EA7-56F2-114D33945B46</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="A7DDEA52-ACAB-5EF5-C04C-9BD05973EBA7" containerWithKeyObject="895FD8C3-673C-7566-1533-89AE8130F205" localFKIndex="80D47AD3-54C2-D88A-885E-7D2959002B0B" name="SUMINISTRO_ALMACEN_FK">
+<createdBy>luisW</createdBy>
+<createdTime>2026-10-28 03:21:13 UTC</createdTime>
+<generatorID>44187986-40F8-52A2-B150-AA6410AE50B9</generatorID>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<referredTableLongName>ALMACEN</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>EBD0ED59-6A39-6FC3-C7C6-64214E196AF1</referredTableID>
+<keyObject>CDE595ED-E6E9-9C7D-1189-69058608086D</keyObject>
+<referredKeyID>CDE595ED-E6E9-9C7D-1189-69058608086D</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>id_almacen</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

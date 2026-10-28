@@ -1,0 +1,62 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="202C7DEB-F52A-1C60-1697-6E4E48076A7B" name="LOCAL">
+<createdBy>luisW</createdBy>
+<createdTime>2026-10-28 03:21:13 UTC</createdTime>
+<generatorID>394EA182-4358-5DF6-ACC7-BF4F329DAB38</generatorID>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<adequatelyNormalized>YES</adequatelyNormalized>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id_local" id="7CCE5DAD-6A87-9BB3-EFD5-0D4600759ABF">
+<createdBy>luisW</createdBy>
+<createdTime>2026-10-28 03:21:13 UTC</createdTime>
+<generatorID>C5CF8484-12D3-5452-BC58-8B895085AFD9</generatorID>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="nombre_local" id="43EA5C2E-EA21-2231-ECB9-C3903C78794B">
+<createdBy>luisW</createdBy>
+<createdTime>2026-10-28 03:21:13 UTC</createdTime>
+<generatorID>DBE4E2AA-88C9-54A8-A7EA-A4C386E639DF</generatorID>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>50,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="direccion_local" id="7EBFBA8B-F5EF-39B2-6097-13D096393ED9">
+<createdBy>luisW</createdBy>
+<createdTime>2026-10-28 03:21:13 UTC</createdTime>
+<generatorID>028BD22B-2A4D-52CE-8A63-D5C4B6A7BBF3</generatorID>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>150</dataTypeSize>
+<ownDataTypeParameters>150,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="751E59A1-6541-AA32-9E0F-37D99CA6C516" name="LOCAL_PK">
+<createdBy>luisW</createdBy>
+<createdTime>2026-10-28 03:21:13 UTC</createdTime>
+<generatorID>FB2ACBC5-1165-5EDF-A178-4CD0811D58A3</generatorID>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="7CCE5DAD-6A87-9BB3-EFD5-0D4600759ABF"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

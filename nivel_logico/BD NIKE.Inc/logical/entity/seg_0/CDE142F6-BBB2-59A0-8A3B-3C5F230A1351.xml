@@ -1,0 +1,102 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="CDE142F6-BBB2-59A0-8A3B-3C5F230A1351" name="DETALLE_SUMINISTRO">
+<createdBy>Luis Coloma Rojas</createdBy>
+<createdTime>2026-10-06 18:15:22 UTC</createdTime>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<engineerTo>
+<item key="FBA0C056-A919-665A-7428-005AAA097968" value="true"/>
+</engineerTo>
+<adequatelyNormalized>YES</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="talla" id="21771032-5D86-4BFF-9308-B92F0CFB1AAF">
+<createdBy>Luis Coloma Rojas</createdBy>
+<createdTime>2026-10-06 18:15:22 UTC</createdTime>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<engineerTo>
+<item key="FBA0C056-A919-665A-7428-005AAA097968" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>10</dataTypeSize>
+<ownDataTypeParameters>10,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="color" id="808B5998-52A2-4D73-839D-A9FE1F71A01F">
+<createdBy>Luis Coloma Rojas</createdBy>
+<createdTime>2026-10-06 18:15:22 UTC</createdTime>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<engineerTo>
+<item key="FBA0C056-A919-665A-7428-005AAA097968" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>30</dataTypeSize>
+<ownDataTypeParameters>30,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="cantidad" id="8DDE1449-2BAB-5D28-85AD-A566BB8A4125">
+<createdBy>Luis Coloma Rojas</createdBy>
+<createdTime>2026-10-06 18:15:22 UTC</createdTime>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<engineerTo>
+<item key="FBA0C056-A919-665A-7428-005AAA097968" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id_producto" id="FA1A489C-7103-9686-BA20-19BF8522C820">
+<createdBy>luisW</createdBy>
+<createdTime>2026-10-28 02:45:05 UTC</createdTime>
+<generatorID>AAF200A2-DCBF-5FB4-AAF9-8737966F48B8</generatorID>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<engineerTo>
+<item key="FBA0C056-A919-665A-7428-005AAA097968" value="true"/>
+</engineerTo>
+<referedAttribute>85A2BDF8-2A78-5707-9B3F-37BDE64864A4</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id_suministro" id="8F8DBBFE-0427-4854-CEF2-706713AEAE24">
+<createdBy>luisW</createdBy>
+<createdTime>2026-10-28 02:45:05 UTC</createdTime>
+<generatorID>DC28D8C8-A2A9-5115-A618-3770A6535BA4</generatorID>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<engineerTo>
+<item key="FBA0C056-A919-665A-7428-005AAA097968" value="true"/>
+</engineerTo>
+<referedAttribute>E952D3C8-B1E3-560D-A821-23D9F3C8253A</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="CAEB0266-CD58-52C0-91E9-A6E5BF5F6F48" name="DETALLE_SUMINISTRO_PK">
+<createdBy>Luis Coloma Rojas</createdBy>
+<createdTime>2026-10-06 18:15:22 UTC</createdTime>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<engineerTo>
+<item key="FBA0C056-A919-665A-7428-005AAA097968" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>808B5998-52A2-4D73-839D-A9FE1F71A01F</attributeRef>
+<attributeRef>FA1A489C-7103-9686-BA20-19BF8522C820</attributeRef>
+<attributeRef>8F8DBBFE-0427-4854-CEF2-706713AEAE24</attributeRef>
+<attributeRef>21771032-5D86-4BFF-9308-B92F0CFB1AAF</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

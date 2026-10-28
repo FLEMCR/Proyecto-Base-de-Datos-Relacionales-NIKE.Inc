@@ -1,0 +1,128 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="94733CDB-18B1-4EEF-8CCC-A7B88E16731C" name="STOCK_ALMACEN">
+<createdBy>luisW</createdBy>
+<createdTime>2026-10-28 03:21:13 UTC</createdTime>
+<generatorID>118894C3-047D-5B6E-AA30-6981DB202A45</generatorID>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<adequatelyNormalized>YES</adequatelyNormalized>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="talla" id="4D3F07DF-5E85-6A9C-D192-DE4583A38529">
+<createdBy>luisW</createdBy>
+<createdTime>2026-10-28 03:21:13 UTC</createdTime>
+<generatorID>F3B9BE5B-FE52-586A-9382-01B6160F43EE</generatorID>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>10</dataTypeSize>
+<ownDataTypeParameters>10,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="color" id="D7F02461-B29E-FF07-09EB-BC034B744B92">
+<createdBy>luisW</createdBy>
+<createdTime>2026-10-28 03:21:13 UTC</createdTime>
+<generatorID>EE2E31CD-2987-531B-9B11-CFE0EAFB9EA3</generatorID>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>30</dataTypeSize>
+<ownDataTypeParameters>30,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="stock_actual" id="AD05B1F4-3E3D-1ADE-923E-71D8B15E3DF0">
+<createdBy>luisW</createdBy>
+<createdTime>2026-10-28 03:21:13 UTC</createdTime>
+<generatorID>01704040-A422-503A-BA02-F8C5A78682DB</generatorID>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="stock_minimo" id="9F3A8E8D-D09C-7202-C0CF-3AE5E04C8E8A">
+<createdBy>luisW</createdBy>
+<createdTime>2026-10-28 03:21:13 UTC</createdTime>
+<generatorID>3C5E4213-434F-56DF-B536-41F9B3FE1AB5</generatorID>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="PRODUCTO_id_producto" id="8D183448-1B2D-46F9-7440-69C967BDA606">
+<createdBy>luisW</createdBy>
+<createdTime>2026-10-28 03:21:13 UTC</createdTime>
+<generatorID>D6E3C2C2-DA4D-9CF3-5210-46CDEF388DE5</generatorID>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="9E2274FE-37EB-4F03-204C-AA67FDFDB1D4" referredColumn="3BDDD3F6-EDC5-F5F7-E8DE-797948C99865"/>
+</associations>
+</Column>
+<Column name="ALMACEN_id_almacen" id="8444E738-C490-F423-ABC3-57CCBF352E75">
+<createdBy>luisW</createdBy>
+<createdTime>2026-10-28 03:21:13 UTC</createdTime>
+<generatorID>5E263790-BA32-8EA7-56F2-114D33945B46</generatorID>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="564B9C6D-98E0-C0BB-377E-FDD995F2987E" referredColumn="D79FDA03-F7CA-03E0-99B2-1FC84E997362"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="2A345786-D176-18B2-F521-83093BFD2D0C" name="STOCK_ALMACEN_PK">
+<createdBy>luisW</createdBy>
+<createdTime>2026-10-28 03:21:13 UTC</createdTime>
+<generatorID>B49693B4-2A3B-5BCE-A9C1-C10B4A849C05</generatorID>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="4D3F07DF-5E85-6A9C-D192-DE4583A38529"/>
+<colUsage columnID="D7F02461-B29E-FF07-09EB-BC034B744B92"/>
+<colUsage columnID="8D183448-1B2D-46F9-7440-69C967BDA606"/>
+<colUsage columnID="8444E738-C490-F423-ABC3-57CCBF352E75"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="C46BF3F7-0B7A-4054-6125-C78B5DB30A9C" name="STOCK_ALMACEN_ALMACEN_FK">
+<createdBy>luisW</createdBy>
+<createdTime>2026-10-28 03:21:13 UTC</createdTime>
+<generatorID>DCBDB69E-CAB5-519A-8787-0AA05379D1DA</generatorID>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="8444E738-C490-F423-ABC3-57CCBF352E75"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="AFA5C966-CF60-E3CC-AD2F-DD230DA8F813" name="STOCK_ALMACEN_PRODUCTO_FK">
+<createdBy>luisW</createdBy>
+<createdTime>2026-10-28 03:21:13 UTC</createdTime>
+<generatorID>2CB03B13-8FAF-53A9-86BC-2C829013DB90</generatorID>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="8D183448-1B2D-46F9-7440-69C967BDA606"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

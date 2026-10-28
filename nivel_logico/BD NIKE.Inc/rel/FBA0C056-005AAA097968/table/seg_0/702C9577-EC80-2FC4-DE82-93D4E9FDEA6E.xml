@@ -1,0 +1,125 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="702C9577-EC80-2FC4-DE82-93D4E9FDEA6E" name="PEDIDO">
+<createdBy>luisW</createdBy>
+<createdTime>2026-10-28 03:21:13 UTC</createdTime>
+<generatorID>23F9023C-1208-5C64-8F56-B1B36F460AF8</generatorID>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<adequatelyNormalized>YES</adequatelyNormalized>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id_pedido" id="B8946CF3-613B-924B-02E2-0985A64723A7">
+<createdBy>luisW</createdBy>
+<createdTime>2026-10-28 03:21:13 UTC</createdTime>
+<generatorID>28013F84-DD95-5F71-9AED-A314FF676396</generatorID>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="fecha" id="70FB91FD-B71B-8CE9-A5C2-3296A4C66869">
+<createdBy>luisW</createdBy>
+<createdTime>2026-10-28 03:21:13 UTC</createdTime>
+<generatorID>1415FCE6-B2FA-5072-AB10-2AF36B9CF184</generatorID>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="metodo_pago" id="453EA3BF-FEA8-6AD8-6BE5-563861153104">
+<createdBy>luisW</createdBy>
+<createdTime>2026-10-28 03:21:13 UTC</createdTime>
+<generatorID>B3432ED6-9823-50B2-B5FA-E3BBAF374097</generatorID>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>30</dataTypeSize>
+<ownDataTypeParameters>30,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="estado_envio" id="2FF0271B-55A6-EBA2-8A20-0E0A1CC9261C">
+<createdBy>luisW</createdBy>
+<createdTime>2026-10-28 03:21:13 UTC</createdTime>
+<generatorID>9EFE062E-0FCB-53FF-BDC7-878531061680</generatorID>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20</dataTypeSize>
+<ownDataTypeParameters>20,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="SUMINISTRO_id_suministro" id="10E21F0C-6FAC-8F9A-540F-6B0A4870BB05">
+<createdBy>luisW</createdBy>
+<createdTime>2026-10-28 03:21:13 UTC</createdTime>
+<generatorID>90002816-FFCD-8868-6C01-5272DC59EEDE</generatorID>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="4E431865-64E1-3E1E-F5CE-3425D8639D19" referredColumn="4C36BD3E-5A9E-38AA-2666-8AC97EB3CF1C"/>
+</associations>
+</Column>
+<Column name="CLIENTE_id_cliente" id="3B96F9B7-4E76-F4E6-2CA2-86AEE57D6FA4">
+<createdBy>luisW</createdBy>
+<createdTime>2026-10-28 03:21:13 UTC</createdTime>
+<generatorID>8FF44461-0DF7-1565-1423-E66512F966FF</generatorID>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="2B4F3B97-0162-1169-B8AD-510B0DBB7074" referredColumn="0086E12D-FFD3-2EE6-189D-DC4BD1DA1E0D"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="1DA69BD7-C2B2-4EC4-0D18-8FE37156C582" name="PEDIDO_PK">
+<createdBy>luisW</createdBy>
+<createdTime>2026-10-28 03:21:13 UTC</createdTime>
+<generatorID>F0F00013-681F-5CC8-A207-8469BD97F7A1</generatorID>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="B8946CF3-613B-924B-02E2-0985A64723A7"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="7654BD42-47FC-7320-7709-6960CB074E2E" name="PEDIDO_CLIENTE_FK">
+<createdBy>luisW</createdBy>
+<createdTime>2026-10-28 03:21:13 UTC</createdTime>
+<generatorID>B44DBBD7-3D96-5C04-9F9A-EAD9D11F063F</generatorID>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="3B96F9B7-4E76-F4E6-2CA2-86AEE57D6FA4"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="B406C49B-A0FB-E56E-3671-298F36948C1E" name="PEDIDO_SUMINISTRO_FK">
+<createdBy>luisW</createdBy>
+<createdTime>2026-10-28 03:21:13 UTC</createdTime>
+<generatorID>22D825BC-20CC-5F0F-8C1C-445D73D47A7F</generatorID>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="10E21F0C-6FAC-8F9A-540F-6B0A4870BB05"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

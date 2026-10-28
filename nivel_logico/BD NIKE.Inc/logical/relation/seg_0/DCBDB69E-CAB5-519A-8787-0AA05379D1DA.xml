@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="STOCK_ALMACEN_ALMACEN_FK" directorySegmentName="seg_0" id="DCBDB69E-CAB5-519A-8787-0AA05379D1DA">
+  <createdBy>Luis Coloma Rojas</createdBy>
+  <createdTime>2026-10-06 18:15:22 UTC</createdTime>
+  <ownerDesignName>BD NIKE.Inc</ownerDesignName>
+  <generatorID>DB97BF11-EB05-5E42-A28E-635B2D651277</generatorID>
+  <engineerTo>
+    <item key="98750A44-4FCF592D9619" value="true" />
+  </engineerTo>
+  <sourcePk>431E9B4D-5921-54F8-A5A6-4F622EF7C942</sourcePk>
+  <identifying>false</identifying>
+  <optionalSource>false</optionalSource>
+  <optionalTarget>false</optionalTarget>
+  <sourceCardinality>1</sourceCardinality>
+  <sourceEntity>97A396F4-BC5E-501C-B792-E0B2DFFBA831</sourceEntity>
+  <targetCardinalityString>*</targetCardinalityString>
+  <targetEntity>118894C3-047D-5B6E-AA30-6981DB202A45</targetEntity>
+  <transferable>true</transferable>
+  <deleteRule>RESTRICT</deleteRule>
+</Relation>

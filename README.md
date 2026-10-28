@@ -9,29 +9,52 @@ Repositorio del proyecto parcial del curso de **Disenio de Base de Datos Relacio
 - Luis Coloma
 - Pablo Rios
 
-## Estructura del Repositorio
+**Docente:** Sergio Fernando Castillo Carrion
 
-- **`nivel_conceptual/`**: Diagrama Entidad-Relacion (notacion Chen) editable en Draw.io (`.drawio`) y exportado en imagen (`.png`).
-- **`normalizacion/`**: Archivo Excel (`NORMALIZACION_BD_NIKE_GRUPO_5.xlsx`) con el desarrollo desde la Tabla General sin normalizar (`0FN`) pasando por `1FN`, `2FN` hasta llegar a las 9 tablas en `3FN`.
-- **`nivel_logico/`**: Proyecto de Oracle SQL Developer Data Modeler (`BD NIKE.Inc.dmd` y su carpeta de modelo) con el Modelo Logico y el Modelo Relacional.
-- **`nivel_fisico/`**: Scripts de creacion de tablas y restricciones (`BD_NIKE_INC_SQL_SERVER.sql` y `BD_NIKE_INC_ORACLE.sql`) junto con el Diccionario de Datos (`.docx`).
-- **`ENTREGA DE MODELO LOGICO_RELACIONAL GRUPO-5.pdf`**:Informe consolidado con la propuesta, el diagrama conceptual, los modelos logico/relacional y el diagrama fisico en SQL Server.
+## Estructura del repositorio
 
-## Tablas del Modelo (3FN)
+- **`nivel_conceptual/`**: diagrama M.E.R. (notacion Chen) editable en Draw.io (`.drawio`) y exportado en imagen (`.png`), con las PK subrayadas, los atributos opcionales punteados y las flechas de las 1:N apuntando al lado 1.
+- **`normalizacion/`**: Excel `NORMALIZACION_BD_NIKE_GRUPO_5.xlsx` con cuatro hojas: `0FN`, `1FN`, `2FN` y `3FN` (las 10 tablas).
+- **`nivel_logico/`**: proyecto de Oracle SQL Developer Data Modeler (`BD NIKE.Inc.dmd` y su carpeta de modelo) y la lamina **`MODELO_LOGICO.png`** en notacion Barker, ordenada igual que el MER.
+- **`nivel_fisico/`**: scripts de creacion (`BD_NIKE_INC_SQL_SERVER.sql` y `BD_NIKE_INC_ORACLE.sql`), 10 tablas y 11 claves foraneas, sin vistas ni columnas calculadas.
+
+Las guias de armado estan fuera de esta carpeta, en **`guias/`** (una sola copia de cada una, mas la guia completa).
+
+## Las 8 relaciones del MER
+
+| Relacion | Cardinalidad | Une |
+| :--- | :---: | :--- |
+| REALIZA | (1,N) | CLIENTE - PEDIDO |
+| CONTIENE | (M,N) | PEDIDO - PRODUCTO |
+| CLASIFICA | (1,N) | CATEGORIA - PRODUCTO |
+| ALMACENA | (M,N) | PRODUCTO - ALMACEN |
+| PROVEE | (1,N) | PEDIDO - SUMINISTRO |
+| ABASTECE | (1,N) | ALMACEN - SUMINISTRO |
+| RECIBE | (1,N) | LOCAL - SUMINISTRO |
+| INCLUYE | (M,N) | SUMINISTRO - PRODUCTO |
+
+## Tablas del modelo (3FN)
 
 1. `CLIENTE`
-2. `PEDIDO`
-3. `DETALLE_VENTA`
-4. `CATEGORIA`
+2. `CATEGORIA`
+3. `ALMACEN`
+4. `LOCAL`
 5. `PRODUCTO`
-6. `ALMACEN`
-7. `STOCK_ALMACEN`
-8. `LOCAL`
-9. `SUMINISTRO_LOCAL`
+6. `PEDIDO`
+7. `SUMINISTRO`
+8. `DETALLE_VENTA`
+9. `STOCK_ALMACEN`
+10. `DETALLE_SUMINISTRO`
 
-## Herramientas Utilizadas
+**11 claves foraneas** y **3 columnas opcionales** (`telefono_secundario`, `descripcion`, `especificaciones`). Ninguna tabla guarda valores calculados y el modelo no necesita vistas. **`ALMACEN` solo se relaciona con `SUMINISTRO` (ABASTECE) y con `PRODUCTO` (ALMACENA)**.
 
-- **Draw.io** (Diagrama MER Conceptual)
-- **Microsoft Excel** (Proceso de Normalizacion 1FN, 2FN y 3FN)
-- **Oracle SQL Developer Data Modeler** (Modelado Logico y Relacional)
-- **SQL Server Management Studio - SSMS** (Implementacion Fisica y Diagrama de Base de Datos)
+## Correcciones del docente
+
+Las **11 observaciones** escritas en el Excel de normalizacion estan aplicadas en el MER, en el Excel y en el modelo logico, y documentadas en `guias/06_GUIA_CORRECCIONES_DOCENTE.md`.
+
+## Herramientas utilizadas
+
+- **Draw.io** (diagrama M.E.R. conceptual)
+- **Microsoft Excel** (proceso de normalizacion 0FN, 1FN, 2FN y 3FN)
+- **Oracle SQL Developer Data Modeler** (modelado logico y relacional)
+- **SQL Server Management Studio - SSMS** (implementacion fisica y diagrama de base de datos)
