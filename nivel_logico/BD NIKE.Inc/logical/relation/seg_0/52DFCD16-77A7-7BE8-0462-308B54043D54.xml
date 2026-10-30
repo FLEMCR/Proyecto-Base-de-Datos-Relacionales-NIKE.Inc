@@ -1,0 +1,57 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="INCLUYE" directorySegmentName="seg_0" id="52DFCD16-77A7-7BE8-0462-308B54043D54">
+<createdBy>luisW</createdBy>
+<createdTime>2026-10-30 01:06:45 UTC</createdTime>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<engineerTo>
+<item key="FBA0C056-A919-665A-7428-005AAA097968" value="true"/>
+</engineerTo>
+<identifying>false</identifying>
+<optionalSource>false</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>*</sourceCardinality>
+<sourceEntity>88C0AFAD-7EC4-5D5F-9767-E74F265B5CE6</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>8E3942F5-DF2A-57C7-859B-61CCE777267A</targetEntity>
+<transferable>true</transferable>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<attribute name="cantidad" id="F14A248B-744A-9E80-7DE9-8A21CD3E3862">
+<createdBy>luisW</createdBy>
+<createdTime>2026-10-30 01:07:41 UTC</createdTime>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<engineerTo>
+<item key="FBA0C056-A919-665A-7428-005AAA097968" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</attribute>
+<attribute name="talla" id="01F14702-659C-3673-A4C6-6BB8D6E55A94">
+<createdBy>luisW</createdBy>
+<createdTime>2026-10-30 01:07:53 UTC</createdTime>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<engineerTo>
+<item key="FBA0C056-A919-665A-7428-005AAA097968" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>10</dataTypeSize>
+<ownDataTypeParameters>10,,</ownDataTypeParameters>
+</attribute>
+<attribute name="color" id="718116DE-F9A2-5D72-F293-762949B90801">
+<createdBy>luisW</createdBy>
+<createdTime>2026-10-30 01:08:07 UTC</createdTime>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<engineerTo>
+<item key="FBA0C056-A919-665A-7428-005AAA097968" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>30</dataTypeSize>
+<ownDataTypeParameters>30,,</ownDataTypeParameters>
+</attribute>
+</attributes>
+</Relation>

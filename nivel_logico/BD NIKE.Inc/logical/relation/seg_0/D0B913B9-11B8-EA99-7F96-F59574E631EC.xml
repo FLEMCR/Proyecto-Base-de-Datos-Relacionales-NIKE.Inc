@@ -1,0 +1,71 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="CONTIENE" directorySegmentName="seg_0" id="D0B913B9-11B8-EA99-7F96-F59574E631EC">
+<createdBy>luisW</createdBy>
+<createdTime>2026-10-30 00:52:21 UTC</createdTime>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<engineerTo>
+<item key="FBA0C056-A919-665A-7428-005AAA097968" value="true"/>
+</engineerTo>
+<identifying>false</identifying>
+<optionalSource>false</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>*</sourceCardinality>
+<sourceEntity>23F9023C-1208-5C64-8F56-B1B36F460AF8</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>88C0AFAD-7EC4-5D5F-9767-E74F265B5CE6</targetEntity>
+<transferable>true</transferable>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<attribute name="cantidad" id="78C7ECB4-05B3-5644-BCBC-3C927DA0E1F1">
+<createdBy>luisW</createdBy>
+<createdTime>2026-10-30 00:56:40 UTC</createdTime>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<engineerTo>
+<item key="FBA0C056-A919-665A-7428-005AAA097968" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</attribute>
+<attribute name="precio_unitario_aplicado" id="A9242F6D-9EF6-ADA6-66FB-C4B2DAF66251">
+<createdBy>luisW</createdBy>
+<createdTime>2026-10-30 01:01:36 UTC</createdTime>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<engineerTo>
+<item key="FBA0C056-A919-665A-7428-005AAA097968" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>10</dataTypePrecision>
+<dataTypeScale>2</dataTypeScale>
+<ownDataTypeParameters>,10,2</ownDataTypeParameters>
+</attribute>
+<attribute name="talla_elegida" id="31719A0C-9E45-6FB8-0169-717E30EA664A">
+<createdBy>luisW</createdBy>
+<createdTime>2026-10-30 01:02:47 UTC</createdTime>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<engineerTo>
+<item key="FBA0C056-A919-665A-7428-005AAA097968" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>10</dataTypeSize>
+<ownDataTypeParameters>10,,</ownDataTypeParameters>
+</attribute>
+<attribute name="color_elegido" id="13D67BC5-681C-698F-C21B-C145AC1E2D00">
+<createdBy>luisW</createdBy>
+<createdTime>2026-10-30 01:03:13 UTC</createdTime>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<engineerTo>
+<item key="FBA0C056-A919-665A-7428-005AAA097968" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>30</dataTypeSize>
+<ownDataTypeParameters>30,,</ownDataTypeParameters>
+</attribute>
+</attributes>
+</Relation>
