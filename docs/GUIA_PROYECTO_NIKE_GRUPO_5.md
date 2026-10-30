@@ -15,9 +15,9 @@ como archivo suelto en esta misma carpeta (`01_...md` a `06_...md`).
 | 1 | Entender el proyecto y leer el diagrama M.E.R. (Draw.io) |
 | 2 | Normalizacion 0FN, 1FN, 2FN y 3FN en Excel |
 | 3 | Modelo logico y relacional en Oracle Data Modeler (Barker) |
-| 4 | Modelo fisico en SQL Server (SSMS) |
+| 4 | Modelo fisico en SQL Server (SSMS) con IDENTITY, DEFAULT, CHECK y auditoria |
 | 5 | Longitudes justas y columnas opcionales |
-| 6 | Correcciones del docente aplicadas |
+| 6 | Correcciones del docente aplicadas (incluye la revision por niveles) |
 
 ---
 
@@ -47,7 +47,7 @@ El disenio queda en **10 tablas**, **11 claves foraneas** y **3 columnas opciona
 * **`precio_unitario_base` vs `precio_unitario_aplicado`.** En `PRODUCTO` esta el precio de lista de hoy; en `DETALLE_VENTA` queda el precio del dia de la venta. Si Nike sube el precio, las boletas antiguas no cambian.
 * **`ALMACEN`, no `INVENTARIO`.** La entidad es el centro de distribucion; el inventario es el stock que guarda (`STOCK_ALMACEN`).
 * **Un solo metodo de pago por celda.** `PEDIDO.metodo_pago` guarda `Tarjeta de Credito`, `Tarjeta de Debito`, `Yape` o `Transferencia`. El pedido 9002 quedo con `Yape` (antes decia `Yape / Plin`, que son dos valores en una celda).
-* **Nada calculado se guarda.** Ni `Total` ni `IGV` aparecen en el modelo: el total de la linea se obtiene multiplicando `cantidad` por `precio_unitario_aplicado`, y el IGV es el 18 % de esa suma cuando la boleta lo necesite.
+* **Nada calculado se guarda ni se dibuja.** `Total` e `IGV` **no estan en el diagrama**: el total de la linea se obtiene multiplicando `cantidad` por `precio_unitario_aplicado` y el IGV es el 18 % de esa suma, siempre en la consulta. Si se dibujaran, aunque fuera punteados, quedarian como atributos del modelo y despues habria que justificar por que no se migran.
 
 ---
 
@@ -72,13 +72,15 @@ En `nivel_conceptual/` estan el archivo editable **`Diagrama MER (NIKE) - GRUPO 
 
 **3. Elipses = atributos.** Las claves van **subrayadas**: `ID_CLIENTE`, `ID_PEDIDO`, `ID_CATEGORIA`, `ID_PRODUCTO`, `ID_ALMACEN`, `ID_LOCAL` e **`ID_SUMINISTRO`** (atributo nuevo, porque la fecha ya no sirve como clave: podian salir dos despachos el mismo dia).
 
-En los rombos M:N las claves se marcan donde corresponde: `Talla_elegida` + `Color_elegido` en **CONTIENE** (junto con `Cantidad` y `Precio_unitario_aplicado`); `Talla` + `Color` en **ALMACENA** (con `Stock_actual` y `Stock_minimo`); `Talla` + `Color` en **INCLUYE** (con `Cantidad`).
+**En los rombos M:N se subrayan los atributos que forman la clave compuesta de la tabla intermedia.** `Talla_elegida` + `Color_elegido` en **CONTIENE** (junto a `Cantidad` y `Precio_unitario_aplicado`); `Talla` + `Color` en **INCLUYE** (junto a `Cantidad`); `Talla` + `Color` en **ALMACENA** (junto a `Stock_actual` y `Stock_minimo`).
+
+**Ojo con la diferencia:** una relacion M:N **no tiene clave propia** (no se escribe un `ID_DETALLE`, porque eso la convierte en entidad), pero **si tiene clave compuesta**: la forman las claves de las dos entidades mas los atributos que distinguen una ocurrencia de otra (talla y color). Eso es lo que queda subrayado en el rombo y lo que en el relacional aparece como PK de `DETALLE_VENTA`, `DETALLE_SUMINISTRO` y `STOCK_ALMACEN`.
 
 **4. Leyenda y convenciones del dibujo:**
 
 * rectangulo = entidad, rombo = relacion, elipse = atributo;
-* atributo **subrayado = PK**;
-* elipse **con borde punteado = atributo opcional** (`Telefono_secundario`);
+* atributo **subrayado = PK** en las entidades y **clave compuesta** en los rombos M:N;
+* elipse **con borde punteado = atributo que admite `NULL`**: `Telefono_secundario (opcional)`, `Descripcion (opcional)` y `Especificaciones (opcional)`;
 * `(1,N)` y `(M,N)` = cardinalidad escrita al lado del rombo;
 * la **flecha** de cada relacion 1:N apunta siempre a la entidad del lado **1**;
 * los rombos **M:N (CONTIENE, ALMACENA, INCLUYE) no llevan flecha**: se resuelven despues como tablas.
@@ -98,7 +100,7 @@ En los rombos M:N las claves se marcan donde corresponde: `Talla_elegida` + `Col
 
 **7. `CONTIENE` es binaria** entre `PEDIDO` y `PRODUCTO`: la linea vendida solo necesita la talla, el color, la cantidad y el precio aplicado.
 
-**8. Por que `Talla_elegida` y `Color_elegido` van subrayados en `CONTIENE`.** El stock se guarda por **talla y color** (`ALMACENA`). Si la venta solo dijera la talla, no se sabria de que fila de stock salio el par. Al poner los dos en la clave de la linea, la venta queda amarrada exactamente a una fila de `STOCK_ALMACEN`.
+**8. Por que en `CONTIENE` estan `Talla_elegida` y `Color_elegido` aunque no se subrayen.** El stock se guarda por **talla y color** (`ALMACENA`). Si la linea de venta solo dijera la talla, no se sabria de que fila de stock salio el par. Los dos quedan en el rombo como **datos de la relacion** y en el modelo relacional forman parte de la clave compuesta de `DETALLE_VENTA`. Lo que **no** existe es un `ID_DETALLE`: un atributo asi dentro de un rombo M:N lo convierte en entidad, y eso es lo que observo el docente. Lo que si hay es la **clave compuesta** del rombo (pedido + producto + talla + color), que es la que se subraya.
 
 **9. Nombre cambiado: `DESPACHA` ya no existe.** La relacion entre `ALMACEN` y `SUMINISTRO` se llama **`ABASTECE`** (el almacen abastece al suministro) y la que une `PEDIDO` con `SUMINISTRO` se llama **`PROVEE`** (el suministro provee al pedido). Antes estaba al reves y confundia al leer el diagrama.
 
@@ -114,7 +116,8 @@ En los rombos M:N las claves se marcan donde corresponde: `Talla_elegida` + `Col
 6. **Relaciones:** unir entidad y rombo con lineas rectas. En las 1:N activar la flecha solo en el extremo que toca la entidad del lado 1 (`Line > Arrows > Classic`). En `CONTIENE`, `ALMACENA` e `INCLUYE` dejar `Arrows = None`.
 7. **Cardinalidades:** agregar una caja de texto al lado de cada rombo con `(1,N)` o `(M,N)` (`Text` en la paleta).
 8. **Titulo:** caja de texto "Diagrama M.E.R - NIKE. Inc" en 30 pt negrita y debajo "Ventas y Almacenes" en 20 pt.
-9. **Exportar:** `File > Export as > PNG`, con **fondo blanco** y zoom alto (2x o 3x) para que se lea al proyectar; reemplazar el `.png` de `nivel_conceptual/`.
+9. **Exportar:** `File > Export as > PNG`, con **fondo blanco activado** (`Background: white`) y **zoom 300 %** para que el texto se lea al proyectar; reemplazar el `.png` de `nivel_conceptual/`. La imagen que se entrega mide **4800 x 3540 px**, en fondo blanco.
+10. **Una diapositiva por modelo:** conceptual, logico, relacional y fisico van cada uno en su propia lamina, con la imagen a tamano completo (nunca dos modelos en la misma diapositiva ni la imagen reducida).
 
 ### Misma idea en Lucidchart
 
@@ -146,12 +149,14 @@ El detalle completo, columna por columna, esta en la **GUIA 5**.
 ## 6. Correcciones del docente que se ven en el MER
 
 * **`SUMINISTRO` es entidad** con su propio `ID_SUMINISTRO` (antes todo el despacho era una sola relacion con fecha).
-* **`INCLUYE`** aparece para poder llevar varios productos en un mismo despacho, cada uno con su `Cantidad`, `Talla` y `Color`.
+* **`INCLUYE`** responde a la observacion de que `SUMINISTRO` solo tenia fecha y estado: ahora el despacho **dice que productos lleva, en que talla y color y cuantas unidades**, cada uno con su `Cantidad`, `Talla` y `Color`. Ese es su objetivo de distribucion.
 * **`PROVEE`** une el pedido con el suministro que lo abastecio (de ahi sale `PEDIDO.SUMINISTRO_id_suministro`, **obligatorio**).
 * **`ABASTECE`** une el almacen con el suministro que despacha (de ahi sale `SUMINISTRO.ALMACEN_id_almacen`).
 * Los **colores** del stock son `Negro`, `Blanco` y `Azul Marino`, los mismos de la tabla general.
 * `DETALLE_VENTA` lleva **`Color_elegido`** ademas de `Talla_elegida`.
-* **No hay `Total` ni `IGV`** en el diagrama, y **la venta no guarda el almacen**: son datos calculados o redundantes.
+* **`Total` e `IGV` no estan** en el diagrama: son calculos y se obtienen en la consulta.
+* **No existe `ID_DETALLE`** dentro de `CONTIENE`: lo subrayado son los atributos de la clave compuesta (talla y color).
+* **La venta no guarda el almacen**: esa informacion vive en `SUMINISTRO` y en `STOCK_ALMACEN`.
 
 El listado completo de las 11 observaciones y donde se aplico cada una esta en la **GUIA 6**.
 
@@ -284,7 +289,7 @@ Se abre **una fila por cada linea vendida** y se separan telefonos, productos, c
 ---
 
 **Carpeta:** `nivel_logico/BD NIKE.Inc/` + archivo **`BD NIKE.Inc.dmd`**  
-**Imagen:** `MODELO_LOGICO.png` (notacion Barker, ordenada igual que el MER)
+**Laminas:** `MODELO_LOGICO.png` (Barker, solo entidades y relaciones) y `MODELO_RELACIONAL.png` (las 10 tablas con sus 11 FK)
 
 ---
 
@@ -296,9 +301,8 @@ El proyecto de Data Modeler es una **carpeta**, no un archivo suelto:
 nivel_logico/
 ├── BD NIKE.Inc.dmd          <- archivo que se abre desde Data Modeler
 └── BD NIKE.Inc/             <- carpeta con los XML del disenio
-    ├── relational/          <- tablas, claves foraneas e indices del modelo relacional
     ├── logical/             <- entidades, atributos y relaciones del modelo logico
-    ├── diagram/             <- posiciones de las cajas en la lamina
+    ├── rel/                 <- tablas, claves foraneas e indices del modelo relacional
     └── ...
 ```
 
@@ -306,26 +310,62 @@ Para abrirlo: **File > Open** en Oracle SQL Developer Data Modeler y elegir **`B
 
 ---
 
-## 2. Del modelo conceptual al logico
+## 2. La regla del docente: el logico NO muestra las intermedias
 
-Las relaciones del MER se convierten en tablas (las de muchos a muchos) o en claves foraneas (las de uno a muchos):
+> *"En el modelo logico solo se configura; aun no se visualizan las entidades intermediarias."*
 
-| En el MER | En el modelo logico/relacional |
-| :--- | :--- |
-| REALIZA (1,N) | FK `CLIENTE_id_cliente` en `PEDIDO` |
-| CLASIFICA (1,N) | FK `CATEGORIA_id_categoria` en `PRODUCTO` |
-| CONTIENE (M,N) | Tabla **`DETALLE_VENTA`** + FK a `PEDIDO` y `PRODUCTO` |
-| ALMACENA (N,M) | Tabla **`STOCK_ALMACEN`** con PK de 4 campos |
-| ABASTECE (1,N) | FK `ALMACEN_id_almacen` en `SUMINISTRO` |
-| RECIBE (1,N) | FKs `LOCAL_id_local` en `SUMINISTRO` |
-| PROVEE (1,N) | FK `SUMINISTRO_id_suministro` en `PEDIDO` (obligatoria) |
-| INCLUYE (N,M) | Tabla **`DETALLE_SUMINISTRO`** |
+Eso significa que en la lamina del **logico** se ven **7 entidades** (`CLIENTE`, `CATEGORIA`, `ALMACEN`, `LOCAL`, `PRODUCTO`, `PEDIDO`, `SUMINISTRO`) y sus relaciones, **nada mas**. Las tres relaciones de muchos a muchos del MER quedan **configuradas** en el proyecto, pero se materializan recien cuando se genera el **relacional**:
 
-Quedan **10 tablas** y **11 claves foraneas**. Nota importante: **`ALMACEN` solo se relaciona con `SUMINISTRO` (ABASTECE) y con `PRODUCTO` (ALMACENA)**; no hay ninguna FK de almacen en la venta.
+| En el MER | Se configura en el logico | Aparece como tabla en el RELACIONAL |
+| :--- | :--- | :--- |
+| REALIZA (1,N) | relacion `CLIENTE` → `PEDIDO` | FK `CLIENTE_id_cliente` en `PEDIDO` |
+| CLASIFICA (1,N) | relacion `CATEGORIA` → `PRODUCTO` | FK `CATEGORIA_id_categoria` en `PRODUCTO` |
+| PROVEE (1,N) | relacion `SUMINISTRO` → `PEDIDO` | FK `SUMINISTRO_id_suministro` en `PEDIDO` |
+| ABASTECE (1,N) | relacion `ALMACEN` → `SUMINISTRO` | FK `ALMACEN_id_almacen` en `SUMINISTRO` |
+| RECIBE (1,N) | relacion `LOCAL` → `SUMINISTRO` | FK `LOCAL_id_local` en `SUMINISTRO` |
+| CONTIENE (M,N) | relacion M:N `PEDIDO` ↔ `PRODUCTO` | tabla **`DETALLE_VENTA`** (2 FK) |
+| ALMACENA (M,N) | relacion M:N `PRODUCTO` ↔ `ALMACEN` | tabla **`STOCK_ALMACEN`** (2 FK) |
+| INCLUYE (M,N) | relacion M:N `SUMINISTRO` ↔ `PRODUCTO` | tabla **`DETALLE_SUMINISTRO`** (2 FK) |
+
+Resultado: **7 entidades y 8 relaciones en el logico → 10 tablas y 11 claves foraneas en el relacional**.
+
+### Por que el rombo si lleva atributos subrayados
+
+* Una relacion M:N **no tiene clave propia**: no se escribe un `ID_DETALLE`, porque al darle un identificador el rombo se vuelve una entidad (eso fue justo lo que observo el docente en el MER).
+* Pero **si tiene clave compuesta**: la forman las claves de las dos entidades (`PEDIDO` + `PRODUCTO`) mas los atributos que distinguen una ocurrencia de otra (`talla_elegida` + `color_elegido`).
+* Esos atributos son los que van **subrayados** dentro del rombo, y son los que en el relacional aparecen como **PK de `DETALLE_VENTA`**. Lo mismo pasa con `talla` + `color` en `INCLUYE` y en `ALMACENA`.
+
+**`ALMACEN` solo se relaciona con `SUMINISTRO` (ABASTECE) y con `PRODUCTO` (ALMACENA)**: no existe ninguna clave de almacen en la venta.
 
 ---
 
-## 3. Las 11 claves foraneas
+## 3. Como se lee el modelo logico en Barker (`MODELO_LOGICO.png`)
+
+La lamina se lee en el mismo orden que el MER:
+
+| Relacion | Cardinalidad | Lectura |
+| :--- | :---: | :--- |
+| `CLIENTE` → `PEDIDO` | 1 : N | Un cliente realiza uno o muchos pedidos; cada pedido es de un solo cliente. |
+| `CATEGORIA` → `PRODUCTO` | 1 : N | Una categoria clasifica uno o muchos productos. |
+| `SUMINISTRO` → `PEDIDO` | 1 : N | Un suministro provee uno o muchos pedidos. |
+| `ALMACEN` → `SUMINISTRO` | 1 : N | Un almacen abastece uno o muchos suministros. |
+| `LOCAL` → `SUMINISTRO` | 1 : N | Un local recibe uno o muchos suministros. |
+| `PEDIDO` ↔ `PRODUCTO` (**CONTIENE**) | M : N | Un pedido contiene muchos productos y un producto esta en muchos pedidos; el rombo lleva `talla_elegida`, `color_elegido`, `cantidad` y `precio_unitario_aplicado`. |
+| `SUMINISTRO` ↔ `PRODUCTO` (**INCLUYE**) | M : N | Un suministro incluye muchos productos; el rombo lleva `talla`, `color` y `cantidad`. |
+| `PRODUCTO` ↔ `ALMACEN` (**ALMACENA**) | M : N | Un almacen guarda muchos productos; el rombo lleva `talla`, `color`, `stock_actual` y `stock_minimo`. |
+
+Convenciones del dibujo:
+
+* **`1` con raya:** el lado "uno y solo uno" (la entidad maestra).
+* **`N` con pata de gallo:** el lado "uno o muchos" (la entidad que recibe la clave foranea).
+* **`M` y `N`:** las relaciones de muchos a muchos, con el rombo y sus atributos.
+* **Cada relacion lleva su verbo** (`REALIZA`, `CLASIFICA`, `PROVEE`, `ABASTECE`, `RECIBE`, `CONTIENE`, `INCLUYE`, `ALMACENA`) escrito sobre la linea o dentro del rombo, mas la cardinalidad en los extremos. El PNG original mide **4120 x 2260 px**: insertalo a tamano completo, una lamina por modelo.
+* **Sin marcas de "origen opcional":** todas las relaciones son obligatorias, como pidio el docente.
+* **Sin vistas y sin columnas calculadas:** no hay `total` ni `igv` en ninguna entidad.
+
+---
+
+## 4. Las 11 claves foraneas (modelo relacional)
 
 | Restriccion | Tabla hija (N) | Columna | Tabla padre (1) | Columna PK |
 | :--- | :--- | :--- | :--- | :--- |
@@ -341,24 +381,24 @@ Quedan **10 tablas** y **11 claves foraneas**. Nota importante: **`ALMACEN` solo
 | DETALLE_SUMINISTRO_SUMINISTRO_FK | DETALLE_SUMINISTRO | SUMINISTRO_id_suministro | SUMINISTRO | id_suministro |
 | DETALLE_SUMINISTRO_PRODUCTO_FK | DETALLE_SUMINISTRO | PRODUCTO_id_producto | PRODUCTO | id_producto |
 
-Todas son relaciones **1:N**. Las N:M del MER ya estan resueltas por `DETALLE_VENTA`, `STOCK_ALMACEN` y `DETALLE_SUMINISTRO`.
+Todas son **1:N** y todas son **obligatorias**. En `MODELO_RELACIONAL.png` cada linea sale del lado 1 (raya) y llega con pata de gallo al lado N, con el verbo y la cardinalidad escritos en la linea.
 
 ---
 
-## 4. Como se marca cada cosa en Data Modeler
+## 5. Como se marca cada cosa en Data Modeler
 
 * **`P` (PK):** se activa con el boton de llave en la columna o marcando el atributo como identificador de la entidad.
 * **`F` (FK):** no se escribe a mano; se genera al dibujar la **relacion 1:N**. La columna aparece con el nombre `TABLA_id`.
 * **`PFK`:** columna que forma parte de la clave compuesta **y** ademas es clave foranea (`DETALLE_VENTA`, `STOCK_ALMACEN`, `DETALLE_SUMINISTRO`).
 * **`*` obligatorio:** la casilla **Optional** del atributo queda desmarcada (equivale a `NOT NULL`).
-* **`o` opcional:** la casilla **Optional** queda marcada solo en `telefono_secundario`, `descripcion` y `especificaciones`. En el fisico significa que la columna acepta `NULL`.
-* **Origen opcional:** NO se marca. Todas las relaciones son obligatorias; el docente indico que esa casilla no hace falta.
+* **`o` opcional:** la casilla **Optional** queda marcada solo en `telefono_secundario`, `descripcion` y `especificaciones`.
+* **Origen opcional:** NO se marca en ninguna relacion.
 * **Tipos en la vista relacional:** `VARCHAR2(n)` para texto y `NUMBER(10,2)` para importes, con **Size** y **Precision/Scale** definidos a mano (nunca 255 por defecto).
 * **Nada calculado se almacena:** `DETALLE_VENTA` no tiene `total` y `PEDIDO` no tiene `igv`. Tampoco hay vista: el total de la linea se calcula multiplicando `cantidad` por `precio_unitario_aplicado` cuando se consulta.
 
 ---
 
-## 5. Columnas que admiten `NULL` (3 en total)
+## 6. Columnas que admiten `NULL` (3 en total)
 
 | Tabla | Columna | Por que puede quedar vacia |
 | :--- | :--- | :--- |
@@ -370,58 +410,40 @@ Todo lo demas es `NOT NULL`; las claves y las foraneas **nunca** admiten `NULL`.
 
 ---
 
-## 6. Longitudes que se ven en el modelo relacional
+## 7. Longitudes que se ven en el modelo relacional
 
 | Campo | Tipo definitivo | Por que esa medida |
 | :--- | :---: | :--- |
 | `telefono / telefono_secundario` | **`VARCHAR(15)`** | 9 digitos en Peru; 15 es el tope internacional (E.164) para un cliente extranjero que compra en el pais. |
 | `correo_e` | **`VARCHAR(80)`** | un correo real mide entre 25 y 45 caracteres; 80 deja margen sin reservar 255. |
 | `nombre / nombre de producto` | **`VARCHAR(80)`** | entran nombres completos y nombres comerciales largos. |
-| `direccion / direccion_local` | **`VARCHAR(150)`** | una direccion peruana con referencia y distrito llega a 90-120 caracteres. |
+| `direccion / direccion_local / ubicacion` | **`VARCHAR(120)`** | una direccion peruana con referencia y distrito llega a 90-120 caracteres. |
 | `nombre_almacen / nombre_local / nombre de categoria` | **`VARCHAR(50)`** | son nombres cortos e institucionales. |
-| `metodo_pago` | **`VARCHAR(30)`** | 'Tarjeta de Credito', 'Yape', 'Plin' o 'Transferencia' no pasan de 20. |
+| `metodo_pago` | **`VARCHAR(30)`** | 'Tarjeta de Credito', 'Yape' o 'Transferencia' no pasan de 20. |
 | `estado_envio / estado_despacho / estado` | **`VARCHAR(20)`** | listas cortas y controladas de cada proceso. |
-| `talla / talla_elegida y color / color_elegido` | **`VARCHAR(10) y VARCHAR(30)`** | talla guarda 42, 41 o M; color guarda Negro, Blanco o Azul Marino. |
+| `talla / talla_elegida y color / color_elegido` | **`VARCHAR(10)` y `VARCHAR(30)`** | talla guarda 42, 41 o M; color guarda Negro, Blanco o Azul Marino. |
 | `cantidad, stock_actual, stock_minimo` | **`INTEGER`** | son unidades enteras: no necesitan decimales. |
 | `precio_unitario_base / precio_unitario_aplicado` | **`DECIMAL(10,2)`** | 8 enteros y 2 decimales: alcanza para millones de soles y evita el redondeo del FLOAT. |
 
 ---
 
-## 7. Que revisar antes de exportar
+## 8. Que revisar antes de exportar
 
-1. Que las 10 tablas tengan **PK** y que `DETALLE_VENTA`, `STOCK_ALMACEN` y `DETALLE_SUMINISTRO` muestren su **PK compuesta**.
-2. Que `PEDIDO` **no** tenga columna `igv` y que `DETALLE_VENTA` **no** tenga columna `total`.
-3. Que `PEDIDO` muestre `SUMINISTRO_id_suministro` (obligatoria), que `DETALLE_SUMINISTRO` muestre su PK de 4 campos (`suministro`, `producto`, `talla`, `color`) y que **`DETALLE_VENTA` no tenga ninguna columna de almacen**.
-4. Que ningun `VARCHAR2` quede en `255` y ningun importe quede en `NUMBER` sin precision.
-5. Guardar el proyecto y verificar que la carpeta `BD NIKE.Inc/` tenga los XML (si falta, el `.dmd` viaja incompleto).
-
----
-
-## 8. Como se lee el modelo logico en Barker (`MODELO_LOGICO.png`)
-
-El dibujo va ordenado igual que el MER:
-
-```
-CLIENTE -- PEDIDO -- DETALLE_VENTA -- PRODUCTO -- CATEGORIA
-              |
-           SUMINISTRO -- DETALLE_SUMINISTRO
-              |                  |
-            LOCAL            ALMACEN -- STOCK_ALMACEN
-```
-
-* **El `1` va del lado uno y la pata de gallo del lado muchos.** Se lee: *un CLIENTE hace muchos PEDIDOS*.
-* **`ALMACEN` aparece una sola vez en la zona baja**, unido a `SUMINISTRO` (a traves de la FK `ALMACEN_id_almacen`) y a `STOCK_ALMACEN` (por `ALMACEN_id_almacen` + `PRODUCTO_id_producto`).
-* **No hay ninguna linea entre `ALMACEN` y `DETALLE_VENTA`.**
-* Las relaciones son **obligatorias**: la casilla *Optional* del origen queda desmarcada y las FK son `NOT NULL`.
-* Las tres M:N del MER ya estan resueltas como tablas: `DETALLE_VENTA`, `STOCK_ALMACEN` y `DETALLE_SUMINISTRO`.
+1. Que el **logico** muestre solo las 7 entidades y sus 8 relaciones, sin tablas intermedias.
+2. Que cada relacion del logico tenga **verbo + `1` + `N`** y que el PNG se inserte a tamano completo.
+3. Que al generar el **relacional** aparezcan las **10 tablas** y las **11 FK**, con PK compuesta en `DETALLE_VENTA`, `STOCK_ALMACEN` y `DETALLE_SUMINISTRO`.
+4. Que `PEDIDO` **no** tenga columna `igv` y que `DETALLE_VENTA` **no** tenga columna `total` ni ninguna columna de almacen.
+5. Que ningun `VARCHAR2` quede en `255` y ningun importe quede en `NUMBER` sin precision.
+6. Guardar el proyecto y verificar que la carpeta `BD NIKE.Inc/` tenga los XML (si falta, el `.dmd` viaja incompleto).
 
 ---
 
 ## 9. Del logico al relacional y al fisico (lo haces tu, en este orden)
 
-1. **Logico** (esta guia): entidades con atributos, PK marcada y relaciones 1:N / M:N.
-2. **Relacional:** boton **Engineer to Relational Model** (`>>`) en Data Modeler. Aparecen las tablas con tipos, `P` / `F` / `PF`, y las restricciones `TABLA_PK` y `TABLA_PADRE_FK`. Revisa que no aparezca ninguna columna de almacen en `DETALLE_VENTA`.
-3. **Fisico:** genera el DDL desde el relacional y ejecutalo en SSMS. El modelo no necesita vistas ni columnas calculadas.
+1. **Logico** (esta guia): 7 entidades con atributos, PK marcada y 8 relaciones **configuradas** (las M:N como rombo con sus atributos).
+2. **Relacional:** boton **Engineer to Relational Model** (`>>`). Aparecen las 10 tablas con tipos, `P` / `F` / `PF` y las restricciones `TABLA_PK` y `TABLA_PADRE_FK`; ahi si se ven las intermedias.
+3. **Fisico:** genera el DDL desde el relacional y ejecutalo en SSMS. Antes de exportar, agrega lo que la capa fisica necesita y que el docente califico: **IDENTITY**, **DEFAULT**, **CHECK** y los **4 campos de auditoria** (ver GUIA 4).
+4. **Una lamina por modelo:** conceptual, logico, relacional y fisico van en diapositivas separadas, con la imagen a tamano completo.
 
 
 ---
@@ -432,7 +454,7 @@ CLIENTE -- PEDIDO -- DETALLE_VENTA -- PRODUCTO -- CATEGORIA
 
 ---
 
-**Archivos en `nivel_fisico/`:** `BD_NIKE_INC_SQL_SERVER.sql` y `BD_NIKE_INC_ORACLE.sql`
+**Archivos en `nivel_fisico/`:** `BD_NIKE_INC_SQL_SERVER.sql`, `BD_NIKE_INC_ORACLE.sql` y la lamina `MODELO_FISICO.png`
 
 ---
 
@@ -443,16 +465,89 @@ Es la construccion real de la base dentro del motor, usando el codigo generado d
 Al ejecutar **`BD_NIKE_INC_SQL_SERVER.sql`** en **SQL Server Management Studio (SSMS)**:
 
 1. Se crea la base **`BD_NIKE_INC_F`** (`CREATE DATABASE`).
-2. Se ejecutan **10 `CREATE TABLE`** con tipos fisicos exactos: `INTEGER`, `VARCHAR(n)`, `DECIMAL(10,2)` y `DATE`.
+2. Se ejecutan **10 `CREATE TABLE`** con tipos fisicos exactos: `INT`, `VARCHAR(n)`, `DECIMAL(10,2)` y `DATE`.
 3. Se ejecutan **10 `PRIMARY KEY`** (una por tabla) y **11 `FOREIGN KEY ... ON DELETE NO ACTION`**.
 4. **No se crea ninguna vista** y **no hay columnas calculadas**: el total de la linea se calcula en el `SELECT` cuando se necesita.
 5. **Ninguna tabla guarda valores calculados:** no hay columna `total` en `DETALLE_VENTA` ni `igv` en `PEDIDO`.
 
-El script de **Oracle** (`BD_NIKE_INC_ORACLE.sql`) hace lo mismo con `VARCHAR2(n)` y `NUMBER(10,2)`, y ademas deja los `DROP TABLE ... CASCADE CONSTRAINTS` al inicio para poder reejecutarlo sin borrar la base.
+El script de **Oracle** (`BD_NIKE_INC_ORACLE.sql`) hace lo mismo con `VARCHAR2(n)`, `NUMBER(10,2)` y `GENERATED BY DEFAULT ON NULL AS IDENTITY`, y deja los `DROP TABLE ... CASCADE CONSTRAINTS` al inicio para poder reejecutarlo.
 
 ---
 
-## 2. Como leer el diagrama fisico (lamina 11 de la presentacion)
+## 2. Lo que el docente pidio y donde esta resuelto
+
+La revision anterior decia: *"No se ven IDENTITY, DEFAULT, CHECK ni campos de auditoria."* En el script actual los cuatro ya estan:
+
+| Lo que pidio | Donde esta | Cuantos |
+| :--- | :--- | :--- |
+| **IDENTITY** | `id_...` de `CLIENTE`, `CATEGORIA`, `ALMACEN`, `LOCAL`, `PRODUCTO`, `PEDIDO` y `SUMINISTRO`: `INT IDENTITY(1,1)` | 7 columnas |
+| **DEFAULT** | estados, fechas, cantidad y stock que nacen con valor | 10 restricciones |
+| **CHECK** | cantidades, precios, los tres catalogos de estados, correo y telefono | 11 restricciones |
+| **Auditoria** | `usuario_creacion`, `fecha_creacion`, `usuario_modificacion`, `fecha_modificacion` en las 10 tablas | 40 columnas |
+
+### 2.1 IDENTITY
+
+Solo en las **claves primarias simples**. Las tres tablas con clave compuesta (`DETALLE_VENTA`, `STOCK_ALMACEN`, `DETALLE_SUMINISTRO`) **no llevan IDENTITY**: sus columnas son claves foraneas, talla y color, y la numeracion no tendria sentido.
+
+```sql
+CREATE TABLE CLIENTE (
+    id_cliente          INT IDENTITY(1,1) NOT NULL,
+    ...
+    CONSTRAINT CLIENTE_PK PRIMARY KEY (id_cliente)
+);
+```
+
+En Oracle el equivalente es `NUMBER(10) GENERATED BY DEFAULT ON NULL AS IDENTITY`.
+
+### 2.2 DEFAULT (10)
+
+| Tabla | Columna | Valor por omision | Motivo |
+| :--- | :--- | :--- | :--- |
+| PEDIDO | fecha | `CAST(GETDATE() AS DATE)` | si no se envia, queda el dia de la venta |
+| PEDIDO | estado_envio | `'PENDIENTE'` | todo pedido nuevo nace pendiente |
+| PEDIDO | metodo_pago | `'Tarjeta de Credito'` | es el medio mas usado en la tienda online |
+| SUMINISTRO | fecha_suministro | `CAST(GETDATE() AS DATE)` | queda el dia del despacho |
+| SUMINISTRO | estado_despacho | `'PROGRAMADO'` | todo despacho nuevo nace programado |
+| PRODUCTO | estado | `'DISPONIBLE'` | todo modelo nuevo entra disponible |
+| DETALLE_VENTA | cantidad | `1` | una linea sin cantidad vale una unidad |
+| DETALLE_SUMINISTRO | cantidad | `1` | una linea sin cantidad vale una unidad |
+| STOCK_ALMACEN | stock_actual | `0` | arranca en cero |
+| STOCK_ALMACEN | stock_minimo | `0` | arranca en cero |
+
+### 2.3 CHECK (11)
+
+| Restriccion | Tabla | Condicion |
+| :--- | :--- | :--- |
+| CK_DETALLE_VENTA_CANTIDAD | DETALLE_VENTA | `cantidad > 0` |
+| CK_DETALLE_VENTA_PRECIO | DETALLE_VENTA | `precio_unitario_aplicado > 0` |
+| CK_DETALLE_SUMINISTRO_CANTIDAD | DETALLE_SUMINISTRO | `cantidad > 0` |
+| CK_PRODUCTO_PRECIO | PRODUCTO | `precio_unitario_base > 0` |
+| CK_PRODUCTO_ESTADO | PRODUCTO | `estado IN ('DISPONIBLE','AGOTADO','DESCONTINUADO')` |
+| CK_STOCK_ALMACEN_ACTUAL | STOCK_ALMACEN | `stock_actual >= 0` |
+| CK_STOCK_ALMACEN_MINIMO | STOCK_ALMACEN | `stock_minimo >= 0` |
+| CK_PEDIDO_ESTADO_ENVIO | PEDIDO | `estado_envio IN ('PENDIENTE','ENVIADO','ENTREGADO')` |
+| CK_SUMINISTRO_ESTADO_DESPACHO | SUMINISTRO | `estado_despacho IN ('PROGRAMADO','EN RUTA','ENTREGADO')` |
+| CK_CLIENTE_CORREO | CLIENTE | el correo tiene el formato `texto@texto.dominio` |
+| CK_CLIENTE_TELEFONO | CLIENTE | solo digitos, entre 6 y 15 caracteres |
+
+Los tres catalogos no son decorativos: `estado_envio` es el avance del **pedido al cliente** y `estado_despacho` el del **traslado del centro de distribucion al local**. Son procesos distintos y por eso no comparten lista.
+
+### 2.4 Campos de auditoria (4 columnas x 10 tablas)
+
+```sql
+usuario_creacion        VARCHAR(30) DEFAULT SYSTEM_USER NOT NULL,
+fecha_creacion          DATETIME    DEFAULT GETDATE()   NOT NULL,
+usuario_modificacion    VARCHAR(30),
+fecha_modificacion      DATETIME,
+```
+
+* `usuario_creacion` y `fecha_creacion` se llenan **solas** en el `INSERT`: no hay que escribirlas.
+* `usuario_modificacion` y `fecha_modificacion` nacen en **NULL** y las llena el proceso o *trigger* que actualiza la fila; asi se distingue una fila que nunca se toco.
+* En Oracle los equivalentes son `USER` y `SYSTIMESTAMP`.
+
+---
+
+## 3. Como leer la lamina del modelo fisico (`MODELO_FISICO.png`)
 
 En **Database Diagrams** de SSMS las 10 tablas aparecen conectadas:
 
@@ -461,56 +556,76 @@ En **Database Diagrams** de SSMS las 10 tablas aparecen conectadas:
   * `DETALLE_VENTA`: **4 llaves** (`PEDIDO_id_pedido`, `PRODUCTO_id_producto`, `talla_elegida`, `color_elegido`).
   * `STOCK_ALMACEN`: **4 llaves** (`talla`, `color`, `ALMACEN_id_almacen`, `PRODUCTO_id_producto`).
   * `DETALLE_SUMINISTRO`: **4 llaves** (`SUMINISTRO_id_suministro`, `PRODUCTO_id_producto`, `talla`, `color`).
-* **Lineas con llave e infinito (`∞`):** la punta con llave toca la tabla **padre** (lado 1) y la punta con `∞` toca la tabla **hija** (lado N). Entre `CLIENTE` (`1`) y `PEDIDO` (`N`) se lee: *"1 cliente puede tener muchos pedidos"*.
+* **Lineas con llave e infinito (`∞`):** la punta con llave toca la tabla **padre** (lado 1) y la punta con `∞` toca la tabla **hija** (lado N).
 * **Columnas marcadas `NULL`:** solo **3** en todo el modelo (ver GUIA 5). Las claves y las foraneas nunca lo permiten.
+* La fila de auditoria aparece **separada por una linea** al final de cada tabla, para que se note que no es parte del negocio.
 
 ---
 
-## 3. Diferencia entre los dos scripts
+## 4. Diferencia entre los dos scripts
 
 | Tema | SQL Server | Oracle |
 | :--- | :--- | :--- |
 | Texto | `VARCHAR(n)` | `VARCHAR2(n)` |
 | Importes | `DECIMAL(10,2)` | `NUMBER(10,2)` |
-| Enteros | `INTEGER` | `NUMBER(10)` / `INTEGER` |
+| Enteros | `INT` | `NUMBER(10)` |
 | Fechas | `DATE` | `DATE` |
-| Datos calculados | se calculan en el `SELECT` | se calculan en el `SELECT` |
+| Autonumerico | `INT IDENTITY(1,1)` | `GENERATED BY DEFAULT ON NULL AS IDENTITY` |
+| Fecha del dia | `CAST(GETDATE() AS DATE)` | `SYSDATE` |
+| Usuario de la sesion | `SYSTEM_USER` | `USER` |
+| Validacion de telefono y correo | `LIKE` / `LEN` | `REGEXP_LIKE` |
 | Lotes | `GO` entre bloques | `/` o `;` |
 
-Los dos scripts crean las **mismas 10 tablas**, las **mismas 12 relaciones** y la **misma vista**.
+Los dos scripts crean las **mismas 10 tablas**, las **mismas 11 relaciones**, los **mismos 10 DEFAULT**, los **mismos 11 CHECK** y las **mismas 40 columnas de auditoria**. Ninguno crea vistas.
 
 ---
 
-## 4. Pasos para ejecutar (SQL Server)
+## 5. Pasos para ejecutar (SQL Server)
 
 1. Abrir SSMS y conectarse con autenticacion de Windows.
 2. **File > Open > File** y elegir `BD_NIKE_INC_SQL_SERVER.sql`.
-3. Verificar que la base que se quiere crear no exista; si existe, ejecutar el `DROP` comentado al inicio.
-4. **Execute** (`F5`). El script esta separado por `GO`, asi que crea base, tablas, claves y vista en orden.
+3. El script ya trae `IF DB_ID('BD_NIKE_INC_F') IS NOT NULL DROP DATABASE ...`, asi que se puede reejecutar sin borrar nada a mano.
+4. **Execute** (`F5`). Esta separado por `GO`: crea la base, las tablas, las PK, los CHECK y las FK en orden.
 5. Actualizar el explorador de objetos: `BD_NIKE_INC_F > Tables` debe mostrar **10 tablas** (no hay vistas).
 6. Para ver el diagrama: clic derecho en **Database Diagrams > New Database Diagram**, agregar las 10 tablas y acomodarlas como en `MODELO_FISICO.png`.
 
 ---
 
-## 5. Consultas para comprobar que quedo bien
+## 6. Consultas para comprobar que quedo bien
 
 ```sql
--- 10 tablas
+-- 10 tablas y ninguna vista
 SELECT COUNT(*) AS tablas FROM sys.tables;
+SELECT COUNT(*) AS vistas FROM sys.views;          -- debe dar 0
 
 -- 11 claves foraneas
 SELECT COUNT(*) AS foraneas FROM sys.foreign_keys;
 
+-- columnas con IDENTITY (debe dar 7)
+SELECT t.name AS tabla, c.name AS columna
+FROM sys.columns c JOIN sys.tables t ON t.object_id = c.object_id
+WHERE c.is_identity = 1 ORDER BY t.name;
+
+-- restricciones CHECK (debe dar 11)
+SELECT name FROM sys.check_constraints ORDER BY name;
+
 -- columnas que admiten NULL (debe dar 3)
 SELECT t.name AS tabla, c.name AS columna
 FROM sys.columns c JOIN sys.tables t ON t.object_id = c.object_id
-WHERE c.is_nullable = 1 ORDER BY t.name, c.column_id;
+WHERE c.is_nullable = 1 AND c.name NOT LIKE '%modificacion'
+ORDER BY t.name, c.column_id;
 
 -- el total de la linea se calcula, no se guarda
 SELECT TOP 5 d.PEDIDO_id_pedido, d.PRODUCTO_id_producto,
        d.cantidad * d.precio_unitario_aplicado AS total_linea
 FROM DETALLE_VENTA d;
 ```
+
+---
+
+## 7. Que decir en la exposicion
+
+> *"El DDL mantiene las 10 tablas y las 11 claves foraneas del modelo relacional, y agrega lo propio del motor: `IDENTITY` en las claves simples para que el codigo se genere solo, `DEFAULT` para los estados y las fechas de arranque, once `CHECK` que impiden cantidades negativas, precios en cero, estados fuera de catalogo y telefonos o correos mal escritos, y cuatro campos de auditoria por tabla que registran quien inserto y quien modifico cada fila. Ninguna tabla guarda el total ni el IGV: se calculan en la consulta."*
 
 
 ---
@@ -713,12 +828,36 @@ Estos cambios no vienen de una observacion escrita, salieron al revisar el propi
 | :--- | :--- | :--- |
 | Rombo `DESPACHA` entre `ALMACEN` y `SUMINISTRO` | Rombo **`ABASTECE`** (el almacen abastece al suministro) | El nombre `DESPACHA` se confundia con el estado del pedido; `ABASTECE` describe el sentido real de la relacion. |
 | `PROVEE` marcada como opcional | `PROVEE` es **1:N obligatoria** (`PEDIDO.SUMINISTRO_id_suministro` es `NOT NULL`) | Todo pedido sale de un suministro; si la FK fuera opcional se perderia la trazabilidad del despacho. |
-| Elipse `Total (calculado)` en `CONTIENE` | **Eliminada** | Un atributo derivado no se dibuja como si fuera un dato guardado: el total se calcula en la vista. |
-| Elipse `IGV` en `PEDIDO` | **Eliminada** | El IGV es el 18 % del total del pedido, tambien calculado. |
+| `Total` e `IGV` | **Fuera del modelo, en los cuatro niveles** | Son calculos: se obtienen en la consulta y no deben existir como atributo. |
+| `Total` e `IGV` | **No existen en ningun nivel** | Son calculos: se obtienen multiplicando `cantidad` por `precio_unitario_aplicado` y aplicando el 18 %. |
 | Rombos M:N con flecha | `CONTIENE`, `ALMACENA` e `INCLUYE` **sin flecha** | La flecha solo tiene sentido en las 1:N, donde indica el lado "1". |
 | Flechas de las 1:N sin punta clara | La punta toca siempre la **entidad del lado 1** (`CLIENTE`, `CATEGORIA`, `LOCAL`, `ALMACEN`, `SUMINISTRO`) | Se lee en el sentido de la cardinalidad y no al reves. |
 | `INCLUYE` solo con `Cantidad` | `INCLUYE` con **`Talla` + `Color` + `Cantidad`**, los dos primeros en la clave | Un mismo producto puede viajar en varias tallas y colores dentro del mismo suministro. |
-| `CONTIENE` sin almacen visible | `CONTIENE` muestra **`ID_Almacen`** | Explica de donde salio el par vendido (lo pidio el docente en la 2FN). |
+| `CONTIENE` mostraba `ID_Almacen` | **`ALMACEN` solo se relaciona con `SUMINISTRO` y `PRODUCTO`** | El almacen de origen de la venta se sigue por `SUMINISTRO`; una FK de almacen en la linea duplicaba el dato. |
+| `ID_DETALLE` dentro de `CONTIENE` | **Fuera**; se subrayan talla y color | Un identificador propio convierte el rombo en entidad; la clave compuesta si pertenece a la relacion. |
+
+---
+
+## 8. Revision por niveles (MER 3/5, logico 2/5, relacional 3/4, fisico 3/6)
+
+Esta es la revision que el docente hizo sobre el **PDF anterior** y lo que se hizo en cada frente.
+
+| Nivel | Observacion | Como quedo |
+| :--- | :--- | :--- |
+| **MER** | `Total` (en CONTIENE) e `IGV` (en PEDIDO) son calculables | **Se quitaron del diagrama**: un calculo no es un atributo del modelo. El total se obtiene multiplicando `cantidad` por precio y el IGV es el 18 % de la suma, en la consulta. |
+| **MER** | `ID_DETALLE` no debe estar dentro de una relacion M:N porque la convierte en entidad | No hay ningun `ID_DETALLE`. **Lo que se subraya dentro del rombo es la clave compuesta** (talla y color), no un identificador propio. |
+| **MER** | SUMINISTRA solo tiene fecha y estado: no dice que productos ni cuantos se envian | El despacho se detalla en **`INCLUYE`** (`Talla`, `Color`, `Cantidad`) y en el relacional en **`DETALLE_SUMINISTRO`**. |
+| **MER** | Subrayen las PK, exporten en fondo blanco y con mayor resolucion, un modelo por diapositiva | PK subrayadas solo en entidades; PNG **4800 x 3540 px en fondo blanco**; conceptual, logico, relacional y fisico van en laminas separadas. |
+| **Logico** | Las relaciones no muestran nombre ni cardinalidad | `MODELO_LOGICO.png` escribe **el verbo sobre cada linea** y las etiquetas **`1` y `N`** en los extremos. |
+| **Logico** | En el logico solo se configura, no se visualizan las entidades intermedias | La lamina muestra **7 entidades y sus relaciones**; las tres M:N quedan configuradas y aparecen recien en `MODELO_RELACIONAL.png`. |
+| **Relacional** | `DETALLE_VENTA.total` contradice la 3FN | **No existe la columna**: se calcula `cantidad x precio_unitario_aplicado` en la consulta. La 3FN del Excel ya no muestra ningun calculo. |
+| **Relacional** | Faltan los ejemplos de normalizacion de 0FN a 3FN | El Excel tiene las cuatro hojas `0FN`, `1FN`, `2FN` y `3FN` con los mismos datos, y coinciden con los diagramas (10 tablas, 11 FK). |
+| **Fisico** | No se ven IDENTITY, DEFAULT, CHECK ni campos de auditoria | El DDL los trae: **7 `IDENTITY`**, **10 `DEFAULT`**, **11 `CHECK`** y **4 campos de auditoria en las 10 tablas** (ver GUIA 4). |
+| **Fisico** | Corrijan los apuntes anteriores y generen de vuelta el DDL | Los dos scripts (SQL Server y Oracle) se regeneraron completos desde el modelo corregido. |
+
+### Como se responde en la exposicion
+
+> *"Los cuatro modelos estan separados. En el conceptual no dibujamos ningun atributo calculado y subrayamos la clave compuesta dentro de los rombos de muchos a muchos, sin darles un identificador propio. En el logico solo configuramos las relaciones con su verbo y su cardinalidad, y las de muchos a muchos van como relacion con sus atributos, no como tabla intermedia. En el relacional esas relaciones ya se materializan en diez tablas con once claves foraneas, sin ninguna columna calculada. Y en el fisico agregamos `IDENTITY`, `DEFAULT`, `CHECK` y auditoria en todas las tablas."*
 
 
 ---

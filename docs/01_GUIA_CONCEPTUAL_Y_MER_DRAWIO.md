@@ -26,7 +26,7 @@ El disenio queda en **10 tablas**, **11 claves foraneas** y **3 columnas opciona
 * **`precio_unitario_base` vs `precio_unitario_aplicado`.** En `PRODUCTO` esta el precio de lista de hoy; en `DETALLE_VENTA` queda el precio del dia de la venta. Si Nike sube el precio, las boletas antiguas no cambian.
 * **`ALMACEN`, no `INVENTARIO`.** La entidad es el centro de distribucion; el inventario es el stock que guarda (`STOCK_ALMACEN`).
 * **Un solo metodo de pago por celda.** `PEDIDO.metodo_pago` guarda `Tarjeta de Credito`, `Tarjeta de Debito`, `Yape` o `Transferencia`. El pedido 9002 quedo con `Yape` (antes decia `Yape / Plin`, que son dos valores en una celda).
-* **Nada calculado se guarda.** Ni `Total` ni `IGV` aparecen en el modelo: el total de la linea se obtiene multiplicando `cantidad` por `precio_unitario_aplicado`, y el IGV es el 18 % de esa suma cuando la boleta lo necesite.
+* **Nada calculado se guarda ni se dibuja.** `Total` e `IGV` **no estan en el diagrama**: el total de la linea se obtiene multiplicando `cantidad` por `precio_unitario_aplicado` y el IGV es el 18 % de esa suma, siempre en la consulta. Si se dibujaran, aunque fuera punteados, quedarian como atributos del modelo y despues habria que justificar por que no se migran.
 
 ---
 
@@ -51,13 +51,15 @@ En `nivel_conceptual/` estan el archivo editable **`Diagrama MER (NIKE) - GRUPO 
 
 **3. Elipses = atributos.** Las claves van **subrayadas**: `ID_CLIENTE`, `ID_PEDIDO`, `ID_CATEGORIA`, `ID_PRODUCTO`, `ID_ALMACEN`, `ID_LOCAL` e **`ID_SUMINISTRO`** (atributo nuevo, porque la fecha ya no sirve como clave: podian salir dos despachos el mismo dia).
 
-En los rombos M:N las claves se marcan donde corresponde: `Talla_elegida` + `Color_elegido` en **CONTIENE** (junto con `Cantidad` y `Precio_unitario_aplicado`); `Talla` + `Color` en **ALMACENA** (con `Stock_actual` y `Stock_minimo`); `Talla` + `Color` en **INCLUYE** (con `Cantidad`).
+**En los rombos M:N se subrayan los atributos que forman la clave compuesta de la tabla intermedia.** `Talla_elegida` + `Color_elegido` en **CONTIENE** (junto a `Cantidad` y `Precio_unitario_aplicado`); `Talla` + `Color` en **INCLUYE** (junto a `Cantidad`); `Talla` + `Color` en **ALMACENA** (junto a `Stock_actual` y `Stock_minimo`).
+
+**Ojo con la diferencia:** una relacion M:N **no tiene clave propia** (no se escribe un `ID_DETALLE`, porque eso la convierte en entidad), pero **si tiene clave compuesta**: la forman las claves de las dos entidades mas los atributos que distinguen una ocurrencia de otra (talla y color). Eso es lo que queda subrayado en el rombo y lo que en el relacional aparece como PK de `DETALLE_VENTA`, `DETALLE_SUMINISTRO` y `STOCK_ALMACEN`.
 
 **4. Leyenda y convenciones del dibujo:**
 
 * rectangulo = entidad, rombo = relacion, elipse = atributo;
-* atributo **subrayado = PK**;
-* elipse **con borde punteado = atributo opcional** (`Telefono_secundario`);
+* atributo **subrayado = PK** en las entidades y **clave compuesta** en los rombos M:N;
+* elipse **con borde punteado = atributo que admite `NULL`**: `Telefono_secundario (opcional)`, `Descripcion (opcional)` y `Especificaciones (opcional)`;
 * `(1,N)` y `(M,N)` = cardinalidad escrita al lado del rombo;
 * la **flecha** de cada relacion 1:N apunta siempre a la entidad del lado **1**;
 * los rombos **M:N (CONTIENE, ALMACENA, INCLUYE) no llevan flecha**: se resuelven despues como tablas.
@@ -77,7 +79,7 @@ En los rombos M:N las claves se marcan donde corresponde: `Talla_elegida` + `Col
 
 **7. `CONTIENE` es binaria** entre `PEDIDO` y `PRODUCTO`: la linea vendida solo necesita la talla, el color, la cantidad y el precio aplicado.
 
-**8. Por que `Talla_elegida` y `Color_elegido` van subrayados en `CONTIENE`.** El stock se guarda por **talla y color** (`ALMACENA`). Si la venta solo dijera la talla, no se sabria de que fila de stock salio el par. Al poner los dos en la clave de la linea, la venta queda amarrada exactamente a una fila de `STOCK_ALMACEN`.
+**8. Por que en `CONTIENE` estan `Talla_elegida` y `Color_elegido` aunque no se subrayen.** El stock se guarda por **talla y color** (`ALMACENA`). Si la linea de venta solo dijera la talla, no se sabria de que fila de stock salio el par. Los dos quedan en el rombo como **datos de la relacion** y en el modelo relacional forman parte de la clave compuesta de `DETALLE_VENTA`. Lo que **no** existe es un `ID_DETALLE`: un atributo asi dentro de un rombo M:N lo convierte en entidad, y eso es lo que observo el docente. Lo que si hay es la **clave compuesta** del rombo (pedido + producto + talla + color), que es la que se subraya.
 
 **9. Nombre cambiado: `DESPACHA` ya no existe.** La relacion entre `ALMACEN` y `SUMINISTRO` se llama **`ABASTECE`** (el almacen abastece al suministro) y la que une `PEDIDO` con `SUMINISTRO` se llama **`PROVEE`** (el suministro provee al pedido). Antes estaba al reves y confundia al leer el diagrama.
 
@@ -93,7 +95,8 @@ En los rombos M:N las claves se marcan donde corresponde: `Talla_elegida` + `Col
 6. **Relaciones:** unir entidad y rombo con lineas rectas. En las 1:N activar la flecha solo en el extremo que toca la entidad del lado 1 (`Line > Arrows > Classic`). En `CONTIENE`, `ALMACENA` e `INCLUYE` dejar `Arrows = None`.
 7. **Cardinalidades:** agregar una caja de texto al lado de cada rombo con `(1,N)` o `(M,N)` (`Text` en la paleta).
 8. **Titulo:** caja de texto "Diagrama M.E.R - NIKE. Inc" en 30 pt negrita y debajo "Ventas y Almacenes" en 20 pt.
-9. **Exportar:** `File > Export as > PNG`, con **fondo blanco** y zoom alto (2x o 3x) para que se lea al proyectar; reemplazar el `.png` de `nivel_conceptual/`.
+9. **Exportar:** `File > Export as > PNG`, con **fondo blanco activado** (`Background: white`) y **zoom 300 %** para que el texto se lea al proyectar; reemplazar el `.png` de `nivel_conceptual/`. La imagen que se entrega mide **4800 x 3540 px**, en fondo blanco.
+10. **Una diapositiva por modelo:** conceptual, logico, relacional y fisico van cada uno en su propia lamina, con la imagen a tamano completo (nunca dos modelos en la misma diapositiva ni la imagen reducida).
 
 ### Misma idea en Lucidchart
 
@@ -125,11 +128,13 @@ El detalle completo, columna por columna, esta en la **GUIA 5**.
 ## 6. Correcciones del docente que se ven en el MER
 
 * **`SUMINISTRO` es entidad** con su propio `ID_SUMINISTRO` (antes todo el despacho era una sola relacion con fecha).
-* **`INCLUYE`** aparece para poder llevar varios productos en un mismo despacho, cada uno con su `Cantidad`, `Talla` y `Color`.
+* **`INCLUYE`** responde a la observacion de que `SUMINISTRO` solo tenia fecha y estado: ahora el despacho **dice que productos lleva, en que talla y color y cuantas unidades**, cada uno con su `Cantidad`, `Talla` y `Color`. Ese es su objetivo de distribucion.
 * **`PROVEE`** une el pedido con el suministro que lo abastecio (de ahi sale `PEDIDO.SUMINISTRO_id_suministro`, **obligatorio**).
 * **`ABASTECE`** une el almacen con el suministro que despacha (de ahi sale `SUMINISTRO.ALMACEN_id_almacen`).
 * Los **colores** del stock son `Negro`, `Blanco` y `Azul Marino`, los mismos de la tabla general.
 * `DETALLE_VENTA` lleva **`Color_elegido`** ademas de `Talla_elegida`.
-* **No hay `Total` ni `IGV`** en el diagrama, y **la venta no guarda el almacen**: son datos calculados o redundantes.
+* **`Total` e `IGV` no estan** en el diagrama: son calculos y se obtienen en la consulta.
+* **No existe `ID_DETALLE`** dentro de `CONTIENE`: lo subrayado son los atributos de la clave compuesta (talla y color).
+* **La venta no guarda el almacen**: esa informacion vive en `SUMINISTRO` y en `STOCK_ALMACEN`.
 
 El listado completo de las 11 observaciones y donde se aplico cada una esta en la **GUIA 6**.

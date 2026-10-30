@@ -112,9 +112,33 @@ Estos cambios no vienen de una observacion escrita, salieron al revisar el propi
 | :--- | :--- | :--- |
 | Rombo `DESPACHA` entre `ALMACEN` y `SUMINISTRO` | Rombo **`ABASTECE`** (el almacen abastece al suministro) | El nombre `DESPACHA` se confundia con el estado del pedido; `ABASTECE` describe el sentido real de la relacion. |
 | `PROVEE` marcada como opcional | `PROVEE` es **1:N obligatoria** (`PEDIDO.SUMINISTRO_id_suministro` es `NOT NULL`) | Todo pedido sale de un suministro; si la FK fuera opcional se perderia la trazabilidad del despacho. |
-| Elipse `Total (calculado)` en `CONTIENE` | **Eliminada** | Un atributo derivado no se dibuja como si fuera un dato guardado: el total se calcula en la vista. |
-| Elipse `IGV` en `PEDIDO` | **Eliminada** | El IGV es el 18 % del total del pedido, tambien calculado. |
+| `Total` e `IGV` | **Fuera del modelo, en los cuatro niveles** | Son calculos: se obtienen en la consulta y no deben existir como atributo. |
+| `Total` e `IGV` | **No existen en ningun nivel** | Son calculos: se obtienen multiplicando `cantidad` por `precio_unitario_aplicado` y aplicando el 18 %. |
 | Rombos M:N con flecha | `CONTIENE`, `ALMACENA` e `INCLUYE` **sin flecha** | La flecha solo tiene sentido en las 1:N, donde indica el lado "1". |
 | Flechas de las 1:N sin punta clara | La punta toca siempre la **entidad del lado 1** (`CLIENTE`, `CATEGORIA`, `LOCAL`, `ALMACEN`, `SUMINISTRO`) | Se lee en el sentido de la cardinalidad y no al reves. |
 | `INCLUYE` solo con `Cantidad` | `INCLUYE` con **`Talla` + `Color` + `Cantidad`**, los dos primeros en la clave | Un mismo producto puede viajar en varias tallas y colores dentro del mismo suministro. |
-| `CONTIENE` sin almacen visible | `CONTIENE` muestra **`ID_Almacen`** | Explica de donde salio el par vendido (lo pidio el docente en la 2FN). |
+| `CONTIENE` mostraba `ID_Almacen` | **`ALMACEN` solo se relaciona con `SUMINISTRO` y `PRODUCTO`** | El almacen de origen de la venta se sigue por `SUMINISTRO`; una FK de almacen en la linea duplicaba el dato. |
+| `ID_DETALLE` dentro de `CONTIENE` | **Fuera**; se subrayan talla y color | Un identificador propio convierte el rombo en entidad; la clave compuesta si pertenece a la relacion. |
+
+---
+
+## 8. Revision por niveles (MER 3/5, logico 2/5, relacional 3/4, fisico 3/6)
+
+Esta es la revision que el docente hizo sobre el **PDF anterior** y lo que se hizo en cada frente.
+
+| Nivel | Observacion | Como quedo |
+| :--- | :--- | :--- |
+| **MER** | `Total` (en CONTIENE) e `IGV` (en PEDIDO) son calculables | **Se quitaron del diagrama**: un calculo no es un atributo del modelo. El total se obtiene multiplicando `cantidad` por precio y el IGV es el 18 % de la suma, en la consulta. |
+| **MER** | `ID_DETALLE` no debe estar dentro de una relacion M:N porque la convierte en entidad | No hay ningun `ID_DETALLE`. **Lo que se subraya dentro del rombo es la clave compuesta** (talla y color), no un identificador propio. |
+| **MER** | SUMINISTRA solo tiene fecha y estado: no dice que productos ni cuantos se envian | El despacho se detalla en **`INCLUYE`** (`Talla`, `Color`, `Cantidad`) y en el relacional en **`DETALLE_SUMINISTRO`**. |
+| **MER** | Subrayen las PK, exporten en fondo blanco y con mayor resolucion, un modelo por diapositiva | PK subrayadas solo en entidades; PNG **4800 x 3540 px en fondo blanco**; conceptual, logico, relacional y fisico van en laminas separadas. |
+| **Logico** | Las relaciones no muestran nombre ni cardinalidad | `MODELO_LOGICO.png` escribe **el verbo sobre cada linea** y las etiquetas **`1` y `N`** en los extremos. |
+| **Logico** | En el logico solo se configura, no se visualizan las entidades intermedias | La lamina muestra **7 entidades y sus relaciones**; las tres M:N quedan configuradas y aparecen recien en `MODELO_RELACIONAL.png`. |
+| **Relacional** | `DETALLE_VENTA.total` contradice la 3FN | **No existe la columna**: se calcula `cantidad x precio_unitario_aplicado` en la consulta. La 3FN del Excel ya no muestra ningun calculo. |
+| **Relacional** | Faltan los ejemplos de normalizacion de 0FN a 3FN | El Excel tiene las cuatro hojas `0FN`, `1FN`, `2FN` y `3FN` con los mismos datos, y coinciden con los diagramas (10 tablas, 11 FK). |
+| **Fisico** | No se ven IDENTITY, DEFAULT, CHECK ni campos de auditoria | El DDL los trae: **7 `IDENTITY`**, **10 `DEFAULT`**, **11 `CHECK`** y **4 campos de auditoria en las 10 tablas** (ver GUIA 4). |
+| **Fisico** | Corrijan los apuntes anteriores y generen de vuelta el DDL | Los dos scripts (SQL Server y Oracle) se regeneraron completos desde el modelo corregido. |
+
+### Como se responde en la exposicion
+
+> *"Los cuatro modelos estan separados. En el conceptual no dibujamos ningun atributo calculado y subrayamos la clave compuesta dentro de los rombos de muchos a muchos, sin darles un identificador propio. En el logico solo configuramos las relaciones con su verbo y su cardinalidad, y las de muchos a muchos van como relacion con sus atributos, no como tabla intermedia. En el relacional esas relaciones ya se materializan en diez tablas con once claves foraneas, sin ninguna columna calculada. Y en el fisico agregamos `IDENTITY`, `DEFAULT`, `CHECK` y auditoria en todas las tablas."*
