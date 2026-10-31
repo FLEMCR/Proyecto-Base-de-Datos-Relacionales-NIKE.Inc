@@ -1,7 +1,0 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<SchemaObject class="oracle.dbtools.crest.model.design.relational.SchemaObject" name="NIKE_INC" directorySegmentName="seg_0" id="A6A958B1-03E0-55F4-8A4A-4DB35FD79D05">
-  <createdBy>Luis Coloma Rojas</createdBy>
-  <createdTime>2026-10-06 18:15:22 UTC</createdTime>
-  <ownerDesignName>BD NIKE.Inc</ownerDesignName>
-  <ordsAlias>nike_inc</ordsAlias>
-</SchemaObject>
