@@ -1,5 +1,5 @@
 -- Generado por Oracle SQL Developer Data Modeler 24.3.1.351.0831
---   en:        2026-10-27 22:33:21 PET
+--   en:        2026-10-30 21:27:43 PET
 --   sitio:      SQL Server 2012
 --   tipo:      SQL Server 2012
 
@@ -102,7 +102,6 @@ CREATE TABLE PEDIDO
      id_pedido INTEGER NOT NULL , 
      fecha DATE NOT NULL , 
      metodo_pago VARCHAR (30) NOT NULL , 
-     estado_envio VARCHAR (20) NOT NULL , 
      SUMINISTRO_id_suministro INTEGER NOT NULL , 
      CLIENTE_id_cliente INTEGER NOT NULL 
     )

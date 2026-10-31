@@ -52,33 +52,6 @@
 <dataTypeSize>30</dataTypeSize>
 <ownDataTypeParameters>30,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="estado_envio" id="9EFE062E-0FCB-53FF-BDC7-878531061680">
-<createdBy>Luis Coloma Rojas</createdBy>
-<createdTime>2026-10-06 18:15:22 UTC</createdTime>
-<ownerDesignName>BD NIKE.Inc</ownerDesignName>
-<engineerTo>
-<item key="FBA0C056-A919-665A-7428-005AAA097968" value="true"/>
-</engineerTo>
-<useDomainConstraints>false</useDomainConstraints>
-<use>1</use>
-<logicalDatatype>LOGDT024</logicalDatatype>
-<dataTypeSize>20</dataTypeSize>
-<ownDataTypeParameters>20,,</ownDataTypeParameters>
-</Attribute>
-<Attribute name="id_suministro" id="90002816-FFCD-8868-6C01-5272DC59EEDE">
-<createdBy>luisW</createdBy>
-<createdTime>2026-10-28 02:45:05 UTC</createdTime>
-<generatorID>22D825BC-20CC-5F0F-8C1C-445D73D47A7F</generatorID>
-<ownerDesignName>BD NIKE.Inc</ownerDesignName>
-<engineerTo>
-<item key="FBA0C056-A919-665A-7428-005AAA097968" value="true"/>
-</engineerTo>
-<referedAttribute>E952D3C8-B1E3-560D-A821-23D9F3C8253A</referedAttribute>
-<useDomainConstraints>false</useDomainConstraints>
-<use>1</use>
-<logicalDatatype>LOGDT011</logicalDatatype>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
 <Attribute name="id_cliente" id="8FF44461-0DF7-1565-1423-E66512F966FF">
 <createdBy>luisW</createdBy>
 <createdTime>2026-10-28 02:45:05 UTC</createdTime>
@@ -88,6 +61,20 @@
 <item key="FBA0C056-A919-665A-7428-005AAA097968" value="true"/>
 </engineerTo>
 <referedAttribute>7F9BE716-6B29-5577-9FB9-28FBB07A8A36</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id_suministro" id="D0E304BB-7AB0-3C85-C0E1-E2DE32588A03">
+<createdBy>luisW</createdBy>
+<createdTime>2026-10-31 02:25:14 UTC</createdTime>
+<generatorID>22D825BC-20CC-5F0F-8C1C-445D73D47A7F</generatorID>
+<ownerDesignName>BD NIKE.Inc</ownerDesignName>
+<engineerTo>
+<item key="FBA0C056-A919-665A-7428-005AAA097968" value="true"/>
+</engineerTo>
+<referedAttribute>E952D3C8-B1E3-560D-A821-23D9F3C8253A</referedAttribute>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT011</logicalDatatype>

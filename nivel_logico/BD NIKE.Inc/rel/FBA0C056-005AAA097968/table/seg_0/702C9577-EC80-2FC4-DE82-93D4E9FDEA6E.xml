@@ -43,18 +43,6 @@
 <ownDataTypeParameters>30,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
-<Column name="estado_envio" id="2FF0271B-55A6-EBA2-8A20-0E0A1CC9261C">
-<createdBy>luisW</createdBy>
-<createdTime>2026-10-28 03:21:13 UTC</createdTime>
-<generatorID>9EFE062E-0FCB-53FF-BDC7-878531061680</generatorID>
-<ownerDesignName>BD NIKE.Inc</ownerDesignName>
-<useDomainConstraints>false</useDomainConstraints>
-<use>1</use>
-<logicalDatatype>LOGDT024</logicalDatatype>
-<dataTypeSize>20</dataTypeSize>
-<ownDataTypeParameters>20,,</ownDataTypeParameters>
-<autoIncrementCycle>false</autoIncrementCycle>
-</Column>
 <Column name="SUMINISTRO_id_suministro" id="10E21F0C-6FAC-8F9A-540F-6B0A4870BB05">
 <createdBy>luisW</createdBy>
 <createdTime>2026-10-28 03:21:13 UTC</createdTime>
