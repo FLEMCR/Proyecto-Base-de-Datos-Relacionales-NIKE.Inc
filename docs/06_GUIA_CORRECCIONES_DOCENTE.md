@@ -24,7 +24,7 @@ El docente reviso el Excel de normalizacion y dejo **11 observaciones escritas**
 | 8 | **2FN** | Se perdia que suministro corresponde a cada pedido | PEDIDO guarda SUMINISTRO_id_suministro, **obligatoria** (la relacion PROVEE no es opcional). | PEDIDO.SUMINISTRO_id_suministro |
 | 9 | **3FN** | total e igv se pueden calcular | Se **eliminaron las dos columnas**: el total de la linea y el igv del pedido se calculan cuando se consulta. | Ninguna tabla |
 | 10 | **3FN** | DETALLE_VENTA guardaba talla pero no color | Se agrego color_elegido, porque el stock se maneja por talla y color. | DETALLE_VENTA.color_elegido |
-| 11 | **3FN** | Estados contradictorios entre ENTREGADO y EN RUTA | Se definieron dos procesos distintos: estado_envio es del pedido al cliente y estado_despacho es del CD al local. | Hoja 5_Estados |
+| 11 | **3FN** | Estados contradictorios entre ENTREGADO y EN RUTA | Queda **un solo estado de proceso** (`estado_despacho` en `SUMINISTRO`); el estado del pedido se deduce de el y no se guarda. | PEDIDO y SUMINISTRO |
 
 ---
 
@@ -45,19 +45,17 @@ El docente reviso el Excel de normalizacion y dejo **11 observaciones escritas**
 
 ---
 
-## 3. Por que `estado_envio` y `estado_despacho` no se contradicen
+## 3. Por que el pedido ya no guarda su propio estado
 
-| Campo | Tabla | Para que sirve | Valores permitidos | Ejemplo |
-| :--- | :--- | :--- | :--- | :--- |
-| **`estado_envio`** | `PEDIDO` | Como va la entrega del pedido al cliente. | PENDIENTE, ENVIADO, ENTREGADO | Pedido 9002 = ENTREGADO: el cliente ya recibio su compra. |
-| **`estado_despacho`** | `SUMINISTRO` | Como va el traslado de mercaderia del CD al local. | PROGRAMADO, EN RUTA, ENTREGADO | Suministro 2 = EN RUTA: la carga sale del CD hacia el local. |
+En la revision final el docente observo que `estado_envio` se deducia del estado del suministro: **PENDIENTE = PROGRAMADO**, **ENVIADO = EN RUTA**, **ENTREGADO = ENTREGADO**. Es un dato derivado, asi que **se elimino de `PEDIDO`** en todos los niveles.
 
-**El ejemplo que pidio el docente:** en el pedido **9002** el `estado_envio` es **ENTREGADO** porque el cliente ya recibio su compra, y el `estado_despacho` del suministro que lo abastecio es **EN RUTA** porque esa carga todavia va del centro de distribucion al local. Son dos cadenas distintas:
+| Estado del pedido (deducido) | `SUMINISTRO.estado_despacho` | Que significa |
+| :--- | :--- | :--- |
+| PENDIENTE | PROGRAMADO | El despacho aun no sale del centro de distribucion. |
+| ENVIADO | EN RUTA | La mercaderia ya salio y va camino al local. |
+| ENTREGADO | ENTREGADO | El local recibio la mercaderia y el pedido quedo atendido. |
 
-1. **Pedido:** cliente compra -> pedido `PENDIENTE` -> sale del almacen `ENVIADO` -> llega al cliente `ENTREGADO`.
-2. **Suministro:** el CD programa el despacho `PROGRAMADO` -> sale `EN RUTA` -> llega al local `ENTREGADO`.
-
-Un pedido puede estar entregado con mercaderia que estaba en stock, mientras el siguiente despacho sigue en camino.
+Asi queda **un solo catalogo de estado de proceso** (`estado_despacho`: PROGRAMADO, EN RUTA, ENTREGADO) y no hay dos columnas que puedan contradecirse. `PRODUCTO.estado` es otra cosa: si el modelo esta disponible para la venta (DISPONIBLE, AGOTADO, DESCONTINUADO).
 
 ---
 
@@ -142,3 +140,18 @@ Esta es la revision que el docente hizo sobre el **PDF anterior** y lo que se hi
 ### Como se responde en la exposicion
 
 > *"Los cuatro modelos estan separados. En el conceptual no dibujamos ningun atributo calculado y subrayamos la clave compuesta dentro de los rombos de muchos a muchos, sin darles un identificador propio. En el logico solo configuramos las relaciones con su verbo y su cardinalidad, y las de muchos a muchos van como relacion con sus atributos, no como tabla intermedia. En el relacional esas relaciones ya se materializan en diez tablas con once claves foraneas, sin ninguna columna calculada. Y en el fisico agregamos `IDENTITY`, `DEFAULT`, `CHECK` y auditoria en todas las tablas."*
+
+---
+
+## 9. Ultima revision: 0FN, 1FN, 2FN y 3FN
+
+| Fase | Observacion | Como quedo |
+| :--- | :--- | :--- |
+| **0FN y 1FN** | Los productos y cantidades del suministro aparecen recien en 2FN | La tabla general ya trae `productos_suministrados` y `cantidades_suministradas` (20, 15, 25 y 40 unidades) y la 1FN los deja atomicos por fila, con producto, talla y color. La 2FN sale de ahi. |
+| **2FN** | Esta incompleta: faltan PRODUCTO (con su categoria), ALMACEN, LOCAL y STOCK_ALMACEN | La hoja 2FN tiene **8 tablas**: PEDIDO, DETALLE_VENTA, PRODUCTO (con los datos de su categoria), SUMINISTRO, DETALLE_SUMINISTRO, ALMACEN, LOCAL y STOCK_ALMACEN. Todo lo de la 1FN queda en alguna tabla. |
+| **3FN** | `estado_envio` se deduce del estado del suministro | Se **elimino la columna** de `PEDIDO` en el Excel, el MER, el logico, el relacional y el DDL. |
+| **3FN** | Dejen escrito que un pedido se atiende con un solo suministro (un almacen y un local) | Escrito en el MER, en el logico, en el relacional y en el fisico. En la base se cumple con `PEDIDO.SUMINISTRO_id_suministro`: una sola columna obligatoria. |
+
+### El PDF de entrega
+
+`ENTREGA_MODELOS_NIKE_GRUPO_5.pdf` (en la raiz de `proyecto_parcial/`) trae **12 paginas**: portada, la respuesta punto por punto a estas observaciones, la regla del suministro unico con la tabla de equivalencia de estados, un extracto del DDL, el **diccionario de datos** (paginas 5, 6 y 7) y **una lamina por modelo** (conceptual, logico, relacional y fisico), mas el cuadro de paso de un nivel al siguiente. El diccionario completo, con las seis hojas, va aparte en `DICCIONARIO_DE_DATOS.xlsx`.

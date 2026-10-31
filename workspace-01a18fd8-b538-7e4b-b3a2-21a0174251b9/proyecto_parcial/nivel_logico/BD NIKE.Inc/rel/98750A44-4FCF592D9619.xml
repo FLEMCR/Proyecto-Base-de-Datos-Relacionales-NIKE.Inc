@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<relationalModel class="oracle.dbtools.crest.model.design.relational.RelationalDesign" name="Relational_1" id="98750A44-901E-561D-98D8-4FCF592D9619" mainViewID="DAFF2CD4-7DD1-5A4B-A13D-86911E87A0AC">
+  <createdBy>Luis Coloma Rojas</createdBy>
+  <createdTime>2026-10-06 18:15:22 UTC</createdTime>
+  <ownerDesignName>BD NIKE.Inc</ownerDesignName>
+  <shouldBeOpen>true</shouldBeOpen>
+</relationalModel>

@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<BusinessInfoDesign class="oracle.dbtools.crest.model.businessinfo.BusinessInfoDesign" name="Business Information" id="281E83B0-2D1D-56DF-B477-C466209426F2">
+  <createdBy>Luis Coloma Rojas</createdBy>
+  <createdTime>2026-10-06 18:15:22 UTC</createdTime>
+  <ownerDesignName>BD NIKE.Inc</ownerDesignName>
+  <shouldBeOpen>false</shouldBeOpen>
+</BusinessInfoDesign>

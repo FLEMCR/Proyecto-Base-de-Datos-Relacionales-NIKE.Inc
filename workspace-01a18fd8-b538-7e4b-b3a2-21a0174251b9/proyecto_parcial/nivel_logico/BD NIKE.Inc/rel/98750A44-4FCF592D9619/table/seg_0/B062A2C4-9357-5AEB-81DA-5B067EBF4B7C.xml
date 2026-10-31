@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="B062A2C4-9357-5AEB-81DA-5B067EBF4B7C" schemaObject="A6A958B1-03E0-55F4-8A4A-4DB35FD79D05" name="LOCAL">
+  <createdBy>Luis Coloma Rojas</createdBy>
+  <createdTime>2026-10-06 18:15:22 UTC</createdTime>
+  <ownerDesignName>BD NIKE.Inc</ownerDesignName>
+  <generatorID>394EA182-4358-5DF6-ACC7-BF4F329DAB38</generatorID>
+  <allowColumnReorder>false</allowColumnReorder>
+  <existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+  <parsed>true</parsed>
+  <columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+    <Column name="id_local" id="C5CF8484-12D3-5452-BC58-8B895085AFD9">
+  <createdBy>Luis Coloma Rojas</createdBy>
+  <createdTime>2026-10-06 18:15:22 UTC</createdTime>
+  <ownerDesignName>BD NIKE.Inc</ownerDesignName>
+      <generatorID>C5CF8484-12D3-5452-BC58-8B895085AFD9</generatorID>
+      <useDomainConstraints>false</useDomainConstraints>
+      <use>1</use>
+      <logicalDatatype>LOGDT011</logicalDatatype>
+      <ownDataTypeParameters>,,</ownDataTypeParameters>
+      <autoIncrementCycle>false</autoIncrementCycle>
+    </Column>
+    <Column name="nombre_local" id="DBE4E2AA-88C9-54A8-A7EA-A4C386E639DF">
+  <createdBy>Luis Coloma Rojas</createdBy>
+  <createdTime>2026-10-06 18:15:22 UTC</createdTime>
+  <ownerDesignName>BD NIKE.Inc</ownerDesignName>
+      <generatorID>DBE4E2AA-88C9-54A8-A7EA-A4C386E639DF</generatorID>
+      <useDomainConstraints>false</useDomainConstraints>
+      <use>1</use>
+      <logicalDatatype>LOGDT024</logicalDatatype>
+      <ownDataTypeParameters>50,,</ownDataTypeParameters>
+    <dataTypeSize>50</dataTypeSize>
+      <autoIncrementCycle>false</autoIncrementCycle>
+    </Column>
+    <Column name="direccion_local" id="028BD22B-2A4D-52CE-8A63-D5C4B6A7BBF3">
+  <createdBy>Luis Coloma Rojas</createdBy>
+  <createdTime>2026-10-06 18:15:22 UTC</createdTime>
+  <ownerDesignName>BD NIKE.Inc</ownerDesignName>
+      <generatorID>028BD22B-2A4D-52CE-8A63-D5C4B6A7BBF3</generatorID>
+      <useDomainConstraints>false</useDomainConstraints>
+      <use>1</use>
+      <logicalDatatype>LOGDT024</logicalDatatype>
+      <ownDataTypeParameters>150,,</ownDataTypeParameters>
+    <dataTypeSize>150</dataTypeSize>
+      <autoIncrementCycle>false</autoIncrementCycle>
+    </Column>
+  </columns>
+  <indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+    <ind_PK_UK id="FB2ACBC5-1165-5EDF-A178-4CD0811D58A3" name="LOCAL_PK">
+  <createdBy>Luis Coloma Rojas</createdBy>
+  <createdTime>2026-10-06 18:15:22 UTC</createdTime>
+  <ownerDesignName>BD NIKE.Inc</ownerDesignName>
+      <generatorID>C5CF8484-12D3-5452-BC58-8B895085AFD9</generatorID>
+      <pk>true</pk>
+      <indexState>Primary Constraint</indexState>
+      <isSurrogateKey>false</isSurrogateKey>
+      <indexColumnUsage>
+        <colUsage columnID="C5CF8484-12D3-5452-BC58-8B895085AFD9" />
+      </indexColumnUsage>
+    </ind_PK_UK>
+  </indexes>
+</Table>

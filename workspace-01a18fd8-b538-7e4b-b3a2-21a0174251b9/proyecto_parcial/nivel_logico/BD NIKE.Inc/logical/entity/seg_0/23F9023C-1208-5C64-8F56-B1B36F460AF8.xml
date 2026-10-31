@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="23F9023C-1208-5C64-8F56-B1B36F460AF8" name="PEDIDO">
+  <createdBy>Luis Coloma Rojas</createdBy>
+  <createdTime>2026-10-06 18:15:22 UTC</createdTime>
+  <ownerDesignName>BD NIKE.Inc</ownerDesignName>
+  <engineerTo>
+    <item key="98750A44-4FCF592D9619" value="true" />
+  </engineerTo>
+  <adequatelyNormalized>YES</adequatelyNormalized>
+  <expectedVolumes>0</expectedVolumes>
+  <fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+  <growthPercent>0</growthPercent>
+  <growthType>Year</growthType>
+  <maxVolumes>9999999</maxVolumes>
+  <minVolumes>0</minVolumes>
+  <normalForm>Third</normalForm>
+  <attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+    <Attribute name="id_pedido" id="28013F84-DD95-5F71-9AED-A314FF676396">
+  <createdBy>Luis Coloma Rojas</createdBy>
+  <createdTime>2026-10-06 18:15:22 UTC</createdTime>
+  <ownerDesignName>BD NIKE.Inc</ownerDesignName>
+      <useDomainConstraints>false</useDomainConstraints>
+      <use>1</use>
+      <logicalDatatype>LOGDT011</logicalDatatype>
+      <ownDataTypeParameters>,,</ownDataTypeParameters>
+    </Attribute>
+    <Attribute name="fecha" id="1415FCE6-B2FA-5072-AB10-2AF36B9CF184">
+  <createdBy>Luis Coloma Rojas</createdBy>
+  <createdTime>2026-10-06 18:15:22 UTC</createdTime>
+  <ownerDesignName>BD NIKE.Inc</ownerDesignName>
+      <useDomainConstraints>false</useDomainConstraints>
+      <use>1</use>
+      <logicalDatatype>LOGDT007</logicalDatatype>
+      <ownDataTypeParameters>,,</ownDataTypeParameters>
+    </Attribute>
+    <Attribute name="metodo_pago" id="B3432ED6-9823-50B2-B5FA-E3BBAF374097">
+  <createdBy>Luis Coloma Rojas</createdBy>
+  <createdTime>2026-10-06 18:15:22 UTC</createdTime>
+  <ownerDesignName>BD NIKE.Inc</ownerDesignName>
+      <useDomainConstraints>false</useDomainConstraints>
+      <use>1</use>
+      <logicalDatatype>LOGDT024</logicalDatatype>
+      <ownDataTypeParameters>30,,</ownDataTypeParameters>
+    <dataTypeSize>30</dataTypeSize>
+    </Attribute>
+    <Attribute name="CLIENTE_id_cliente" id="A3FE4D8A-BC4E-54F8-9262-0862B101999B">
+  <createdBy>Luis Coloma Rojas</createdBy>
+  <createdTime>2026-10-06 18:15:22 UTC</createdTime>
+  <ownerDesignName>BD NIKE.Inc</ownerDesignName>
+      <useDomainConstraints>false</useDomainConstraints>
+      <use>1</use>
+      <logicalDatatype>LOGDT011</logicalDatatype>
+      <ownDataTypeParameters>,,</ownDataTypeParameters>
+    </Attribute>
+    <Attribute name="SUMINISTRO_id_suministro" id="F11475A4-0EA5-5612-BC90-A15E4183B075">
+  <createdBy>Luis Coloma Rojas</createdBy>
+  <createdTime>2026-10-06 18:15:22 UTC</createdTime>
+  <ownerDesignName>BD NIKE.Inc</ownerDesignName>
+      <useDomainConstraints>false</useDomainConstraints>
+      <use>1</use>
+      <logicalDatatype>LOGDT011</logicalDatatype>
+      <ownDataTypeParameters>,,</ownDataTypeParameters>
+      <isOptional>true</isOptional>
+    </Attribute>
+  </attributes>
+  <identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+    <identifier id="F0F00013-681F-5CC8-A207-8469BD97F7A1" name="PEDIDO_PK">
+  <createdBy>Luis Coloma Rojas</createdBy>
+  <createdTime>2026-10-06 18:15:22 UTC</createdTime>
+  <ownerDesignName>BD NIKE.Inc</ownerDesignName>
+      <pk>true</pk>
+      <usedAttributes>
+        <attributeRef>28013F84-DD95-5F71-9AED-A314FF676396</attributeRef>
+      </usedAttributes>
+    </identifier>
+  </identifiers>
+</Entity>

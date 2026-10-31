@@ -7,8 +7,8 @@
 
 ---
 
-Esta guia reune las seis guias del proyecto en un solo documento. Cada una tambien esta
-como archivo suelto en esta misma carpeta (`01_...md` a `06_...md`).
+Esta guia reune las **siete** guias del proyecto en un solo documento. Cada una tambien esta
+como archivo suelto en esta misma carpeta (`01_...md` a `07_...md`).
 
 | Guia | Tema |
 | :--- | :--- |
@@ -17,15 +17,11 @@ como archivo suelto en esta misma carpeta (`01_...md` a `06_...md`).
 | 3 | Modelo logico y relacional en Oracle Data Modeler (Barker) |
 | 4 | Modelo fisico en SQL Server (SSMS) con IDENTITY, DEFAULT, CHECK y auditoria |
 | 5 | Longitudes justas y columnas opcionales |
-| 6 | Correcciones del docente aplicadas (incluye la revision por niveles) |
+| 6 | Correcciones del docente aplicadas en las tres revisiones |
+| 7 | Diccionario de datos y cierre de la entrega |
 
 ---
 
-**Grupo 5:** Daniel Asmat | Salomon Fernandez | Luis Coloma | Pablo Rios  
-**Curso:** Disenio de Bases de Datos Relacionales - IDAT  
-**Docente:** Sergio Fernando Castillo Carrion
-
----
 
 ## 1. De que trata el proyecto
 
@@ -132,12 +128,12 @@ En `nivel_conceptual/` estan el archivo editable **`Diagrama MER (NIKE) - GRUPO 
 | Campo | Tipo definitivo | Por que esa medida |
 | :--- | :---: | :--- |
 | `telefono / telefono_secundario` | **`VARCHAR(15)`** | 9 digitos en Peru; 15 es el tope internacional (E.164) para un cliente extranjero que compra en el pais. |
-| `correo_e` | **`VARCHAR(80)`** | un correo real mide entre 25 y 45 caracteres; 80 deja margen sin reservar 255. |
+| `correo_electronico` | **`VARCHAR(80)`** | un correo real mide entre 25 y 45 caracteres; 80 deja margen sin reservar 255. |
 | `nombre / nombre de producto` | **`VARCHAR(80)`** | entran nombres completos y nombres comerciales largos. |
 | `direccion / direccion_local` | **`VARCHAR(150)`** | una direccion peruana con referencia y distrito llega a 90-120 caracteres. |
 | `nombre_almacen / nombre_local / nombre de categoria` | **`VARCHAR(50)`** | son nombres cortos e institucionales. |
 | `metodo_pago` | **`VARCHAR(30)`** | 'Tarjeta de Credito', 'Yape' o 'Transferencia' no pasan de 20. |
-| `estado_envio / estado_despacho / estado` | **`VARCHAR(20)`** | listas cortas y controladas de cada proceso. |
+| `estado_despacho / estado` | **`VARCHAR(20)`** | listas cortas y controladas; el estado del envio no se guarda porque se deduce del despacho. |
 | `talla / talla_elegida y color / color_elegido` | **`VARCHAR(10) y VARCHAR(30)`** | talla guarda 42, 41 o M; color guarda Negro, Blanco o Azul Marino. |
 | `cantidad, stock_actual, stock_minimo` | **`INTEGER`** | son unidades enteras: no necesitan decimales. |
 | `precio_unitario_base / precio_unitario_aplicado` | **`DECIMAL(10,2)`** | 8 enteros y 2 decimales: alcanza para millones de soles y evita el redondeo del FLOAT. |
@@ -159,7 +155,6 @@ El detalle completo, columna por columna, esta en la **GUIA 5**.
 * **La venta no guarda el almacen**: esa informacion vive en `SUMINISTRO` y en `STOCK_ALMACEN`.
 
 El listado completo de las 11 observaciones y donde se aplico cada una esta en la **GUIA 6**.
-
 
 ---
 
@@ -223,7 +218,7 @@ Se abre **una fila por cada linea vendida** y se separan telefonos, productos, c
 
 1. **`PEDIDO`** — cabecera. Los datos del cliente **se quedan aqui** (sacarlos es trabajo de la 3FN). Tambien guarda **`SUMINISTRO_id_suministro`**.
 2. **`DETALLE_VENTA`** — PK compuesta `id_pedido` + `id_producto` + `talla_elegida` + `color_elegido`, con `cantidad` y `precio_unitario_aplicado`.
-3. **`SUMINISTRO`** — cabecera del despacho: `id_suministro`, `fecha_suministro`, `estado_despacho`, `ALMACEN_id_almacen` y `LOCAL_id_local`.
+3. **`SUMINISTRO`** — cabecera del despacho: `id_suministro`, `fecha_suministro`, `estado_despacho`, `ALMACEN_id_almacen` y `LOCAL_id_local`. Los productos y las cantidades que lleva el camion estan en `DETALLE_SUMINISTRO`, y **esos datos ya vienen desde la tabla general (0FN)** en las columnas `productos_suministrados` y `cantidades_suministradas`.
 4. **`DETALLE_SUMINISTRO`** — PK `id_suministro` + `id_producto` + `talla` + `color`, mas `cantidad`.
 
 **Problema que aun queda:** dependencias transitivas (el nombre del cliente depende de `id_cliente`, el nombre de la categoria depende de `id_categoria`).
@@ -279,6 +274,30 @@ Se abre **una fila por cada linea vendida** y se separan telefonos, productos, c
 * [ ] La 3FN tiene exactamente **10 tablas**, cada una con su banda `TABLA : ...` y **sin** columnas `total` ni `igv`.
 * [ ] Las cabeceras son azul oscuro y las celdas de PK/FK crema.
 
+---
+
+## Fases del Excel, hoja por hoja
+
+| Hoja | Que contiene | De donde sale |
+| :--- | :--- | :--- |
+| **0FN** | La tabla general: los 3 pedidos con todo mezclado, incluidos los **productos suministrados**, las **cantidades suministradas**, el almacen, el stock, el local y el estado del despacho. | Es la tabla de partida del negocio. |
+| **1FN** | La misma informacion con **un solo valor por celda**: una fila por cada linea vendida y por cada linea suministrada. | De la 0FN, separando las listas. |
+| **2FN** | **8 tablas**: `PEDIDO`, `DETALLE_VENTA`, `PRODUCTO` (con los datos de su categoria), `SUMINISTRO`, `DETALLE_SUMINISTRO`, `ALMACEN`, `LOCAL` y `STOCK_ALMACEN`. | De la 1FN, separando por dependencia funcional. |
+| **3FN** | **10 tablas**: se separan `CLIENTE` (de `PEDIDO`) y `CATEGORIA` (de `PRODUCTO`). | De la 2FN, quitando las dependencias transitivas. |
+
+**Nada se inventa entre fases:** los productos y las cantidades del suministro ya estan en la 0FN, la 1FN los deja atomicos y la 2FN los reparte en `SUMINISTRO` (cabecera) y `DETALLE_SUMINISTRO` (detalle). Todo dato de la 1FN queda en alguna tabla de la 2FN.
+
+### Que cambio en la 3FN
+
+* **`PEDIDO` ya no tiene `estado_envio`.** Ese estado se deduce del `estado_despacho` del suministro que atiende el pedido:
+
+| Estado del pedido (deducido) | `estado_despacho` | Que significa |
+| :--- | :--- | :--- |
+| PENDIENTE | PROGRAMADO | El despacho aun no sale del centro de distribucion. |
+| ENVIADO | EN RUTA | La mercaderia ya salio y va camino al local. |
+| ENTREGADO | ENTREGADO | El local recibio la mercaderia y el pedido quedo atendido. |
+
+* **Un pedido se atiende con un solo suministro**: `PEDIDO.SUMINISTRO_id_suministro` es obligatoria y unica, y como cada suministro tiene un almacen y un local, el pedido queda ligado a **un almacen y un local** sin repetir esos datos.
 
 ---
 
@@ -320,7 +339,7 @@ Eso significa que en la lamina del **logico** se ven **7 entidades** (`CLIENTE`,
 | :--- | :--- | :--- |
 | REALIZA (1,N) | relacion `CLIENTE` → `PEDIDO` | FK `CLIENTE_id_cliente` en `PEDIDO` |
 | CLASIFICA (1,N) | relacion `CATEGORIA` → `PRODUCTO` | FK `CATEGORIA_id_categoria` en `PRODUCTO` |
-| PROVEE (1,N) | relacion `SUMINISTRO` → `PEDIDO` | FK `SUMINISTRO_id_suministro` en `PEDIDO` |
+| PROVEE (1,N) | relacion `SUMINISTRO` → `PEDIDO` | FK `SUMINISTRO_id_suministro` en `PEDIDO`, **obligatoria**: una sola columna, asi cada pedido se atiende con un solo suministro (un almacen y un local) |
 | ABASTECE (1,N) | relacion `ALMACEN` → `SUMINISTRO` | FK `ALMACEN_id_almacen` en `SUMINISTRO` |
 | RECIBE (1,N) | relacion `LOCAL` → `SUMINISTRO` | FK `LOCAL_id_local` en `SUMINISTRO` |
 | CONTIENE (M,N) | relacion M:N `PEDIDO` ↔ `PRODUCTO` | tabla **`DETALLE_VENTA`** (2 FK) |
@@ -415,12 +434,12 @@ Todo lo demas es `NOT NULL`; las claves y las foraneas **nunca** admiten `NULL`.
 | Campo | Tipo definitivo | Por que esa medida |
 | :--- | :---: | :--- |
 | `telefono / telefono_secundario` | **`VARCHAR(15)`** | 9 digitos en Peru; 15 es el tope internacional (E.164) para un cliente extranjero que compra en el pais. |
-| `correo_e` | **`VARCHAR(80)`** | un correo real mide entre 25 y 45 caracteres; 80 deja margen sin reservar 255. |
+| `correo_electronico` | **`VARCHAR(80)`** | un correo real mide entre 25 y 45 caracteres; 80 deja margen sin reservar 255. |
 | `nombre / nombre de producto` | **`VARCHAR(80)`** | entran nombres completos y nombres comerciales largos. |
 | `direccion / direccion_local / ubicacion` | **`VARCHAR(120)`** | una direccion peruana con referencia y distrito llega a 90-120 caracteres. |
 | `nombre_almacen / nombre_local / nombre de categoria` | **`VARCHAR(50)`** | son nombres cortos e institucionales. |
 | `metodo_pago` | **`VARCHAR(30)`** | 'Tarjeta de Credito', 'Yape' o 'Transferencia' no pasan de 20. |
-| `estado_envio / estado_despacho / estado` | **`VARCHAR(20)`** | listas cortas y controladas de cada proceso. |
+| `estado_despacho / estado` | **`VARCHAR(20)`** | listas cortas y controladas; el estado del envio no se guarda porque se deduce del despacho. |
 | `talla / talla_elegida y color / color_elegido` | **`VARCHAR(10)` y `VARCHAR(30)`** | talla guarda 42, 41 o M; color guarda Negro, Blanco o Azul Marino. |
 | `cantidad, stock_actual, stock_minimo` | **`INTEGER`** | son unidades enteras: no necesitan decimales. |
 | `precio_unitario_base / precio_unitario_aplicado` | **`DECIMAL(10,2)`** | 8 enteros y 2 decimales: alcanza para millones de soles y evita el redondeo del FLOAT. |
@@ -445,6 +464,52 @@ Todo lo demas es `NOT NULL`; las claves y las foraneas **nunca** admiten `NULL`.
 3. **Fisico:** genera el DDL desde el relacional y ejecutalo en SSMS. Antes de exportar, agrega lo que la capa fisica necesita y que el docente califico: **IDENTITY**, **DEFAULT**, **CHECK** y los **4 campos de auditoria** (ver GUIA 4).
 4. **Una lamina por modelo:** conceptual, logico, relacional y fisico van en diapositivas separadas, con la imagen a tamano completo.
 
+---
+
+## 10. Cardinalidad: donde se pone el `1` y donde el pie de gallo
+
+La regla que resuelve el 90% de las dudas en Data Modeler:
+
+> **Donde va la FK (la tabla hija) se dibuja el pie de gallo (N). Donde va la PK referenciada (la tabla padre) se dibuja la barra (1).**
+
+| Relacion | Padre (barra `1`) | Hijo (pie de gallo `N`) | FK que la sostiene |
+| :--- | :--- | :--- | :--- |
+| `REALIZA` | `CLIENTE` | `PEDIDO` | `PEDIDO.CLIENTE_id_cliente` |
+| `CLASIFICA` | `CATEGORIA` | `PRODUCTO` | `PRODUCTO.CATEGORIA_id_categoria` |
+| `PROVEE` | `SUMINISTRO` | `PEDIDO` | `PEDIDO.SUMINISTRO_id_suministro` |
+| `ABASTECE` | `ALMACEN` | `SUMINISTRO` | `SUMINISTRO.ALMACEN_id_almacen` |
+| `RECIBE` | `LOCAL` | `SUMINISTRO` | `SUMINISTRO.LOCAL_id_local` |
+| `CONTIENE` | `PEDIDO` | `PRODUCTO` | (M:N, se materializa en `DETALLE_VENTA`) |
+| `ALMACENA` | `PRODUCTO` | `ALMACEN` | (M:N, se materializa en `STOCK_ALMACEN`) |
+| `INCLUYE` | `SUMINISTRO` | `PRODUCTO` | (M:N, se materializa en `DETALLE_SUMINISTRO`) |
+
+### 10.1 El error tipico: el pie de gallo al reves en `PROVEE`
+
+Si en el logico el pie de gallo mira a `SUMINISTRO`, el modelo esta diciendo *"muchos suministros atienden un pedido"*, que no es el negocio. Debe quedar:
+
+* `SUMINISTRO` con la barra (`1`)
+* `PEDIDO` con el pie de gallo (`N`)
+* lectura: **un suministro atiende uno o muchos pedidos; cada pedido se atiende con un solo suministro.**
+
+Esa ultima frase se cumple con una sola columna obligatoria (`PEDIDO.SUMINISTRO_id_suministro NOT NULL`). **No** se escribe `(1,1)` junto al rombo ni se agrega un `UNIQUE`: el estilo del curso usa solo `1:N` y `M:N`, y un `UNIQUE` sobre esa columna convertiria la relacion en `1:1`, que no es lo que el docente pidio.
+
+### 10.2 Donde se cambia la cardinalidad (y donde no)
+
+| Cosa | Donde se edita | Como |
+| :--- | :--- | :--- |
+| Cardinalidad de la relacion | **Modelo logico**, doble clic en la linea de la relacion (`General > Cardinalidad`) | origen y destino: `1` o `N` |
+| Verbo de la relacion | **Modelo logico**, relacion (`General > Nombre`) | `REALIZA`, `PROVEE`, ... |
+| Nombre de la FK | **Modelo relacional**, propiedades de la columna FK | se deja `TABLA_PADRE_FK` |
+| `NOT NULL` de la FK | **Modelo relacional**, columna FK (`Obligatoria`) | activado = obligatoria |
+
+En el dialogo de **propiedades de la clave foranea** no se configura la cardinalidad: esa informacion la hereda del modelo logico y se deduce de donde se coloco la columna. Cambiarla ahi no es posible, y renombrar la FK para que diga `PROVEE` no aporta nada: el nombre de la relacion (`PROVEE`) y el de la restriccion (`PEDIDO_SUMINISTRO_FK`) son dos objetos distintos y no tienen que coincidir.
+
+### 10.3 Del logico al relacional sin romper lo que ya funciona
+
+* **Haz una copia del `.dmd`** antes de tocar el boton **Engineer to Relational Model** (`>>`).
+* Reingenierizar sobre un relacional que ya existe puede **duplicar** las tablas de las relaciones `M:N` (`DETALLE_VENTA`, `STOCK_ALMACEN`, `DETALLE_SUMINISTRO`).
+* Si solo hay que borrar una columna (`estado_envio`), **borrala a mano** en el relacional; no hace falta reingenierizar todo.
+* Lo que se genera en el relacional es el **esqueleto** del fisico: despues se agregan `IDENTITY`, `DEFAULT`, `CHECK` y auditoria (ver GUIA 4).
 
 ---
 
@@ -454,7 +519,7 @@ Todo lo demas es `NOT NULL`; las claves y las foraneas **nunca** admiten `NULL`.
 
 ---
 
-**Archivos en `nivel_fisico/`:** `BD_NIKE_INC_SQL_SERVER.sql`, `BD_NIKE_INC_ORACLE.sql` y la lamina `MODELO_FISICO.png`
+**Archivos en `nivel_fisico/`:** `MF_NIKE_INC_CORREGIDO.sql` (el que se ejecuta), `BD_NIKE_INC_SQL_SERVER.sql`, `BD_NIKE_INC_ORACLE.sql` y la lamina `MODELO_FISICO.png`
 
 ---
 
@@ -464,7 +529,7 @@ Es la construccion real de la base dentro del motor, usando el codigo generado d
 
 Al ejecutar **`BD_NIKE_INC_SQL_SERVER.sql`** en **SQL Server Management Studio (SSMS)**:
 
-1. Se crea la base **`BD_NIKE_INC_F`** (`CREATE DATABASE`).
+1. Se crea la base **`NIKE_INC_BD`** (`CREATE DATABASE`).
 2. Se ejecutan **10 `CREATE TABLE`** con tipos fisicos exactos: `INT`, `VARCHAR(n)`, `DECIMAL(10,2)` y `DATE`.
 3. Se ejecutan **10 `PRIMARY KEY`** (una por tabla) y **11 `FOREIGN KEY ... ON DELETE NO ACTION`**.
 4. **No se crea ninguna vista** y **no hay columnas calculadas**: el total de la linea se calcula en el `SELECT` cuando se necesita.
@@ -481,8 +546,8 @@ La revision anterior decia: *"No se ven IDENTITY, DEFAULT, CHECK ni campos de au
 | Lo que pidio | Donde esta | Cuantos |
 | :--- | :--- | :--- |
 | **IDENTITY** | `id_...` de `CLIENTE`, `CATEGORIA`, `ALMACEN`, `LOCAL`, `PRODUCTO`, `PEDIDO` y `SUMINISTRO`: `INT IDENTITY(1,1)` | 7 columnas |
-| **DEFAULT** | estados, fechas, cantidad y stock que nacen con valor | 10 restricciones |
-| **CHECK** | cantidades, precios, los tres catalogos de estados, correo y telefono | 11 restricciones |
+| **DEFAULT** | estados, fechas, cantidad y stock que nacen con valor | 9 de negocio |
+| **CHECK** | cantidades, precios, los catalogos de estados, correo y telefono | 10 restricciones |
 | **Auditoria** | `usuario_creacion`, `fecha_creacion`, `usuario_modificacion`, `fecha_modificacion` en las 10 tablas | 40 columnas |
 
 ### 2.1 IDENTITY
@@ -499,12 +564,11 @@ CREATE TABLE CLIENTE (
 
 En Oracle el equivalente es `NUMBER(10) GENERATED BY DEFAULT ON NULL AS IDENTITY`.
 
-### 2.2 DEFAULT (10)
+### 2.2 DEFAULT (9 de negocio + 20 de auditoria)
 
 | Tabla | Columna | Valor por omision | Motivo |
 | :--- | :--- | :--- | :--- |
 | PEDIDO | fecha | `CAST(GETDATE() AS DATE)` | si no se envia, queda el dia de la venta |
-| PEDIDO | estado_envio | `'PENDIENTE'` | todo pedido nuevo nace pendiente |
 | PEDIDO | metodo_pago | `'Tarjeta de Credito'` | es el medio mas usado en la tienda online |
 | SUMINISTRO | fecha_suministro | `CAST(GETDATE() AS DATE)` | queda el dia del despacho |
 | SUMINISTRO | estado_despacho | `'PROGRAMADO'` | todo despacho nuevo nace programado |
@@ -514,7 +578,7 @@ En Oracle el equivalente es `NUMBER(10) GENERATED BY DEFAULT ON NULL AS IDENTITY
 | STOCK_ALMACEN | stock_actual | `0` | arranca en cero |
 | STOCK_ALMACEN | stock_minimo | `0` | arranca en cero |
 
-### 2.3 CHECK (11)
+### 2.3 CHECK (10)
 
 | Restriccion | Tabla | Condicion |
 | :--- | :--- | :--- |
@@ -525,12 +589,11 @@ En Oracle el equivalente es `NUMBER(10) GENERATED BY DEFAULT ON NULL AS IDENTITY
 | CK_PRODUCTO_ESTADO | PRODUCTO | `estado IN ('DISPONIBLE','AGOTADO','DESCONTINUADO')` |
 | CK_STOCK_ALMACEN_ACTUAL | STOCK_ALMACEN | `stock_actual >= 0` |
 | CK_STOCK_ALMACEN_MINIMO | STOCK_ALMACEN | `stock_minimo >= 0` |
-| CK_PEDIDO_ESTADO_ENVIO | PEDIDO | `estado_envio IN ('PENDIENTE','ENVIADO','ENTREGADO')` |
-| CK_SUMINISTRO_ESTADO_DESPACHO | SUMINISTRO | `estado_despacho IN ('PROGRAMADO','EN RUTA','ENTREGADO')` |
+| CK_SUMINISTRO_ESTADO | SUMINISTRO | `estado_despacho IN ('PROGRAMADO','EN RUTA','ENTREGADO')` |
 | CK_CLIENTE_CORREO | CLIENTE | el correo tiene el formato `texto@texto.dominio` |
 | CK_CLIENTE_TELEFONO | CLIENTE | solo digitos, entre 6 y 15 caracteres |
 
-Los tres catalogos no son decorativos: `estado_envio` es el avance del **pedido al cliente** y `estado_despacho` el del **traslado del centro de distribucion al local**. Son procesos distintos y por eso no comparten lista.
+El unico catalogo de estado de proceso es `estado_despacho` (PROGRAMADO, EN RUTA, ENTREGADO), que describe el **traslado del centro de distribucion al local**. El estado del pedido **no se guarda**: se deduce de ese catalogo (PENDIENTE = PROGRAMADO, ENVIADO = EN RUTA, ENTREGADO = ENTREGADO). `estado` de `PRODUCTO` es otra cosa: si el modelo esta disponible para la venta.
 
 ### 2.4 Campos de auditoria (4 columnas x 10 tablas)
 
@@ -576,18 +639,60 @@ En **Database Diagrams** de SSMS las 10 tablas aparecen conectadas:
 | Validacion de telefono y correo | `LIKE` / `LEN` | `REGEXP_LIKE` |
 | Lotes | `GO` entre bloques | `/` o `;` |
 
-Los dos scripts crean las **mismas 10 tablas**, las **mismas 11 relaciones**, los **mismos 10 DEFAULT**, los **mismos 11 CHECK** y las **mismas 40 columnas de auditoria**. Ninguno crea vistas.
+Los dos scripts crean las **mismas 10 tablas**, las **mismas 11 relaciones**, los **mismos 9 DEFAULT** de negocio (mas los de auditoria), los **mismos 10 CHECK** y las **mismas 40 columnas de auditoria**. Ninguno crea vistas.
 
 ---
 
 ## 5. Pasos para ejecutar (SQL Server)
 
+Se puede ejecutar cualquiera de los dos scripts de SQL Server; hacen lo mismo:
+
+| Script | Para que sirve |
+| :--- | :--- |
+| **`MF_NIKE_INC_CORREGIDO.sql`** | Es el DDL que genero Data Modeler, **corregido**: mismos nombres y tipos del grupo, con el `CREATE DATABASE` arreglado y con IDENTITY, DEFAULT, CHECK y auditoria agregados. |
+| `BD_NIKE_INC_SQL_SERVER.sql` | Version equivalente escrita por el grupo, con los mismos 10 objetos y las mismas restricciones. |
+
 1. Abrir SSMS y conectarse con autenticacion de Windows.
-2. **File > Open > File** y elegir `BD_NIKE_INC_SQL_SERVER.sql`.
-3. El script ya trae `IF DB_ID('BD_NIKE_INC_F') IS NOT NULL DROP DATABASE ...`, asi que se puede reejecutar sin borrar nada a mano.
-4. **Execute** (`F5`). Esta separado por `GO`: crea la base, las tablas, las PK, los CHECK y las FK en orden.
-5. Actualizar el explorador de objetos: `BD_NIKE_INC_F > Tables` debe mostrar **10 tablas** (no hay vistas).
-6. Para ver el diagrama: clic derecho en **Database Diagrams > New Database Diagram**, agregar las 10 tablas y acomodarlas como en `MODELO_FISICO.png`.
+2. **File > Open > File** y elegir `MF_NIKE_INC_CORREGIDO.sql`.
+3. El script empieza con `IF DB_ID('NIKE_INC_BD') IS NOT NULL DROP DATABASE NIKE_INC_BD;`, asi que se puede reejecutar sin borrar nada a mano.
+4. **Execute** (`F5`). Esta separado por `GO`: crea la base, las 10 tablas con sus PK y CHECK, y al final las 11 FK.
+5. Al final del script vienen las **consultas de comprobacion**: ejecutalas y compara con los numeros esperados de la seccion 6.
+6. Actualizar el explorador de objetos: `NIKE_INC_BD > Tables` debe mostrar **10 tablas** (no hay vistas).
+7. **Solo cuando la base ya existe y esta completa**, crear el diagrama: clic derecho en **Database Diagrams > New Database Diagram**, agregar las 10 tablas, acomodarlas como en `MODELO_FISICO.png` y usar **Copy Diagram to Clipboard** para pegarlo en Paint y guardar el PNG.
+
+### 5.1 El error mas comun: `CREATE NIKE_INC_BD` no es SQL
+
+```sql
+CREATE NIKE_INC_BD      -- error 102: Incorrect syntax near 'NIKE_INC_BD'
+```
+
+`CREATE` siempre necesita decir **que** se crea:
+
+```sql
+CREATE DATABASE NIKE_INC_BD;
+GO
+USE NIKE_INC_BD;
+GO
+```
+
+Si esa primera linea falla, `USE` tampoco encuentra la base y todo lo que sigue se intenta crear en `master`. Por eso el error aparece en cascada y parece que el script entero estuviera mal, cuando en realidad es una sola palabra.
+
+Otros motivos del mismo sintoma:
+
+| Sintoma | Causa | Solucion |
+| :--- | :--- | :--- |
+| `Incorrect syntax near 'GO'` | `GO` no es T-SQL, es separador de lotes de SSMS | ejecutarlo en SSMS o quitar los `GO` |
+| `CREATE DATABASE permission denied` | el usuario no tiene permiso `dbcreator` | pedir al administrador o usar una base existente |
+| `Database 'NIKE_INC_BD' already exists` | se ejecuto dos veces sin el `DROP` | dejar el bloque `IF DB_ID(...)` del inicio |
+| `The DELETE statement conflicted with the REFERENCE` | se intenta borrar la base con SSMS abierto dentro de ella | cambiarse a `master` antes de ejecutar (`USE master;`) |
+
+### 5.2 Orden obligatorio antes de sacar la lamina
+
+1. Ejecutar el script completo.
+2. Comprobar los seis conteos de la seccion 6.
+3. **Despues** crear el diagrama (si se crea antes, la lamina sale sin las columnas de auditoria).
+4. Copiar el diagrama y guardarlo como `MODELO_FISICO.png`.
+5. Ese PNG es el que va a la entrega y al PDF.
 
 ---
 
@@ -606,7 +711,7 @@ SELECT t.name AS tabla, c.name AS columna
 FROM sys.columns c JOIN sys.tables t ON t.object_id = c.object_id
 WHERE c.is_identity = 1 ORDER BY t.name;
 
--- restricciones CHECK (debe dar 11)
+-- restricciones CHECK (debe dar 10)
 SELECT name FROM sys.check_constraints ORDER BY name;
 
 -- columnas que admiten NULL (debe dar 3)
@@ -614,6 +719,14 @@ SELECT t.name AS tabla, c.name AS columna
 FROM sys.columns c JOIN sys.tables t ON t.object_id = c.object_id
 WHERE c.is_nullable = 1 AND c.name NOT LIKE '%modificacion'
 ORDER BY t.name, c.column_id;
+
+-- valores por omision de negocio (debe dar 9)
+SELECT OBJECT_NAME(parent_object_id) AS tabla, name
+FROM sys.default_constraints ORDER BY tabla, name;
+
+-- nombres y columnas que NO deben existir (las tres consultas dan 0 filas)
+SELECT name FROM sys.tables   WHERE name IN ('TOTAL', 'IGV');
+SELECT name FROM sys.columns  WHERE name IN ('total', 'igv', 'estado_envio');
 
 -- el total de la linea se calcula, no se guarda
 SELECT TOP 5 d.PEDIDO_id_pedido, d.PRODUCTO_id_producto,
@@ -625,8 +738,26 @@ FROM DETALLE_VENTA d;
 
 ## 7. Que decir en la exposicion
 
-> *"El DDL mantiene las 10 tablas y las 11 claves foraneas del modelo relacional, y agrega lo propio del motor: `IDENTITY` en las claves simples para que el codigo se genere solo, `DEFAULT` para los estados y las fechas de arranque, once `CHECK` que impiden cantidades negativas, precios en cero, estados fuera de catalogo y telefonos o correos mal escritos, y cuatro campos de auditoria por tabla que registran quien inserto y quien modifico cada fila. Ninguna tabla guarda el total ni el IGV: se calculan en la consulta."*
+> *"El DDL mantiene las 10 tablas y las 11 claves foraneas del modelo relacional, y agrega lo propio del motor: `IDENTITY` en las claves simples para que el codigo se genere solo, `DEFAULT` para los estados y las fechas de arranque, diez `CHECK` que impiden cantidades negativas, precios en cero, estados fuera de catalogo y telefonos o correos mal escritos, y cuatro campos de auditoria por tabla. Ninguna tabla guarda el total ni el IGV: se calculan en la consulta."*
 
+---
+
+## 8. Diccionario de datos (entregable aparte)
+
+El modelo fisico se documenta con **`DICCIONARIO_DE_DATOS.xlsx`** (en la raiz de `proyecto_parcial/`), que se genera leyendo el propio script `MF_NIKE_INC_CORREGIDO.sql`: si el script cambia, el diccionario cambia con el. Tiene seis hojas:
+
+| Hoja | Que contiene |
+| :--- | :--- |
+| **Resumen** | Datos del proyecto, cifras del modelo (10 tablas, 88 columnas, 11 FK, 10 CHECK...) y convenciones de nombres. |
+| **Diccionario** | Las **88 columnas** (48 de negocio + 40 de auditoria) con tipo, si admite `NULL`, clave, referencia, `IDENTITY`, `DEFAULT` y su significado en lenguaje del negocio. |
+| **Claves foraneas** | Las 11 FK con tabla hija, columna, tabla padre y la regla de negocio que hacen cumplir. |
+| **Restricciones** | Las 7 columnas con `IDENTITY`, los 9 `DEFAULT` de negocio y los 10 `CHECK`, cada uno con su justificacion. |
+| **Relaciones** | Las 8 relaciones del modelo con su cardinalidad y su lectura en palabras. |
+| **Glosario** | Terminos del proyecto: `MER`, `PK`, `FK`, clave compuesta, `IDENTITY`, suministro, detalle, etc. |
+
+Tambien existe la version en texto **`DICCIONARIO_DE_DATOS.md`** y las tres primeras paginas del diccionario van dentro de **`ENTREGA_MODELOS_NIKE_GRUPO_5.pdf`** (paginas 5, 6 y 7).
+
+**Como usarlo en la exposicion:** si preguntan "que guarda `precio_unitario_aplicado`" o "por que `correo_electronico` mide 80", la respuesta esta en la hoja `Diccionario`; si preguntan "que impide que se venda cantidad cero", esta en `Restricciones`.
 
 ---
 
@@ -647,12 +778,12 @@ El profesor pidio no dejar los tamanios por defecto de la herramienta (`VARCHAR(
 | Campo | Tipo definitivo | Por que esa medida |
 | :--- | :---: | :--- |
 | `telefono / telefono_secundario` | **`VARCHAR(15)`** | 9 digitos en Peru; 15 es el tope internacional (E.164) para un cliente extranjero que compra en el pais. |
-| `correo_e` | **`VARCHAR(80)`** | un correo real mide entre 25 y 45 caracteres; 80 deja margen sin reservar 255. |
+| `correo_electronico` | **`VARCHAR(80)`** | un correo real mide entre 25 y 45 caracteres; 80 deja margen sin reservar 255. |
 | `nombre / nombre de producto` | **`VARCHAR(80)`** | entran nombres completos y nombres comerciales largos. |
 | `direccion / direccion_local` | **`VARCHAR(150)`** | una direccion peruana con referencia y distrito llega a 90-120 caracteres. |
 | `nombre_almacen / nombre_local / nombre de categoria` | **`VARCHAR(50)`** | son nombres cortos e institucionales. |
 | `metodo_pago` | **`VARCHAR(30)`** | 'Tarjeta de Credito', 'Yape', 'Plin' o 'Transferencia' no pasan de 20. |
-| `estado_envio / estado_despacho / estado` | **`VARCHAR(20)`** | listas cortas y controladas de cada proceso. |
+| `estado_despacho / estado` | **`VARCHAR(20)`** | listas cortas y controladas; el estado del envio no se guarda porque se deduce del despacho. |
 | `talla / talla_elegida y color / color_elegido` | **`VARCHAR(10) y VARCHAR(30)`** | talla guarda 42, 41 o M; color guarda Negro, Blanco o Azul Marino. |
 | `cantidad, stock_actual, stock_minimo` | **`INTEGER`** | son unidades enteras: no necesitan decimales. |
 | `precio_unitario_base / precio_unitario_aplicado` | **`DECIMAL(10,2)`** | 8 enteros y 2 decimales: alcanza para millones de soles y evita el redondeo del FLOAT. |
@@ -713,7 +844,6 @@ Guardar el IGV en `PEDIDO` (o el total en `DETALLE_VENTA`) obligaba a digitarlos
 * [ ] **`ALMACEN` solo aparece en `SUMINISTRO` y en `STOCK_ALMACEN`**: no hay columna de almacen en `DETALLE_VENTA`.
 * [ ] Los telefonos son `VARCHAR(15)` y los metodos de pago guardan **un solo valor** por fila.
 
-
 ---
 
 **Grupo 5:** Daniel Asmat | Salomon Fernandez | Luis Coloma | Pablo Rios  
@@ -740,7 +870,7 @@ El docente reviso el Excel de normalizacion y dejo **11 observaciones escritas**
 | 8 | **2FN** | Se perdia que suministro corresponde a cada pedido | PEDIDO guarda SUMINISTRO_id_suministro, **obligatoria** (la relacion PROVEE no es opcional). | PEDIDO.SUMINISTRO_id_suministro |
 | 9 | **3FN** | total e igv se pueden calcular | Se **eliminaron las dos columnas**: el total de la linea y el igv del pedido se calculan cuando se consulta. | Ninguna tabla |
 | 10 | **3FN** | DETALLE_VENTA guardaba talla pero no color | Se agrego color_elegido, porque el stock se maneja por talla y color. | DETALLE_VENTA.color_elegido |
-| 11 | **3FN** | Estados contradictorios entre ENTREGADO y EN RUTA | Se definieron dos procesos distintos: estado_envio es del pedido al cliente y estado_despacho es del CD al local. | Hoja 5_Estados |
+| 11 | **3FN** | Estados contradictorios entre ENTREGADO y EN RUTA | Queda **un solo estado de proceso** (`estado_despacho` en `SUMINISTRO`); el estado del pedido se deduce de el y no se guarda. | PEDIDO y SUMINISTRO |
 
 ---
 
@@ -761,19 +891,17 @@ El docente reviso el Excel de normalizacion y dejo **11 observaciones escritas**
 
 ---
 
-## 3. Por que `estado_envio` y `estado_despacho` no se contradicen
+## 3. Por que el pedido ya no guarda su propio estado
 
-| Campo | Tabla | Para que sirve | Valores permitidos | Ejemplo |
-| :--- | :--- | :--- | :--- | :--- |
-| **`estado_envio`** | `PEDIDO` | Como va la entrega del pedido al cliente. | PENDIENTE, ENVIADO, ENTREGADO | Pedido 9002 = ENTREGADO: el cliente ya recibio su compra. |
-| **`estado_despacho`** | `SUMINISTRO` | Como va el traslado de mercaderia del CD al local. | PROGRAMADO, EN RUTA, ENTREGADO | Suministro 2 = EN RUTA: la carga sale del CD hacia el local. |
+En la revision final el docente observo que `estado_envio` se deducia del estado del suministro: **PENDIENTE = PROGRAMADO**, **ENVIADO = EN RUTA**, **ENTREGADO = ENTREGADO**. Es un dato derivado, asi que **se elimino de `PEDIDO`** en todos los niveles.
 
-**El ejemplo que pidio el docente:** en el pedido **9002** el `estado_envio` es **ENTREGADO** porque el cliente ya recibio su compra, y el `estado_despacho` del suministro que lo abastecio es **EN RUTA** porque esa carga todavia va del centro de distribucion al local. Son dos cadenas distintas:
+| Estado del pedido (deducido) | `SUMINISTRO.estado_despacho` | Que significa |
+| :--- | :--- | :--- |
+| PENDIENTE | PROGRAMADO | El despacho aun no sale del centro de distribucion. |
+| ENVIADO | EN RUTA | La mercaderia ya salio y va camino al local. |
+| ENTREGADO | ENTREGADO | El local recibio la mercaderia y el pedido quedo atendido. |
 
-1. **Pedido:** cliente compra -> pedido `PENDIENTE` -> sale del almacen `ENVIADO` -> llega al cliente `ENTREGADO`.
-2. **Suministro:** el CD programa el despacho `PROGRAMADO` -> sale `EN RUTA` -> llega al local `ENTREGADO`.
-
-Un pedido puede estar entregado con mercaderia que estaba en stock, mientras el siguiente despacho sigue en camino.
+Asi queda **un solo catalogo de estado de proceso** (`estado_despacho`: PROGRAMADO, EN RUTA, ENTREGADO) y no hay dos columnas que puedan contradecirse. `PRODUCTO.estado` es otra cosa: si el modelo esta disponible para la venta (DISPONIBLE, AGOTADO, DESCONTINUADO).
 
 ---
 
@@ -859,5 +987,153 @@ Esta es la revision que el docente hizo sobre el **PDF anterior** y lo que se hi
 
 > *"Los cuatro modelos estan separados. En el conceptual no dibujamos ningun atributo calculado y subrayamos la clave compuesta dentro de los rombos de muchos a muchos, sin darles un identificador propio. En el logico solo configuramos las relaciones con su verbo y su cardinalidad, y las de muchos a muchos van como relacion con sus atributos, no como tabla intermedia. En el relacional esas relaciones ya se materializan en diez tablas con once claves foraneas, sin ninguna columna calculada. Y en el fisico agregamos `IDENTITY`, `DEFAULT`, `CHECK` y auditoria en todas las tablas."*
 
+---
+
+## 9. Ultima revision: 0FN, 1FN, 2FN y 3FN
+
+| Fase | Observacion | Como quedo |
+| :--- | :--- | :--- |
+| **0FN y 1FN** | Los productos y cantidades del suministro aparecen recien en 2FN | La tabla general ya trae `productos_suministrados` y `cantidades_suministradas` (20, 15, 25 y 40 unidades) y la 1FN los deja atomicos por fila, con producto, talla y color. La 2FN sale de ahi. |
+| **2FN** | Esta incompleta: faltan PRODUCTO (con su categoria), ALMACEN, LOCAL y STOCK_ALMACEN | La hoja 2FN tiene **8 tablas**: PEDIDO, DETALLE_VENTA, PRODUCTO (con los datos de su categoria), SUMINISTRO, DETALLE_SUMINISTRO, ALMACEN, LOCAL y STOCK_ALMACEN. Todo lo de la 1FN queda en alguna tabla. |
+| **3FN** | `estado_envio` se deduce del estado del suministro | Se **elimino la columna** de `PEDIDO` en el Excel, el MER, el logico, el relacional y el DDL. |
+| **3FN** | Dejen escrito que un pedido se atiende con un solo suministro (un almacen y un local) | Escrito en el MER, en el logico, en el relacional y en el fisico. En la base se cumple con `PEDIDO.SUMINISTRO_id_suministro`: una sola columna obligatoria. |
+
+### El PDF de entrega
+
+`ENTREGA_MODELOS_NIKE_GRUPO_5.pdf` (en la raiz de `proyecto_parcial/`) trae **12 paginas**: portada, la respuesta punto por punto a estas observaciones, la regla del suministro unico con la tabla de equivalencia de estados, un extracto del DDL, el **diccionario de datos** (paginas 5, 6 y 7) y **una lamina por modelo** (conceptual, logico, relacional y fisico), mas el cuadro de paso de un nivel al siguiente. El diccionario completo, con las seis hojas, va aparte en `DICCIONARIO_DE_DATOS.xlsx`.
+
+---
+
+**Grupo 5:** Daniel Asmat | Salomon Fernandez | Luis Coloma | Pablo Rios
+**Curso:** Disenio de Bases de Datos Relacionales - IDAT
+**Docente:** Sergio Fernando Castillo Carrion
+
+---
+
+**Archivos que produce esta guia:**
+
+| Archivo | Donde esta | Que es |
+| :--- | :--- | :--- |
+| `DICCIONARIO_DE_DATOS.xlsx` | `proyecto_parcial/` | Diccionario completo, seis hojas, listo para entregar |
+| `DICCIONARIO_DE_DATOS.md` | `proyecto_parcial/` | La misma informacion en texto, para leer o pegar en el informe |
+| `ENTREGA_MODELOS_NIKE_GRUPO_5.pdf` | `proyecto_parcial/` | PDF de entrega: **12 paginas**, con el diccionario en las paginas 5, 6 y 7 |
+
+---
+
+## 1. Que es un diccionario de datos y por que lo piden
+
+El **modelo fisico** dice *como* esta hecha la base: tablas, tipos y restricciones. El **diccionario de datos** dice *que significa* cada cosa: para que existe cada columna, que valores acepta, quien la llena y que regla la protege.
+
+Son dos documentos distintos y el segundo no se puede inventar de memoria: tiene que describir **exactamente** la base que se ejecuto. Por eso el diccionario de este proyecto **no se escribe a mano**: se genera leyendo el script `nivel_fisico/MF_NIKE_INC_CORREGIDO.sql`.
+
+```
+MF_NIKE_INC_CORREGIDO.sql  --->  generadores/diccionario.py  --->  DICCIONARIO_DE_DATOS.xlsx
+   (la base real)                                                  DICCIONARIO_DE_DATOS.md
+                                                                   (paginas 5-7 del PDF)
+```
+
+Consecuencia practica: **si cambias el script, vuelve a generar el diccionario**. Si no, el documento empieza a mentir (por ejemplo, sigue mostrando una columna que ya se borro).
+
+---
+
+## 2. Las seis hojas del Excel
+
+| # | Hoja | Que muestra | Para que sirve en la exposicion |
+| :---: | :--- | :--- | :--- |
+| 1 | **Resumen** | Datos del grupo, motor, **cifras del modelo** (10 tablas, 88 columnas, 7 `IDENTITY`, 9 `DEFAULT` de negocio, 10 `CHECK`, 11 FK, 3 columnas opcionales, 0 vistas) y las **convenciones de nombres**. | Abre la conversacion: "esta es la base, estas son sus cifras". |
+| 2 | **Diccionario** | Las **88 columnas** una por una: tabla, columna, tipo, `NULL`, clave (`PK` / `FK` / `PK + FK`), referencia, `IDENTITY`, `DEFAULT` y **descripcion de negocio**. | Es la hoja que se consulta cuando preguntan por una columna concreta. |
+| 3 | **Claves foraneas** | Las **11 FK** con tabla hija, columna, tabla padre, columna referenciada y la regla de negocio. | Demuestra que las relaciones del MER estan implementadas. |
+| 4 | **Restricciones** | Los **7 `IDENTITY`**, los **9 `DEFAULT`** de negocio y los **10 `CHECK`**, cada uno con su justificacion. | Es la prueba de lo que el docente califico en el fisico. |
+| 5 | **Relaciones** | Las **8 relaciones** del MER con su cardinalidad y su lectura en palabras. | Conecta el conceptual con el fisico. |
+| 6 | **Glosario** | `MER`, `PK`, `FK`, clave compuesta, `IDENTITY`, `DEFAULT`, `CHECK`, suministro, detalle, `Total`/`IGV`. | Evita que cada integrante explique distinto. |
+
+Las **4 columnas de auditoria** (`usuario_creacion`, `fecha_creacion`, `usuario_modificacion`, `fecha_modificacion`) se repiten igual en las 10 tablas. En el Excel aparecen en gris al final de cada tabla; en el PDF y en el `.md` se explican **una sola vez** para no repetir la misma fila 40 veces.
+
+---
+
+## 3. Como se lee una fila del diccionario
+
+Ejemplo real (hoja `Diccionario`):
+
+| Tabla | Columna | Tipo | NULL | Clave | Referencia | IDENTITY | DEFAULT | Descripcion |
+| :--- | :--- | :--- | :---: | :---: | :--- | :---: | :--- | :--- |
+| PEDIDO | `SUMINISTRO_id_suministro` | `INT` | No | FK | `SUMINISTRO.id_suministro` | - | - | Suministro que atiende el pedido. Una sola columna obligatoria: por eso un pedido se atiende con un unico suministro. |
+| DETALLE_VENTA | `cantidad` | `INT` | No | - | - | - | `1` | Unidades vendidas de ese producto, talla y color. Debe ser mayor que cero. |
+| CLIENTE | `telefono_secundario` | `VARCHAR(15)` | **Si** | - | - | - | - | Celular alterno. Es opcional: hay clientes que solo dejan un numero. |
+| CLIENTE | `id_cliente` | `INT` | No | PK | - | **Si** | - | Codigo unico del comprador. Lo genera la base. |
+
+Como se leen las marcas:
+
+* **`PK`**: identifica la fila. **`PK + FK`**: forma parte de una clave compuesta y ademas apunta a otra tabla (pasa en las tres tablas de detalle).
+* **`NULL = Si`**: la unica forma en que una columna puede quedar vacia. En este modelo son solo tres.
+* **`IDENTITY = Si`**: el valor no se escribe, lo genera SQL Server.
+* **`DEFAULT`**: lo que la base pone sola si el `INSERT` no manda ese dato.
+
+---
+
+## 4. Las cifras oficiales del modelo
+
+Estos son los numeros que hay que decir, y son los mismos en el diccionario, en el PDF, en el README y en las guias:
+
+| Concepto | Numero | Donde se comprueba |
+| :--- | :---: | :--- |
+| Tablas | **10** | `SELECT COUNT(*) FROM sys.tables;` |
+| Columnas | **88** (48 de negocio + 40 de auditoria) | hoja `Diccionario` |
+| Claves primarias simples con `IDENTITY` | **7** | `WHERE c.is_identity = 1` |
+| Claves primarias compuestas | **3** | `DETALLE_VENTA`, `STOCK_ALMACEN`, `DETALLE_SUMINISTRO` |
+| Claves foraneas | **11** | `SELECT COUNT(*) FROM sys.foreign_keys;` |
+| Restricciones `CHECK` | **10** | `SELECT COUNT(*) FROM sys.check_constraints;` |
+| `DEFAULT` de negocio | **9** | `SELECT * FROM sys.default_constraints;` |
+| Columnas que admiten `NULL` | **3** | `telefono_secundario`, `descripcion`, `especificaciones` |
+| Vistas | **0** | `SELECT COUNT(*) FROM sys.views;` |
+| Relaciones del MER | **8** | `REALIZA`, `CONTIENE`, `CLASIFICA`, `ALMACENA`, `PROVEE`, `ABASTECE`, `RECIBE`, `INCLUYE` |
+
+---
+
+## 5. Como se regenera (si cambia el script)
+
+```bash
+cd /home/user/generadores
+python3 diccionario.py          # vuelve a leer el .sql y reescribe el xlsx, el md y el json
+python3 pdf_entrega.py          # rehace el PDF con las paginas nuevas del diccionario
+```
+
+`diccionario.py` no guarda datos a mano: recorre el script y arma la estructura con expresiones regulares sobre:
+
+* `CREATE TABLE` → nombre de tabla, columnas, tipos, `NULL`, `IDENTITY`, `DEFAULT`;
+* `CONSTRAINT ... PRIMARY KEY` → clave primaria (simple o compuesta);
+* `CONSTRAINT CK_... CHECK (...)` → validaciones (soporta las que ocupan dos lineas, como `CK_CLIENTE_TELEFONO`);
+* `ALTER TABLE ... FOREIGN KEY` → las 11 claves foraneas.
+
+Las **descripciones de negocio** si son texto escrito por el grupo (un diccionario tecnico no puede deducir para que sirve un `precio_unitario_aplicado`). Estan en el diccionario `DESC` al inicio de `diccionario.py`, y se pueden editar sin tocar nada mas.
+
+---
+
+## 6. Checklist antes de entregar
+
+**Diccionario**
+
+1. Abrir `DICCIONARIO_DE_DATOS.xlsx` y revisar que la hoja `Resumen` diga **10 tablas / 11 FK / 7 IDENTITY / 9 DEFAULT / 10 CHECK**.
+2. Buscar en la hoja `Diccionario` las palabras **`total`**, **`igv`** y **`estado_envio`**: no debe aparecer ninguna como columna.
+3. Confirmar que las **3 columnas opcionales** son las mismas del modelo (`telefono_secundario`, `descripcion`, `especificaciones`).
+4. Confirmar que las 3 tablas de detalle muestran **`PK + FK`** y no llevan `IDENTITY`.
+
+**Coherencia con los otros entregables**
+
+5. El nombre de la base coincide en todos lados: **`NIKE_INC_BD`**.
+6. El nombre del correo coincide en todos lados: **`correo_electronico`** (`VARCHAR(80)`).
+7. Las longitudes del diccionario coinciden con el modelo relacional y con la GUIA 5.
+8. Las 8 relaciones y sus cardinalidades coinciden con el MER y con el logico (`PROVEE` es `1:N`).
+
+**PDF**
+
+9. El PDF debe tener **12 paginas**: portada, respuestas al docente, regla del suministro, extracto del DDL, **diccionario (5, 6 y 7)**, y las cuatro laminas mas el cuadro final.
+10. Las laminas van a tamano completo, una por pagina.
+
+---
+
+## 7. Que decir al presentar el diccionario
+
+> *"El diccionario de datos esta generado a partir del script que realmente ejecutamos en SQL Server, no escrito aparte. Tiene seis hojas: el resumen con las cifras del modelo, las 88 columnas con su tipo y su significado, las 11 claves foraneas, las restricciones -- siete `IDENTITY`, nueve `DEFAULT` y diez `CHECK` --, las ocho relaciones con su cardinalidad y un glosario. Por eso cualquier pregunta sobre una columna se responde con este archivo, y cualquier cambio en el script obliga a regenerarlo para que no queden desalineados."*
 
 ---

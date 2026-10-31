@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<LogicalDesign class="oracle.dbtools.crest.model.design.logical.LogicalDesign" name="Logical" id="A66B6BF2-EB40-57D6-9FA9-3041C9B8B62C" mainViewID="F5A71822-9E47-5FC1-897E-EB297512368E">
+  <createdBy>Luis Coloma Rojas</createdBy>
+  <createdTime>2026-10-06 18:15:22 UTC</createdTime>
+  <ownerDesignName>BD NIKE.Inc</ownerDesignName>
+  <shouldBeOpen>true</shouldBeOpen>
+</LogicalDesign>

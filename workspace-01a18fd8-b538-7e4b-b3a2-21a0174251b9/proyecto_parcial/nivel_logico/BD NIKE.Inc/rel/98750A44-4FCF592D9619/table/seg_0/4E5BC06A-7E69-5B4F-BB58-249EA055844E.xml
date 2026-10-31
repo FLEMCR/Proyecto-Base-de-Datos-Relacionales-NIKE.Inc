@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="4E5BC06A-7E69-5B4F-BB58-249EA055844E" schemaObject="A6A958B1-03E0-55F4-8A4A-4DB35FD79D05" name="SUMINISTRO">
+  <createdBy>Luis Coloma Rojas</createdBy>
+  <createdTime>2026-10-06 18:15:22 UTC</createdTime>
+  <ownerDesignName>BD NIKE.Inc</ownerDesignName>
+  <generatorID>8E3942F5-DF2A-57C7-859B-61CCE777267A</generatorID>
+  <allowColumnReorder>false</allowColumnReorder>
+  <existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+  <parsed>true</parsed>
+  <columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+    <Column name="id_suministro" id="E952D3C8-B1E3-560D-A821-23D9F3C8253A">
+  <createdBy>Luis Coloma Rojas</createdBy>
+  <createdTime>2026-10-06 18:15:22 UTC</createdTime>
+  <ownerDesignName>BD NIKE.Inc</ownerDesignName>
+      <generatorID>E952D3C8-B1E3-560D-A821-23D9F3C8253A</generatorID>
+      <useDomainConstraints>false</useDomainConstraints>
+      <use>1</use>
+      <logicalDatatype>LOGDT011</logicalDatatype>
+      <ownDataTypeParameters>,,</ownDataTypeParameters>
+      <autoIncrementCycle>false</autoIncrementCycle>
+    </Column>
+    <Column name="fecha_suministro" id="2C2DABC6-66AB-560F-B9C0-F8D27C6EE5E9">
+  <createdBy>Luis Coloma Rojas</createdBy>
+  <createdTime>2026-10-06 18:15:22 UTC</createdTime>
+  <ownerDesignName>BD NIKE.Inc</ownerDesignName>
+      <generatorID>2C2DABC6-66AB-560F-B9C0-F8D27C6EE5E9</generatorID>
+      <useDomainConstraints>false</useDomainConstraints>
+      <use>1</use>
+      <logicalDatatype>LOGDT007</logicalDatatype>
+      <ownDataTypeParameters>,,</ownDataTypeParameters>
+      <autoIncrementCycle>false</autoIncrementCycle>
+    </Column>
+    <Column name="estado_despacho" id="C93692E6-449F-5D94-A349-D598BE824CD9">
+  <createdBy>Luis Coloma Rojas</createdBy>
+  <createdTime>2026-10-06 18:15:22 UTC</createdTime>
+  <ownerDesignName>BD NIKE.Inc</ownerDesignName>
+      <generatorID>C93692E6-449F-5D94-A349-D598BE824CD9</generatorID>
+      <useDomainConstraints>false</useDomainConstraints>
+      <use>1</use>
+      <logicalDatatype>LOGDT024</logicalDatatype>
+      <ownDataTypeParameters>20,,</ownDataTypeParameters>
+    <dataTypeSize>20</dataTypeSize>
+      <autoIncrementCycle>false</autoIncrementCycle>
+    </Column>
+    <Column name="ALMACEN_id_almacen" id="C7425F41-8817-5182-85AA-F3A15F356979">
+  <createdBy>Luis Coloma Rojas</createdBy>
+  <createdTime>2026-10-06 18:15:22 UTC</createdTime>
+  <ownerDesignName>BD NIKE.Inc</ownerDesignName>
+      <generatorID>C7425F41-8817-5182-85AA-F3A15F356979</generatorID>
+      <useDomainConstraints>false</useDomainConstraints>
+      <use>1</use>
+      <logicalDatatype>LOGDT011</logicalDatatype>
+      <ownDataTypeParameters>,,</ownDataTypeParameters>
+      <autoIncrementCycle>false</autoIncrementCycle>
+      <associations>
+        <colAssociation fkAssociation="194CCBC6-672E-51C4-B39D-921AB0BC8D5B" referredColumn="C1B2C683-235B-5C9E-8F64-D5FBA6206126" />
+      </associations>
+    </Column>
+    <Column name="LOCAL_id_local" id="5F8EACC8-F0E9-514E-955B-B1B665FB568F">
+  <createdBy>Luis Coloma Rojas</createdBy>
+  <createdTime>2026-10-06 18:15:22 UTC</createdTime>
+  <ownerDesignName>BD NIKE.Inc</ownerDesignName>
+      <generatorID>5F8EACC8-F0E9-514E-955B-B1B665FB568F</generatorID>
+      <useDomainConstraints>false</useDomainConstraints>
+      <use>1</use>
+      <logicalDatatype>LOGDT011</logicalDatatype>
+      <ownDataTypeParameters>,,</ownDataTypeParameters>
+      <autoIncrementCycle>false</autoIncrementCycle>
+      <associations>
+        <colAssociation fkAssociation="FD13322B-67BA-54BB-9654-9BC3B188F112" referredColumn="C5CF8484-12D3-5452-BC58-8B895085AFD9" />
+      </associations>
+    </Column>
+  </columns>
+  <indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+    <ind_PK_UK id="C8303A6B-35E0-5F82-A3F3-B28128B5FC05" name="SUMINISTRO_PK">
+  <createdBy>Luis Coloma Rojas</createdBy>
+  <createdTime>2026-10-06 18:15:22 UTC</createdTime>
+  <ownerDesignName>BD NIKE.Inc</ownerDesignName>
+      <generatorID>E952D3C8-B1E3-560D-A821-23D9F3C8253A</generatorID>
+      <pk>true</pk>
+      <indexState>Primary Constraint</indexState>
+      <isSurrogateKey>false</isSurrogateKey>
+      <indexColumnUsage>
+        <colUsage columnID="E952D3C8-B1E3-560D-A821-23D9F3C8253A" />
+      </indexColumnUsage>
+    </ind_PK_UK>
+    <ind_PK_UK id="7A433872-9D9A-5828-B9EF-329B9726AD70" name="SUMINISTRO_ALMACEN_FK">
+  <createdBy>Luis Coloma Rojas</createdBy>
+  <createdTime>2026-10-06 18:15:22 UTC</createdTime>
+  <ownerDesignName>BD NIKE.Inc</ownerDesignName>
+      <generatorID>C7425F41-8817-5182-85AA-F3A15F356979</generatorID>
+      <indexState>Foreign Key</indexState>
+      <isSurrogateKey>false</isSurrogateKey>
+      <indexColumnUsage>
+        <colUsage columnID="C7425F41-8817-5182-85AA-F3A15F356979" />
+      </indexColumnUsage>
+    </ind_PK_UK>
+    <ind_PK_UK id="021B5968-3462-5B91-ADC5-E602B49B7820" name="SUMINISTRO_LOCAL_FK">
+  <createdBy>Luis Coloma Rojas</createdBy>
+  <createdTime>2026-10-06 18:15:22 UTC</createdTime>
+  <ownerDesignName>BD NIKE.Inc</ownerDesignName>
+      <generatorID>5F8EACC8-F0E9-514E-955B-B1B665FB568F</generatorID>
+      <indexState>Foreign Key</indexState>
+      <isSurrogateKey>false</isSurrogateKey>
+      <indexColumnUsage>
+        <colUsage columnID="5F8EACC8-F0E9-514E-955B-B1B665FB568F" />
+      </indexColumnUsage>
+    </ind_PK_UK>
+  </indexes>
+</Table>

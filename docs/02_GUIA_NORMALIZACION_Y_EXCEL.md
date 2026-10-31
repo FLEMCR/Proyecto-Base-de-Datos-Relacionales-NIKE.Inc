@@ -60,7 +60,7 @@ Se abre **una fila por cada linea vendida** y se separan telefonos, productos, c
 
 1. **`PEDIDO`** — cabecera. Los datos del cliente **se quedan aqui** (sacarlos es trabajo de la 3FN). Tambien guarda **`SUMINISTRO_id_suministro`**.
 2. **`DETALLE_VENTA`** — PK compuesta `id_pedido` + `id_producto` + `talla_elegida` + `color_elegido`, con `cantidad` y `precio_unitario_aplicado`.
-3. **`SUMINISTRO`** — cabecera del despacho: `id_suministro`, `fecha_suministro`, `estado_despacho`, `ALMACEN_id_almacen` y `LOCAL_id_local`.
+3. **`SUMINISTRO`** — cabecera del despacho: `id_suministro`, `fecha_suministro`, `estado_despacho`, `ALMACEN_id_almacen` y `LOCAL_id_local`. Los productos y las cantidades que lleva el camion estan en `DETALLE_SUMINISTRO`, y **esos datos ya vienen desde la tabla general (0FN)** en las columnas `productos_suministrados` y `cantidades_suministradas`.
 4. **`DETALLE_SUMINISTRO`** — PK `id_suministro` + `id_producto` + `talla` + `color`, mas `cantidad`.
 
 **Problema que aun queda:** dependencias transitivas (el nombre del cliente depende de `id_cliente`, el nombre de la categoria depende de `id_categoria`).
@@ -115,3 +115,28 @@ Se abre **una fila por cada linea vendida** y se separan telefonos, productos, c
 * [ ] La 2FN mantiene los datos del cliente dentro de `PEDIDO`.
 * [ ] La 3FN tiene exactamente **10 tablas**, cada una con su banda `TABLA : ...` y **sin** columnas `total` ni `igv`.
 * [ ] Las cabeceras son azul oscuro y las celdas de PK/FK crema.
+
+---
+
+## Fases del Excel, hoja por hoja
+
+| Hoja | Que contiene | De donde sale |
+| :--- | :--- | :--- |
+| **0FN** | La tabla general: los 3 pedidos con todo mezclado, incluidos los **productos suministrados**, las **cantidades suministradas**, el almacen, el stock, el local y el estado del despacho. | Es la tabla de partida del negocio. |
+| **1FN** | La misma informacion con **un solo valor por celda**: una fila por cada linea vendida y por cada linea suministrada. | De la 0FN, separando las listas. |
+| **2FN** | **8 tablas**: `PEDIDO`, `DETALLE_VENTA`, `PRODUCTO` (con los datos de su categoria), `SUMINISTRO`, `DETALLE_SUMINISTRO`, `ALMACEN`, `LOCAL` y `STOCK_ALMACEN`. | De la 1FN, separando por dependencia funcional. |
+| **3FN** | **10 tablas**: se separan `CLIENTE` (de `PEDIDO`) y `CATEGORIA` (de `PRODUCTO`). | De la 2FN, quitando las dependencias transitivas. |
+
+**Nada se inventa entre fases:** los productos y las cantidades del suministro ya estan en la 0FN, la 1FN los deja atomicos y la 2FN los reparte en `SUMINISTRO` (cabecera) y `DETALLE_SUMINISTRO` (detalle). Todo dato de la 1FN queda en alguna tabla de la 2FN.
+
+### Que cambio en la 3FN
+
+* **`PEDIDO` ya no tiene `estado_envio`.** Ese estado se deduce del `estado_despacho` del suministro que atiende el pedido:
+
+| Estado del pedido (deducido) | `estado_despacho` | Que significa |
+| :--- | :--- | :--- |
+| PENDIENTE | PROGRAMADO | El despacho aun no sale del centro de distribucion. |
+| ENVIADO | EN RUTA | La mercaderia ya salio y va camino al local. |
+| ENTREGADO | ENTREGADO | El local recibio la mercaderia y el pedido quedo atendido. |
+
+* **Un pedido se atiende con un solo suministro**: `PEDIDO.SUMINISTRO_id_suministro` es obligatoria y unica, y como cada suministro tiene un almacen y un local, el pedido queda ligado a **un almacen y un local** sin repetir esos datos.

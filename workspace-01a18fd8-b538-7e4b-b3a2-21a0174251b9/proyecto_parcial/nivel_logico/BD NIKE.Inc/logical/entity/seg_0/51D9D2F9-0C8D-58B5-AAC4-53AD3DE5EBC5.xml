@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="51D9D2F9-0C8D-58B5-AAC4-53AD3DE5EBC5" name="CATEGORIA">
+  <createdBy>Luis Coloma Rojas</createdBy>
+  <createdTime>2026-10-06 18:15:22 UTC</createdTime>
+  <ownerDesignName>BD NIKE.Inc</ownerDesignName>
+  <engineerTo>
+    <item key="98750A44-4FCF592D9619" value="true" />
+  </engineerTo>
+  <adequatelyNormalized>YES</adequatelyNormalized>
+  <expectedVolumes>0</expectedVolumes>
+  <fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+  <growthPercent>0</growthPercent>
+  <growthType>Year</growthType>
+  <maxVolumes>9999999</maxVolumes>
+  <minVolumes>0</minVolumes>
+  <normalForm>Third</normalForm>
+  <attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+    <Attribute name="id_categoria" id="FAB7F5B7-A50C-5A29-A5DD-F66785F8C2DF">
+  <createdBy>Luis Coloma Rojas</createdBy>
+  <createdTime>2026-10-06 18:15:22 UTC</createdTime>
+  <ownerDesignName>BD NIKE.Inc</ownerDesignName>
+      <useDomainConstraints>false</useDomainConstraints>
+      <use>1</use>
+      <logicalDatatype>LOGDT011</logicalDatatype>
+      <ownDataTypeParameters>,,</ownDataTypeParameters>
+    </Attribute>
+    <Attribute name="nombre" id="86E453A1-8C9C-593C-8E00-B3D8AF7CD259">
+  <createdBy>Luis Coloma Rojas</createdBy>
+  <createdTime>2026-10-06 18:15:22 UTC</createdTime>
+  <ownerDesignName>BD NIKE.Inc</ownerDesignName>
+      <useDomainConstraints>false</useDomainConstraints>
+      <use>1</use>
+      <logicalDatatype>LOGDT024</logicalDatatype>
+      <ownDataTypeParameters>50,,</ownDataTypeParameters>
+    <dataTypeSize>50</dataTypeSize>
+    </Attribute>
+    <Attribute name="descripcion" id="B5B43658-A1EE-556E-8314-2F49DBE1DE3E">
+  <createdBy>Luis Coloma Rojas</createdBy>
+  <createdTime>2026-10-06 18:15:22 UTC</createdTime>
+  <ownerDesignName>BD NIKE.Inc</ownerDesignName>
+      <useDomainConstraints>false</useDomainConstraints>
+      <use>1</use>
+      <logicalDatatype>LOGDT024</logicalDatatype>
+      <ownDataTypeParameters>150,,</ownDataTypeParameters>
+    <dataTypeSize>150</dataTypeSize>
+      <isOptional>true</isOptional>
+    </Attribute>
+  </attributes>
+  <identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+    <identifier id="BF100EC5-56E3-5BEE-AFE4-015F00270C8C" name="CATEGORIA_PK">
+  <createdBy>Luis Coloma Rojas</createdBy>
+  <createdTime>2026-10-06 18:15:22 UTC</createdTime>
+  <ownerDesignName>BD NIKE.Inc</ownerDesignName>
+      <pk>true</pk>
+      <usedAttributes>
+        <attributeRef>FAB7F5B7-A50C-5A29-A5DD-F66785F8C2DF</attributeRef>
+      </usedAttributes>
+    </identifier>
+  </identifiers>
+</Entity>

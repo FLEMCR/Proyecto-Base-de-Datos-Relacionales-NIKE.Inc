@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="C1563D26-94EB-5EF3-8FD1-38BF6AC7AC37" schemaObject="A6A958B1-03E0-55F4-8A4A-4DB35FD79D05" name="PRODUCTO">
+  <createdBy>Luis Coloma Rojas</createdBy>
+  <createdTime>2026-10-06 18:15:22 UTC</createdTime>
+  <ownerDesignName>BD NIKE.Inc</ownerDesignName>
+  <generatorID>88C0AFAD-7EC4-5D5F-9767-E74F265B5CE6</generatorID>
+  <allowColumnReorder>false</allowColumnReorder>
+  <existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+  <parsed>true</parsed>
+  <columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+    <Column name="id_producto" id="85A2BDF8-2A78-5707-9B3F-37BDE64864A4">
+  <createdBy>Luis Coloma Rojas</createdBy>
+  <createdTime>2026-10-06 18:15:22 UTC</createdTime>
+  <ownerDesignName>BD NIKE.Inc</ownerDesignName>
+      <generatorID>85A2BDF8-2A78-5707-9B3F-37BDE64864A4</generatorID>
+      <useDomainConstraints>false</useDomainConstraints>
+      <use>1</use>
+      <logicalDatatype>LOGDT011</logicalDatatype>
+      <ownDataTypeParameters>,,</ownDataTypeParameters>
+      <autoIncrementCycle>false</autoIncrementCycle>
+    </Column>
+    <Column name="nombre" id="1B43DAE9-8D8F-58CE-BB46-C40CCCA7E9CF">
+  <createdBy>Luis Coloma Rojas</createdBy>
+  <createdTime>2026-10-06 18:15:22 UTC</createdTime>
+  <ownerDesignName>BD NIKE.Inc</ownerDesignName>
+      <generatorID>1B43DAE9-8D8F-58CE-BB46-C40CCCA7E9CF</generatorID>
+      <useDomainConstraints>false</useDomainConstraints>
+      <use>1</use>
+      <logicalDatatype>LOGDT024</logicalDatatype>
+      <ownDataTypeParameters>80,,</ownDataTypeParameters>
+    <dataTypeSize>80</dataTypeSize>
+      <autoIncrementCycle>false</autoIncrementCycle>
+    </Column>
+    <Column name="especificaciones" id="9A34F76E-D41F-5708-8E3E-FF5356744D18">
+  <createdBy>Luis Coloma Rojas</createdBy>
+  <createdTime>2026-10-06 18:15:22 UTC</createdTime>
+  <ownerDesignName>BD NIKE.Inc</ownerDesignName>
+      <generatorID>9A34F76E-D41F-5708-8E3E-FF5356744D18</generatorID>
+      <useDomainConstraints>false</useDomainConstraints>
+      <use>1</use>
+      <logicalDatatype>LOGDT024</logicalDatatype>
+      <ownDataTypeParameters>150,,</ownDataTypeParameters>
+    <dataTypeSize>150</dataTypeSize>
+      <autoIncrementCycle>false</autoIncrementCycle>
+      <isMandatory>false</isMandatory>
+    </Column>
+    <Column name="precio_unitario_base" id="F46E854B-B36E-5545-9F06-6C1A8C497B10">
+  <createdBy>Luis Coloma Rojas</createdBy>
+  <createdTime>2026-10-06 18:15:22 UTC</createdTime>
+  <ownerDesignName>BD NIKE.Inc</ownerDesignName>
+      <generatorID>F46E854B-B36E-5545-9F06-6C1A8C497B10</generatorID>
+      <useDomainConstraints>false</useDomainConstraints>
+      <use>1</use>
+      <logicalDatatype>LOGDT019</logicalDatatype>
+      <dataTypePrecision>10</dataTypePrecision><dataTypeScale>2</dataTypeScale><ownDataTypeParameters>,10,2</ownDataTypeParameters>
+      <autoIncrementCycle>false</autoIncrementCycle>
+    </Column>
+    <Column name="estado" id="9056C72D-6BA8-5DA6-8EF7-616FFCFFA6F1">
+  <createdBy>Luis Coloma Rojas</createdBy>
+  <createdTime>2026-10-06 18:15:22 UTC</createdTime>
+  <ownerDesignName>BD NIKE.Inc</ownerDesignName>
+      <generatorID>9056C72D-6BA8-5DA6-8EF7-616FFCFFA6F1</generatorID>
+      <useDomainConstraints>false</useDomainConstraints>
+      <use>1</use>
+      <logicalDatatype>LOGDT024</logicalDatatype>
+      <ownDataTypeParameters>20,,</ownDataTypeParameters>
+    <dataTypeSize>20</dataTypeSize>
+      <autoIncrementCycle>false</autoIncrementCycle>
+    </Column>
+    <Column name="CATEGORIA_id_categoria" id="9909FE25-059E-56B3-8EEF-E1186F2815BA">
+  <createdBy>Luis Coloma Rojas</createdBy>
+  <createdTime>2026-10-06 18:15:22 UTC</createdTime>
+  <ownerDesignName>BD NIKE.Inc</ownerDesignName>
+      <generatorID>9909FE25-059E-56B3-8EEF-E1186F2815BA</generatorID>
+      <useDomainConstraints>false</useDomainConstraints>
+      <use>1</use>
+      <logicalDatatype>LOGDT011</logicalDatatype>
+      <ownDataTypeParameters>,,</ownDataTypeParameters>
+      <autoIncrementCycle>false</autoIncrementCycle>
+      <associations>
+        <colAssociation fkAssociation="4EB0ED73-7880-5664-903B-F8C833D19B70" referredColumn="FAB7F5B7-A50C-5A29-A5DD-F66785F8C2DF" />
+      </associations>
+    </Column>
+  </columns>
+  <indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+    <ind_PK_UK id="5940FC96-4A1C-5939-A87C-8711F9D20412" name="PRODUCTO_PK">
+  <createdBy>Luis Coloma Rojas</createdBy>
+  <createdTime>2026-10-06 18:15:22 UTC</createdTime>
+  <ownerDesignName>BD NIKE.Inc</ownerDesignName>
+      <generatorID>85A2BDF8-2A78-5707-9B3F-37BDE64864A4</generatorID>
+      <pk>true</pk>
+      <indexState>Primary Constraint</indexState>
+      <isSurrogateKey>false</isSurrogateKey>
+      <indexColumnUsage>
+        <colUsage columnID="85A2BDF8-2A78-5707-9B3F-37BDE64864A4" />
+      </indexColumnUsage>
+    </ind_PK_UK>
+    <ind_PK_UK id="C7672DCC-D018-58CE-9231-733BC59B1523" name="PRODUCTO_CATEGORIA_FK">
+  <createdBy>Luis Coloma Rojas</createdBy>
+  <createdTime>2026-10-06 18:15:22 UTC</createdTime>
+  <ownerDesignName>BD NIKE.Inc</ownerDesignName>
+      <generatorID>9909FE25-059E-56B3-8EEF-E1186F2815BA</generatorID>
+      <indexState>Foreign Key</indexState>
+      <isSurrogateKey>false</isSurrogateKey>
+      <indexColumnUsage>
+        <colUsage columnID="9909FE25-059E-56B3-8EEF-E1186F2815BA" />
+      </indexColumnUsage>
+    </ind_PK_UK>
+  </indexes>
+</Table>

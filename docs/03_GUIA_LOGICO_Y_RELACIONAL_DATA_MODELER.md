@@ -38,7 +38,7 @@ Eso significa que en la lamina del **logico** se ven **7 entidades** (`CLIENTE`,
 | :--- | :--- | :--- |
 | REALIZA (1,N) | relacion `CLIENTE` → `PEDIDO` | FK `CLIENTE_id_cliente` en `PEDIDO` |
 | CLASIFICA (1,N) | relacion `CATEGORIA` → `PRODUCTO` | FK `CATEGORIA_id_categoria` en `PRODUCTO` |
-| PROVEE (1,N) | relacion `SUMINISTRO` → `PEDIDO` | FK `SUMINISTRO_id_suministro` en `PEDIDO` |
+| PROVEE (1,N) | relacion `SUMINISTRO` → `PEDIDO` | FK `SUMINISTRO_id_suministro` en `PEDIDO`, **obligatoria**: una sola columna, asi cada pedido se atiende con un solo suministro (un almacen y un local) |
 | ABASTECE (1,N) | relacion `ALMACEN` → `SUMINISTRO` | FK `ALMACEN_id_almacen` en `SUMINISTRO` |
 | RECIBE (1,N) | relacion `LOCAL` → `SUMINISTRO` | FK `LOCAL_id_local` en `SUMINISTRO` |
 | CONTIENE (M,N) | relacion M:N `PEDIDO` ↔ `PRODUCTO` | tabla **`DETALLE_VENTA`** (2 FK) |
@@ -133,12 +133,12 @@ Todo lo demas es `NOT NULL`; las claves y las foraneas **nunca** admiten `NULL`.
 | Campo | Tipo definitivo | Por que esa medida |
 | :--- | :---: | :--- |
 | `telefono / telefono_secundario` | **`VARCHAR(15)`** | 9 digitos en Peru; 15 es el tope internacional (E.164) para un cliente extranjero que compra en el pais. |
-| `correo_e` | **`VARCHAR(80)`** | un correo real mide entre 25 y 45 caracteres; 80 deja margen sin reservar 255. |
+| `correo_electronico` | **`VARCHAR(80)`** | un correo real mide entre 25 y 45 caracteres; 80 deja margen sin reservar 255. |
 | `nombre / nombre de producto` | **`VARCHAR(80)`** | entran nombres completos y nombres comerciales largos. |
 | `direccion / direccion_local / ubicacion` | **`VARCHAR(120)`** | una direccion peruana con referencia y distrito llega a 90-120 caracteres. |
 | `nombre_almacen / nombre_local / nombre de categoria` | **`VARCHAR(50)`** | son nombres cortos e institucionales. |
 | `metodo_pago` | **`VARCHAR(30)`** | 'Tarjeta de Credito', 'Yape' o 'Transferencia' no pasan de 20. |
-| `estado_envio / estado_despacho / estado` | **`VARCHAR(20)`** | listas cortas y controladas de cada proceso. |
+| `estado_despacho / estado` | **`VARCHAR(20)`** | listas cortas y controladas; el estado del envio no se guarda porque se deduce del despacho. |
 | `talla / talla_elegida y color / color_elegido` | **`VARCHAR(10)` y `VARCHAR(30)`** | talla guarda 42, 41 o M; color guarda Negro, Blanco o Azul Marino. |
 | `cantidad, stock_actual, stock_minimo` | **`INTEGER`** | son unidades enteras: no necesitan decimales. |
 | `precio_unitario_base / precio_unitario_aplicado` | **`DECIMAL(10,2)`** | 8 enteros y 2 decimales: alcanza para millones de soles y evita el redondeo del FLOAT. |
@@ -162,3 +162,50 @@ Todo lo demas es `NOT NULL`; las claves y las foraneas **nunca** admiten `NULL`.
 2. **Relacional:** boton **Engineer to Relational Model** (`>>`). Aparecen las 10 tablas con tipos, `P` / `F` / `PF` y las restricciones `TABLA_PK` y `TABLA_PADRE_FK`; ahi si se ven las intermedias.
 3. **Fisico:** genera el DDL desde el relacional y ejecutalo en SSMS. Antes de exportar, agrega lo que la capa fisica necesita y que el docente califico: **IDENTITY**, **DEFAULT**, **CHECK** y los **4 campos de auditoria** (ver GUIA 4).
 4. **Una lamina por modelo:** conceptual, logico, relacional y fisico van en diapositivas separadas, con la imagen a tamano completo.
+
+---
+
+## 10. Cardinalidad: donde se pone el `1` y donde el pie de gallo
+
+La regla que resuelve el 90% de las dudas en Data Modeler:
+
+> **Donde va la FK (la tabla hija) se dibuja el pie de gallo (N). Donde va la PK referenciada (la tabla padre) se dibuja la barra (1).**
+
+| Relacion | Padre (barra `1`) | Hijo (pie de gallo `N`) | FK que la sostiene |
+| :--- | :--- | :--- | :--- |
+| `REALIZA` | `CLIENTE` | `PEDIDO` | `PEDIDO.CLIENTE_id_cliente` |
+| `CLASIFICA` | `CATEGORIA` | `PRODUCTO` | `PRODUCTO.CATEGORIA_id_categoria` |
+| `PROVEE` | `SUMINISTRO` | `PEDIDO` | `PEDIDO.SUMINISTRO_id_suministro` |
+| `ABASTECE` | `ALMACEN` | `SUMINISTRO` | `SUMINISTRO.ALMACEN_id_almacen` |
+| `RECIBE` | `LOCAL` | `SUMINISTRO` | `SUMINISTRO.LOCAL_id_local` |
+| `CONTIENE` | `PEDIDO` | `PRODUCTO` | (M:N, se materializa en `DETALLE_VENTA`) |
+| `ALMACENA` | `PRODUCTO` | `ALMACEN` | (M:N, se materializa en `STOCK_ALMACEN`) |
+| `INCLUYE` | `SUMINISTRO` | `PRODUCTO` | (M:N, se materializa en `DETALLE_SUMINISTRO`) |
+
+### 10.1 El error tipico: el pie de gallo al reves en `PROVEE`
+
+Si en el logico el pie de gallo mira a `SUMINISTRO`, el modelo esta diciendo *"muchos suministros atienden un pedido"*, que no es el negocio. Debe quedar:
+
+* `SUMINISTRO` con la barra (`1`)
+* `PEDIDO` con el pie de gallo (`N`)
+* lectura: **un suministro atiende uno o muchos pedidos; cada pedido se atiende con un solo suministro.**
+
+Esa ultima frase se cumple con una sola columna obligatoria (`PEDIDO.SUMINISTRO_id_suministro NOT NULL`). **No** se escribe `(1,1)` junto al rombo ni se agrega un `UNIQUE`: el estilo del curso usa solo `1:N` y `M:N`, y un `UNIQUE` sobre esa columna convertiria la relacion en `1:1`, que no es lo que el docente pidio.
+
+### 10.2 Donde se cambia la cardinalidad (y donde no)
+
+| Cosa | Donde se edita | Como |
+| :--- | :--- | :--- |
+| Cardinalidad de la relacion | **Modelo logico**, doble clic en la linea de la relacion (`General > Cardinalidad`) | origen y destino: `1` o `N` |
+| Verbo de la relacion | **Modelo logico**, relacion (`General > Nombre`) | `REALIZA`, `PROVEE`, ... |
+| Nombre de la FK | **Modelo relacional**, propiedades de la columna FK | se deja `TABLA_PADRE_FK` |
+| `NOT NULL` de la FK | **Modelo relacional**, columna FK (`Obligatoria`) | activado = obligatoria |
+
+En el dialogo de **propiedades de la clave foranea** no se configura la cardinalidad: esa informacion la hereda del modelo logico y se deduce de donde se coloco la columna. Cambiarla ahi no es posible, y renombrar la FK para que diga `PROVEE` no aporta nada: el nombre de la relacion (`PROVEE`) y el de la restriccion (`PEDIDO_SUMINISTRO_FK`) son dos objetos distintos y no tienen que coincidir.
+
+### 10.3 Del logico al relacional sin romper lo que ya funciona
+
+* **Haz una copia del `.dmd`** antes de tocar el boton **Engineer to Relational Model** (`>>`).
+* Reingenierizar sobre un relacional que ya existe puede **duplicar** las tablas de las relaciones `M:N` (`DETALLE_VENTA`, `STOCK_ALMACEN`, `DETALLE_SUMINISTRO`).
+* Si solo hay que borrar una columna (`estado_envio`), **borrala a mano** en el relacional; no hace falta reingenierizar todo.
+* Lo que se genera en el relacional es el **esqueleto** del fisico: despues se agregan `IDENTITY`, `DEFAULT`, `CHECK` y auditoria (ver GUIA 4).
